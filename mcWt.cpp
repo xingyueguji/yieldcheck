@@ -1,14 +1,16 @@
+
 #include <iostream>
 #include <iomanip>
 //#include "src/readReport.cpp"
-#include "src/getRadCorr.cpp"
+//#include "src/getRadCorr.cpp"
+#include "src/getRadCorrW2.cpp"
 #include "src/getCerEff.cpp"
 #include "src/getMom.cpp"
 #include "src/getCharge.cpp"
 
 using namespace std;
 
-void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"){
+void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"){
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
 
@@ -44,27 +46,36 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
 
   if(tgt=="c")
     {
-      gr=getRadCorr("c",1);  //born
-      gr2=getRadCorr("c",2);  //born/rad
-      gr3=getRadCorr("c",3);  //rad
+      gr=getRadCorrW2("c",1);  //born
+      gr->SetName("gr");
+      gr2=getRadCorrW2("c",2);  //born/rad
+      gr2->SetName("gr2");
+      gr3=getRadCorrW2("c",3);  //rad
+      gr3->SetName("gr3");
       tgtDenLen=2.19*(.5244/2.19);
       tgtMass=12.011;
     }
 
   if(tgt=="d")
     {
-      gr=getRadCorr("d",1);  
-      gr2=getRadCorr("d",2);  
-      gr3=getRadCorr("d",3);  
+      gr=getRadCorrW2("d",1);  
+      gr->SetName("gr");
+      gr2=getRadCorrW2("d",2);  
+      gr2->SetName("gr2");
+      gr3=getRadCorrW2("d",3);  
+      gr3->SetName("gr3");
       tgtDenLen=.167*9.9682*.996;
       tgtMass=2.014;
     }
 
   if(tgt=="h")
     {
-      gr=getRadCorr("h",1);  
-      gr2=getRadCorr("h",2);  
-      gr3=getRadCorr("h",3);  
+      gr=getRadCorrW2("h",1);  
+      gr->SetName("gr");
+      gr2=getRadCorrW2("h",2);  
+      gr2->SetName("gr2");
+      gr3=getRadCorrW2("h",3);  
+      gr3->SetName("gr3");
       tgtDenLen=0.0723*9.9659*.996;
       tgtMass=1.0079;
     }
@@ -102,7 +113,7 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
   trm->SetBranchAddress("stop_id", &fail_id);
 
   //  TString fOut=Form("mcWtOut/mcWt%s.root",kin);
-  TString fOut = "mcWtOut/CaseymcWt"+kin+".root";
+  TString fOut = "mcWtOut/mcWt"+kin+".root";
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -126,7 +137,7 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
   tree->Branch("ystop",&ystop);
   tree->Branch("fail_id",&fail_id);
 
-  Float_t born_corr, rad, rci, hstheta, sigmac, q2, w2;
+  Float_t born_corr, rad, rci, hstheta, sigmac, q2, w2, csb_cx;
   Float_t hsev, thetaini, sin2, nu, wt, xb, dt, phasespcor, phasespcorCos; 
   Int_t ngen=0;
   Int_t nacc=0;
@@ -146,6 +157,7 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
   tree->Branch("q2",&q2);
   tree->Branch("w2",&w2);
   tree->Branch("xb",&xb);
+  tree->Branch("csb_cx",&csb_cx);
   tree->Branch("phaseSpaceCorr",&phasespcor);
   tree->Branch("phaseSpaceCorrCos",&phasespcorCos);
 
@@ -170,16 +182,19 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
   //        nEvents=100000;
   Int_t wtf=0;
   cout << "About to loop"<<endl;
+
   for (Int_t i=0; i<nEvents; i++)
     {
-      if(i%25000==0)cout<<i<<endl;
+      if(i%250000==0)cout<<i<<endl;
       trm->GetEntry(i);
 
       //Calculate E' and apply offset
-      hsev=hsec*(1. + delini/100.);
+      //      hsev=hsec*(1. + delini/100.);
+      hsev=hsec*(1. + delrec/100.);
 
       //      hsev=hsev*(1+pOffset);
-      thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini));
+      //      thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini));
+      thetaini = acos(cos(thetacrad + yptarrec)*cos(xptarrec));
       sin2 = sin(thetaini/2.)*sin(thetaini/2.);
       nu = ebeam -hsev;
       q2 = 4.*hsev*ebeam*sin2;
@@ -188,61 +203,68 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
       
       hstheta = acos(cos(thetacrad+yptarrec)*cos(xptarrec));
       //step 6
-      born = gr->Interpolate(hsev,thetaini*180./TMath::Pi());// born
-      rci = gr2->Interpolate(hsev,thetaini*180./TMath::Pi());// born/rad
-      rad = gr3->Interpolate(hsev,thetaini*180./TMath::Pi());// rad
-      thetaBorn->Fill(thetaini,born);
-      epBorn->Fill(hsev,born);
-      thetaRad->Fill(thetaini,rad);
-      epRad->Fill(hsev,rad);
+      //            born = gr->Interpolate(hsev,thetaini*180./TMath::Pi());// born
+      //    rci = gr2->Interpolate(hsev,thetaini*180./TMath::Pi());// born/rad
+      //    rad = gr3->Interpolate(hsev,thetaini*180./TMath::Pi());// rad
+      born = gr->Interpolate(w2,thetaini*180./TMath::Pi());// born
+      rci = gr2->Interpolate(w2,thetaini*180./TMath::Pi());// born/rad
+      rad = gr3->Interpolate(w2,thetaini*180./TMath::Pi());// rad
 
+      thetaBorn->Fill(thetaini,born);
+      thetaRad->Fill(thetaini,rad);
+      epBorn->Fill(hsev,born);
+      epRad->Fill(hsev,rad);
       hp->Fill(xb,born);
       //step 7
       dt=thetaini-thetacrad;
       phasespcorCos=1./cos(dt)/cos(dt)/cos(dt);
       phasespcor=pow(1+pow(xptarini,2)+pow(yptarini,2),1.5);
       born_corr=born/phasespcor;
+
+      //Add CSB
+      Float_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
+      Float_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
+      csb_cx=exp(p0)*(exp(p1*(ebeam-hsev))-1.);
+      wt=0;
       //      born=born/phasespcor;
       //step 8
-	wt=0;
-	//      if(i%25000==0)cout<<"hsev,thetaini,born,rci\t";
 
-	//	if(born==0)
-	//	  {
-	//		wtf++;
-	//		cout<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
-	// 	  }
+      //      if(i%25000==0)cout<<"hsev,thetaini,born,rci\t";
+      //	if(born==0)
+      //	  {
+      //		wtf++;
+      //		cout<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
+      // 	  }
  
      if(abs(xptarini)<dxp && abs(yptarini)<dyp && delini>deldown && delini<delup && born>0)
-	{
-	  sigave+=born;
-	  ngen++;
-	  wt=rad/phasespcor;
-	}
-     //     cout << wt <<endl;
-      if(fail_id==0 && delrec<22. && delrec >-10.)
-	{
-	 	  if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<6.0)
-	  {
-	    //	    w=born_corr/rci;
-	    if(wt==0)
-	      {
-		wtf++;
-			       		cout<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
-	      }
-	    deltaBornProf->Fill(delrec,born);
-	    delWt->Fill(delrec,wt);
-	    ypWt->Fill(yptarrec*1000.,wt);
-	    xpWt->Fill(xptarrec*1000.,wt);
-	    yWt->Fill(ytarrec,wt);
-	    w2Wt->Fill(w2,wt);
-	    xbWt->Fill(xb,wt);
-	    totalWt+=wt;
-	    nacc++;
-	    if(9.<delrec<10.)htemp->Fill(born);
-	  }
-	}
-      tree->Fill();
+       {
+	 wt=(born/rci+csb_cx)/phasespcor;
+	 sigave+=born;
+	 ngen++;
+	  //	  wt=(rad)/phasespcor;
+       }
+     if(fail_id==0 && delrec<22. && delrec >-10.)
+       {
+	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<6.0)
+	   {
+	     if(wt==0)
+	       {
+		 wtf++;
+	      	 cout<<"WARNING    "<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
+	       }
+	     deltaBornProf->Fill(delrec,born);
+	     delWt->Fill(delrec,wt);
+	     ypWt->Fill(yptarrec*1000.,wt);
+	     xpWt->Fill(xptarrec*1000.,wt);
+	     yWt->Fill(ytarrec,wt);
+	     w2Wt->Fill(w2,wt);
+	     xbWt->Fill(xb,wt);
+	     totalWt+=wt;
+	     nacc++;
+	     if(9.<delrec<10.)htemp->Fill(born);
+	   }
+       }
+     tree->Fill();
     }
 
   for (Int_t i=0;i<32;i++){
@@ -272,10 +294,7 @@ void mcWt(string tgt="d",string angle="39", string mom="1p3", string spec="shms"
   cout << xpWt->Integral() << endl;
   cout << yWt->Integral() << endl;
   cout << w2Wt->Integral() << endl;
-  //(.25+.15)*3.3=1.32
-  //3.3*1.25=4.125
-  //3.3*.85=2.805
-  //3.3(1.25-.85)=1.32
+
   Float_t dep=(delup-deldown)/100.*hsec;
   Float_t phase_space=4.0*dxp*dyp*dep/1000.;
   Float_t lummc=1/phase_space*ngen*1000.;
