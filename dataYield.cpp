@@ -47,7 +47,7 @@ void dataYield(Int_t run=2723, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 
 
   //  TFile *oFile=new TFile(Form("dataYieldOut/dataYield_%d.root",run),"RECREATE");
-  TFile *oFile=new TFile("dataYieldOut/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass6/"+fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   tree->Branch("calEff",&calEff);
   tree->Branch("piC",&piC);
@@ -121,22 +121,20 @@ void dataYield(Int_t run=2723, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	  errCer=hCerErr->GetBinContent(hCerEff->FindBin(yCer,xCer));
 	  //	  if(ngc > ngcCut && beta > betaMin && beta < betaMax && delta > deltaMin && delta < deltaMax && etracknorm > minEdep)
 	  if(ngc > ngcCut && delta > deltaMin && delta < deltaMax && etracknorm > minEdep)
-	    if(abs(thd)<0.1 && abs(phd)<0.1 && abs(yd) < 6.0)
+	    if(abs(thd)<0.1 && abs(phd)<0.1 && abs(yd) < 10.0)
 
 	      {
 		if(curr>curCut){
 		  {//Get event by event corrections
-
-
 		    piC=pionC->Eval(mom);
 		    hpion->Fill(piC);
 		    hcerr->Fill(cerEff);
 		    calEff=getCalEff(mom);
 		    hcal->Fill(calEff);
-		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.064; 
-		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.08; 
-		    //		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.02675; 
-		    ///		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.03798; 
+		    //		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.064; 
+		    //		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.08; 
+		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.02675; 
+		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.03798; 
 		    if(target>2.01)boilCorr=1; 
 		    if(cerEff==0)cerEff=1;
 		    hboil->Fill(boilCorr);

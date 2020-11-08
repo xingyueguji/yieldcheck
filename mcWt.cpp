@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"){
+void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"){
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
 
@@ -86,9 +86,10 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   outFile <<kin<<"\t"<< ebeam <<"\t"<< thetac<<"\t"<<hsec <<"\t" << lumdata <<"\t";
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
   Float_t zrec, ytarrec, delrec, yptarrec, xptarrec, xtarini, xstop, ystop, fail_id;
-  //  TString fmc = Form("mc/%s.root",kin);
   //      TString fmc = "mc/casey/shms_"+kin+".root";
-  TString fmc = "mc/shms_"+kin+".root";
+  //  TString fmc = "mc/shms_"+kin+".root";
+  //shms_39deg_m1p3_h.out
+  TString fmc = "mc/deb/shms_21deg_m2p7_h.root";
   TFile *fm=new TFile(fmc);
   fm->Print();
   TTree *trm=(TTree*)fm->Get("h1411");
@@ -113,7 +114,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   trm->SetBranchAddress("stop_id", &fail_id);
 
   //  TString fOut=Form("mcWtOut/mcWt%s.root",kin);
-  TString fOut = "mcWtOut/mcWt"+kin+".root";
+  TString fOut = "mcWtOut/deb_noCSB_mcWt"+kin+".root";
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -159,7 +160,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   tree->Branch("xb",&xb);
   tree->Branch("csb_cx",&csb_cx);
   tree->Branch("phaseSpaceCorr",&phasespcor);
-  tree->Branch("phaseSpaceCorrCos",&phasespcorCos);
+  //  tree->Branch("phaseSpaceCorrCos",&phasespcorCos);
 
   //histos for comparisons
   TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",60,-30.,30.);
@@ -216,15 +217,16 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
       epRad->Fill(hsev,rad);
       hp->Fill(xb,born);
       //step 7
-      dt=thetaini-thetacrad;
-      phasespcorCos=1./cos(dt)/cos(dt)/cos(dt);
-      phasespcor=pow(1+pow(xptarini,2)+pow(yptarini,2),1.5);
+      //      dt=thetaini-thetacrad;
+      //      phasespcorCos=1./cos(dt)/cos(dt)/cos(dt);
+      phasespcor=pow(1+pow(xptarrec,2)+pow(yptarrec,2),-1.5);
       born_corr=born/phasespcor;
 
       //Add CSB
       Float_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
       Float_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
       csb_cx=exp(p0)*(exp(p1*(ebeam-hsev))-1.);
+      csb_cx=0;
       wt=0;
       //      born=born/phasespcor;
       //step 8
@@ -238,14 +240,14 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
  
      if(abs(xptarini)<dxp && abs(yptarini)<dyp && delini>deldown && delini<delup && born>0)
        {
-	 wt=(born/rci+csb_cx)/phasespcor;
+	 wt=(born/rci+csb_cx)*phasespcor;
 	 sigave+=born;
 	 ngen++;
 	  //	  wt=(rad)/phasespcor;
        }
      if(fail_id==0 && delrec<22. && delrec >-10.)
        {
-	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<6.0)
+	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<10.0)
 	   {
 	     if(wt==0)
 	       {

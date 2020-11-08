@@ -2,7 +2,7 @@
 #include "src/getCharge.cpp"
 
 
-void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
+void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
@@ -13,14 +13,14 @@ void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
   // hs* Data - dummy
   gROOT->ForceStyle();
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/mcWt%s.root",kin.c_str()));
+  TFile *fm=new TFile(Form("mcWtOut/deb_noCSB_mcWt%s.root",kin.c_str()));
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
  TH1F *hmyp=(TH1F*)fm->Get("ypWt");
  TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
   //****Data Histograms*****
- TFile *fd=new TFile(Form("dataYieldOut/pass1/dataYield_%s.root",kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",kin.c_str()));
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdy=(TH1F*)fd->Get("hyd");
  TH1F *hdxp=(TH1F*)fd->Get("hxpd");
@@ -30,7 +30,7 @@ void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
  Float_t charge=0;
  Float_t charged=0;
  string dummyFile="al"+angle+"deg"+mom; 
- TFile *fdum=new TFile(Form("dataYieldOut/pass1/dataYield_%s.root",dummyFile.c_str()));;
+ TFile *fdum=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",dummyFile.c_str()));;
  charge=getCharge(tgt,angle,mom)/1000.;
  charged=getCharge("al",angle,mom)/1000.;
  hdd->Scale(1./charge);
@@ -144,7 +144,8 @@ void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
  hew2->SetFillStyle(3003);
  hew2->SetFillColor(kMagenta);
 
- hrd->GetYaxis()->SetRangeUser(0.4,1.6); 
+ hrd->GetYaxis()->SetRangeUser(0.8,1.1); 
+ hmw2->GetXaxis()->SetRangeUser(9,15); 
 
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
@@ -163,20 +164,22 @@ void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
  
  if (DRAW==1)
    {
+     /*    
      hsd->Scale(1/fact);
      hsy->Scale(1/fact);
      hsxp->Scale(1/fact);
      hsyp->Scale(1/fact);
      hsw2->Scale(1/fact);
+     */
      // Drawing
      TCanvas *c1=new TCanvas("c1","c1",600,900);
      c1->Divide(2,3);
      c1->cd(4);
-     hmd->Draw("HIST E");
-     hsd->Draw("HIST E same");
+     hsd->Draw("HIST E");
+     hmd->Draw("HIST E same");
      hed->Draw("HIST E same");
      
-     TLegend *leg=new TLegend(.1,.1,.75,.3);
+     TLegend *leg=new TLegend(.12,.12,.5,.3);
      leg->AddEntry(hmd,"MC","lfp");
      leg->AddEntry(hsd,"Data","lfp");
      leg->AddEntry(hed,"Dummy","lfp");
@@ -204,14 +207,14 @@ void ratios(string tgt="d",string angle="39", string mom="1p3",Int_t AllCorr=1){
      hew2->Draw("same HIST E");
      hsw2->Draw("same HIST E");
 
-     TPaveText *pt=new TPaveText(0.0,.75,.3,1,"NDC");
+     TPaveText *pt=new TPaveText(0.1,.75,.3,.85,"NDC");
      pt->AddText(kin.c_str());
-     pt->SetFillColor(20);
+     //     pt->SetFillColor(20);
      c1->cd(1);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass1/ratios%s_%d.pdf",kin.c_str(),AllCorr));
+     c1->SaveAs(Form("ratiosOut/pass5/ratios%s_%d.pdf",kin.c_str(),AllCorr));
    }
 
- TFile *oFile=new TFile(Form("ratiosOut/pass1/ratios%s_%d.root",kin.c_str(),AllCorr),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass5/ratios%s_%d.root",kin.c_str(),AllCorr),"RECREATE");
 
  hdd->Write("hdd");
  hdy->Write("hdy");
