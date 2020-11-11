@@ -119,6 +119,7 @@ void dataYield(Int_t run=2723, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	  yCer=yfp-89.1*ypfp;
 	  cerEff=hCerEff->GetBinContent(hCerEff->FindBin(yCer,xCer));
 	  errCer=hCerErr->GetBinContent(hCerEff->FindBin(yCer,xCer));
+	  if(cerEff==0)cerEff=1;
 	  //	  if(ngc > ngcCut && beta > betaMin && beta < betaMax && delta > deltaMin && delta < deltaMax && etracknorm > minEdep)
 	  if(ngc > ngcCut && delta > deltaMin && delta < deltaMax && etracknorm > minEdep)
 	    if(abs(thd)<0.1 && abs(phd)<0.1 && abs(yd) < 10.0)
@@ -136,7 +137,6 @@ void dataYield(Int_t run=2723, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.02675; 
 		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.03798; 
 		    if(target>2.01)boilCorr=1; 
-		    if(cerEff==0)cerEff=1;
 		    hboil->Fill(boilCorr);
 		    wt=(1.0-piC)/cerEff/calEff/(boilCorr)*scale;
 		    // .8
@@ -147,7 +147,6 @@ void dataYield(Int_t run=2723, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		    hyd->Fill(yd,wt);
 		    hw2d->Fill(w2,wt);
 		    hxb->Fill(xb,wt);
-
 		    hyld->Fill(delta);
 		    heff->Fill(delta,wt);
 		    terr+=pow(errCer,2);

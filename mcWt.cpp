@@ -10,19 +10,19 @@
 
 using namespace std;
 
-void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"){
+void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"){
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
 
-  Float_t pOffset=0.;
-  Float_t mp = .9382723;
-  Float_t mp2 = mp*mp;
+  Double_t pOffset=0.;
+  Double_t mp = .9382723;
+  Double_t mp2 = mp*mp;
   TGraph2D *gr;
   TGraph2D *gr2;
   TGraph2D *gr3;
-  Float_t dxp, dyp, delup, deldown;
-  Float_t target, ebeam, hsec, thetac, tgtDenLen, tgtMass;
-  Float_t charge=0;
+  Double_t dxp, dyp, delup, deldown;
+  Double_t target, ebeam, hsec, thetac, tgtDenLen, tgtMass;
+  Double_t charge=0;
   ofstream oFile;
 
   ofstream outFile;
@@ -34,6 +34,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
 
   ebeam=10.602;
   charge=getCharge(tgt,angle,mom);
+  charge=1.;
   hsec=getMom(kin,spec);
   cout << "The central momentum is "<<hsec<<endl;
   if(angle=="39")thetac=38.975;
@@ -80,8 +81,8 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
       tgtMass=1.0079;
     }
 
-  Float_t thetacrad=thetac*TMath::Pi()/180;
-  Float_t lumdata=tgtDenLen*6.022137e-10/tgtMass*charge/1.602177e-13; // targets/nb
+  Double_t thetacrad=thetac*TMath::Pi()/180;
+  Double_t lumdata=tgtDenLen*6.022137e-10/tgtMass*charge/1.602177e-13; // targets/nb
   cout << "lumdata: "<<lumdata<<"targets/cm^2"<<endl;
   outFile <<kin<<"\t"<< ebeam <<"\t"<< thetac<<"\t"<<hsec <<"\t" << lumdata <<"\t";
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
@@ -89,7 +90,8 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   //      TString fmc = "mc/casey/shms_"+kin+".root";
   //  TString fmc = "mc/shms_"+kin+".root";
   //shms_39deg_m1p3_h.out
-  TString fmc = "mc/deb/shms_21deg_m2p7_h.root";
+    TString fmc = "mc/deb/shms_39deg_m1p3_h.root";
+  //  TString fmc = "mc/abel/h39_1.3.root";
   TFile *fm=new TFile(fmc);
   fm->Print();
   TTree *trm=(TTree*)fm->Get("h1411");
@@ -114,7 +116,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   trm->SetBranchAddress("stop_id", &fail_id);
 
   //  TString fOut=Form("mcWtOut/mcWt%s.root",kin);
-  TString fOut = "mcWtOut/deb_noCSB_mcWt"+kin+".root";
+  TString fOut = "mcWtOut/deb_yesCSB_mcWt"+kin+".root";
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -143,8 +145,8 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   Int_t ngen=0;
   Int_t nacc=0;
   Float_t born=0;
-  Float_t totalWt=0;
-  Float_t sigave=0;
+  Double_t totalWt=0;
+  Double_t sigave=0;
   // These will be the new branches
   tree->Branch("born",&born);
   tree->Branch("rad",&rad);
@@ -164,6 +166,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
 
   //histos for comparisons
   TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",60,-30.,30.);
+  //TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",32,-10.,22.);
   TH1F *xpWt=new TH1F("xpWt","Monte Carlo Weighted xp_tar",100,-100.,100.);
   TH1F *ypWt=new TH1F("ypWt","Monte Carlo Weighted yp_tar",100,-100.,100.);
   TH1F *yWt=new TH1F("yWt","Monte Carlo Weighted y_tar",334,-10,10);
@@ -219,14 +222,15 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
       //step 7
       //      dt=thetaini-thetacrad;
       //      phasespcorCos=1./cos(dt)/cos(dt)/cos(dt);
-      phasespcor=pow(1+pow(xptarrec,2)+pow(yptarrec,2),-1.5);
-      born_corr=born/phasespcor;
+      //  phasespcor=pow(1+pow(xptarrec,2)+pow(yptarrec,2),-1.5);
+      phasespcor=pow(1+pow(xptarini,2)+pow(yptarini,2),-1.5);
+      born_corr=born*phasespcor;
 
       //Add CSB
-      Float_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
-      Float_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
+      Double_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
+      Double_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
       csb_cx=exp(p0)*(exp(p1*(ebeam-hsev))-1.);
-      csb_cx=0;
+      //csb_cx=0;
       wt=0;
       //      born=born/phasespcor;
       //step 8
@@ -271,7 +275,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
 
   for (Int_t i=0;i<32;i++){
       hsev=hsec*(1. + delini/100.);
-      Float_t ene=hsec*(1. + (-9.5+i)/100.);
+      Double_t ene=hsec*(1. + (-9.5+i)/100.);
       born = gr->Interpolate(ene,thetacrad*180./TMath::Pi());// born
       centralBorn->Fill(-9.5+i,born);
       cout << "Delta: "<<-9.5+i<<"  born: "<<born<<endl;
@@ -297,10 +301,11 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   cout << yWt->Integral() << endl;
   cout << w2Wt->Integral() << endl;
 
-  Float_t dep=(delup-deldown)/100.*hsec;
-  Float_t phase_space=4.0*dxp*dyp*dep/1000.;
-  Float_t lummc=1/phase_space*ngen*1000.;
-  Float_t fract=lumdata*phase_space/ngen/1000.;
+  Double_t dep=(delup-deldown)/100.*hsec;
+  Double_t phase_space=4.0*dxp*dyp*dep/1000.;
+  Double_t lummc=1/phase_space*ngen*1000.;
+  Double_t fract=lumdata*phase_space/ngen/1000.;
+  cout << "4*dxp*dyp: "<<4.0*dxp*dyp/1000./1000.<<endl;
   cout << "dep" << "\t"<< "phase_space" << "\t"<< "fract" << endl;
   cout << dep << "\t"<< phase_space << "\t"<< fract << endl;
   cout << "Norm: "<< fract << endl;
@@ -308,12 +313,12 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
 
   outFile << lummc << "\t"<<charge/1000<<"\t"<<ngen2 <<"\t"<< nacc <<"\t"<< sigave/ngen <<"\t"<< fract/charge*1000 << "\t"<<totalWt/nacc<<"\t";
 
-  delWt->Scale(fract/charge*1000);
-  ypWt->Scale(fract/charge*1000);
-  xpWt->Scale(fract/charge*1000);
-  yWt->Scale(fract/charge*1000);
-  w2Wt->Scale(fract/charge*1000);
-  xbWt->Scale(fract/charge*1000);
+  delWt->Scale(fract/charge);
+  ypWt->Scale(fract/charge);
+  xpWt->Scale(fract/charge);
+  yWt->Scale(fract/charge);
+  w2Wt->Scale(fract/charge);
+  xbWt->Scale(fract/charge);
 
   cout << "Integrals after sacling, del, yp, xp, y, w2"<<endl;
   cout << delWt->Integral() << endl;
@@ -322,8 +327,8 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   cout << yWt->Integral() << endl;
   cout << w2Wt->Integral() << endl;
   //  cout <<"delWt->Integral: "<< delWt->Integral() <<endl;
-  cout << "MC Yield: "<<totalWt*fract/charge*1000<<endl; 
-  outFile<<totalWt*fract/charge*1000<<endl; 
+  cout << "MC Yield: "<<totalWt*fract/charge<<endl; 
+  outFile<<totalWt*fract/charge<<endl; 
   delWt->Sumw2();
   centralBorn->Write();
   htemp->Write();
