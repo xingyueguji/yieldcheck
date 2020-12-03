@@ -7,10 +7,12 @@
 #include "src/getCerEff.cpp"
 #include "src/getMom.cpp"
 #include "src/getCharge.cpp"
+#include "src/collCut.cpp"
+#include "src/fidCut.cpp"
 
 using namespace std;
 
-void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"){
+void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"){
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
 
@@ -33,7 +35,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   deldown=-15;
 
   ebeam=10.602;
-  charge=getCharge(tgt,angle,mom);
+  //  charge=getCharge(tgt,angle,mom);
   charge=1.;
   hsec=getMom(kin,spec);
   cout << "The central momentum is "<<hsec<<endl;
@@ -88,9 +90,9 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
   Float_t zrec, ytarrec, delrec, yptarrec, xptarrec, xtarini, xstop, ystop, fail_id;
   //      TString fmc = "mc/casey/shms_"+kin+".root";
-  //  TString fmc = "mc/shms_"+kin+".root";
+   TString fmc = "mc/shms_"+kin+".root";
   //shms_39deg_m1p3_h.out
-    TString fmc = "mc/deb/shms_39deg_m1p3_h.root";
+  //    TString fmc = "mc/deb/shms_39deg_m1p3_h.root";
   //  TString fmc = "mc/abel/h39_1.3.root";
   TFile *fm=new TFile(fmc);
   fm->Print();
@@ -115,8 +117,8 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  //  TString fOut=Form("mcWtOut/mcWt%s.root",kin);
-  TString fOut = "mcWtOut/deb_yesCSB_mcWt"+kin+".root";
+  TString fOut=Form("mcWtOut/pass8/mcWt%s.root",kin.c_str());
+  //  TString fOut = "mcWtOut/deb_yesCSB_mcWt"+kin+".root";
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -141,7 +143,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   tree->Branch("fail_id",&fail_id);
 
   Float_t born_corr, rad, rci, hstheta, sigmac, q2, w2, csb_cx;
-  Float_t hsev, thetaini, sin2, nu, wt, xb, dt, phasespcor, phasespcorCos; 
+  Float_t hse, hsev, thetaini, sin2, nu, wt, xb, dt, phasespcor, phasespcorCos; 
   Int_t ngen=0;
   Int_t nacc=0;
   Float_t born=0;
@@ -154,6 +156,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   tree->Branch("born_corr",&born_corr);
   tree->Branch("rci",&rci);
   tree->Branch("hsev",&hsev);
+  tree->Branch("hse",&hse);
   tree->Branch("thetaini",&thetaini);
   tree->Branch("hstheta",&hstheta);
   tree->Branch("sigmac",&sigmac);
@@ -166,7 +169,7 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
 
   //histos for comparisons
   TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",60,-30.,30.);
-  //TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",32,-10.,22.);
+  //  TH1F *delWt=new TH1F("delWt","Monte Carlo Weighted delta",32,-10.,22.);
   TH1F *xpWt=new TH1F("xpWt","Monte Carlo Weighted xp_tar",100,-100.,100.);
   TH1F *ypWt=new TH1F("ypWt","Monte Carlo Weighted yp_tar",100,-100.,100.);
   TH1F *yWt=new TH1F("yWt","Monte Carlo Weighted y_tar",334,-10,10);
@@ -193,47 +196,46 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
       trm->GetEntry(i);
 
       //Calculate E' and apply offset
-      //      hsev=hsec*(1. + delini/100.);
-      hsev=hsec*(1. + delrec/100.);
-
+      hsev=hsec*(1. + delini/100.);
+      hse=hsec*(1. + delrec/100.);
       //      hsev=hsev*(1+pOffset);
-      //      thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini));
-      thetaini = acos(cos(thetacrad + yptarrec)*cos(xptarrec));
+      //Calculate theta
+      thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini));
+      hstheta = acos(cos(thetacrad + yptarrec)*cos(xptarrec));
+
+
+      //call cross sections with initial quantities
       sin2 = sin(thetaini/2.)*sin(thetaini/2.);
-      nu = ebeam -hsev;
+      nu = ebeam - hsev;
       q2 = 4.*hsev*ebeam*sin2;
       w2= mp2 + 2.*mp*nu-q2;
       xb=q2/2./mp/nu;
-      
-      hstheta = acos(cos(thetacrad+yptarrec)*cos(xptarrec));
-      //step 6
       //            born = gr->Interpolate(hsev,thetaini*180./TMath::Pi());// born
       //    rci = gr2->Interpolate(hsev,thetaini*180./TMath::Pi());// born/rad
       //    rad = gr3->Interpolate(hsev,thetaini*180./TMath::Pi());// rad
       born = gr->Interpolate(w2,thetaini*180./TMath::Pi());// born
       rci = gr2->Interpolate(w2,thetaini*180./TMath::Pi());// born/rad
       rad = gr3->Interpolate(w2,thetaini*180./TMath::Pi());// rad
-
       thetaBorn->Fill(thetaini,born);
       thetaRad->Fill(thetaini,rad);
       epBorn->Fill(hsev,born);
       epRad->Fill(hsev,rad);
       hp->Fill(xb,born);
-      //step 7
-      //      dt=thetaini-thetacrad;
-      //      phasespcorCos=1./cos(dt)/cos(dt)/cos(dt);
-      //  phasespcor=pow(1+pow(xptarrec,2)+pow(yptarrec,2),-1.5);
       phasespcor=pow(1+pow(xptarini,2)+pow(yptarini,2),-1.5);
       born_corr=born*phasespcor;
-
       //Add CSB
       Double_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
       Double_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
       csb_cx=exp(p0)*(exp(p1*(ebeam-hsev))-1.);
+      if(tgt=="d")csb_cx=2*csb_cx;
       //csb_cx=0;
       wt=0;
-      //      born=born/phasespcor;
-      //step 8
+
+      //calculate W2 with reconstructed quantitites for ratios with MC
+      sin2 = sin(hstheta/2.)*sin(hstheta/2.);
+      nu = ebeam -hse;
+      q2 = 4.*hse*ebeam*sin2;
+      w2= mp2 + 2.*mp*nu - q2;
 
       //      if(i%25000==0)cout<<"hsev,thetaini,born,rci\t";
       //	if(born==0)
@@ -241,7 +243,9 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
       //		wtf++;
       //		cout<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
       // 	  }
- 
+      bool fid=fidCut(xfoc, yfoc, dxdz, dydz);
+      bool coll=collCut(xptarrec, yptarrec, delrec, ytarrec);
+
      if(abs(xptarini)<dxp && abs(yptarini)<dyp && delini>deldown && delini<delup && born>0)
        {
 	 wt=(born/rci+csb_cx)*phasespcor;
@@ -249,19 +253,19 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
 	 ngen++;
 	  //	  wt=(rad)/phasespcor;
        }
-     if(fail_id==0 && delrec<22. && delrec >-10.)
+     if(fail_id==0 && delrec<22. && delrec >-10. && coll && fid)
        {
 	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<10.0)
 	   {
 	     if(wt==0)
 	       {
 		 wtf++;
-	      	 cout<<"WARNING    "<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
+		 //	      	 cout<<"WARNING    "<<hsev<<"\t"<<thetaini*180./TMath::Pi()<<"\t"<<born<<"\t"<<rci<<"\t"<<rad<<"\t"<<wtf<<endl;
 	       }
 	     deltaBornProf->Fill(delrec,born);
 	     delWt->Fill(delrec,wt);
-	     ypWt->Fill(yptarrec*1000.,wt);
-	     xpWt->Fill(xptarrec*1000.,wt);
+	     ypWt->Fill(yptarrec*1000.,wt);//mr
+	     xpWt->Fill(xptarrec*1000.,wt);//mr
 	     yWt->Fill(ytarrec,wt);
 	     w2Wt->Fill(w2,wt);
 	     xbWt->Fill(xb,wt);
@@ -274,7 +278,6 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
     }
 
   for (Int_t i=0;i<32;i++){
-      hsev=hsec*(1. + delini/100.);
       Double_t ene=hsec*(1. + (-9.5+i)/100.);
       born = gr->Interpolate(ene,thetacrad*180./TMath::Pi());// born
       centralBorn->Fill(-9.5+i,born);
@@ -309,9 +312,9 @@ void mcWt(string tgt="h",string angle="39", string mom="1p3", string spec="shms"
   cout << "dep" << "\t"<< "phase_space" << "\t"<< "fract" << endl;
   cout << dep << "\t"<< phase_space << "\t"<< fract << endl;
   cout << "Norm: "<< fract << endl;
-  cout << "Charge: "<< charge/1000 << endl;
+  cout << "Charge: "<< charge << endl;
 
-  outFile << lummc << "\t"<<charge/1000<<"\t"<<ngen2 <<"\t"<< nacc <<"\t"<< sigave/ngen <<"\t"<< fract/charge*1000 << "\t"<<totalWt/nacc<<"\t";
+  outFile << lummc << "\t"<<charge<<"\t"<<ngen2 <<"\t"<< nacc <<"\t"<< sigave/ngen <<"\t"<< fract/charge << "\t"<<totalWt/nacc<<"\t";
 
   delWt->Scale(fract/charge);
   ypWt->Scale(fract/charge);
