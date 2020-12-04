@@ -13,14 +13,22 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
   // hs* Data - dummy
   gROOT->ForceStyle();
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/deb_noCSB_mcWt%s.root",kin.c_str()));
+  //  TFile *fm=new TFile(Form("mcWtOut/deb_yesCSB_mcWt%s.root",kin.c_str()));
+  TFile *fm=new TFile(Form("mcWtOut/pass8/mcWt%s.root",kin.c_str()));
+  //  TFile *fm=new TFile(Form("mcWtOut/mcWt%s.root",kin.c_str()));
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
  TH1F *hmyp=(TH1F*)fm->Get("ypWt");
  TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
-  //****Data Histograms*****
- TFile *fd=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",kin.c_str()));
+ // hmd->Scale(1/1000.);
+ // hmy->Scale(1/1000.);
+// hmxp->Scale(1/1000.);
+ // hmyp->Scale(1/1000.);
+ // hmw2->Scale(1/1000.);
+  //****Data Histograms*****  TFile *fd=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",kin.c_str()));
+ //TFile *fd=new TFile(Form("dataYieldOut/pass6nocal/dataYield_%s.root",kin.c_str()));
+TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdy=(TH1F*)fd->Get("hyd");
  TH1F *hdxp=(TH1F*)fd->Get("hxpd");
@@ -30,9 +38,10 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  Float_t charge=0;
  Float_t charged=0;
  string dummyFile="al"+angle+"deg"+mom; 
- TFile *fdum=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",dummyFile.c_str()));;
- charge=getCharge(tgt,angle,mom)/1000.;
- charged=getCharge("al",angle,mom)/1000.;
+  TFile *fdum=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",dummyFile.c_str()));;
+ // TFile *fdum=new TFile(Form("dataYieldOut/dataYield_%s.root",dummyFile.c_str()));;
+ charge=getCharge(tgt,angle,mom);
+ charged=getCharge("al",angle,mom);
  hdd->Scale(1./charge);
  hdy->Scale(1./charge);
  hdxp->Scale(1./charge);
@@ -60,26 +69,29 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  cout <<"y data="<<hsy->Integral()<<endl;
  cout <<"yp data="<<hsyp->Integral()<<endl;
  cout <<"xp data="<<hsxp->Integral()<<endl;
- if(tgt=="h"){   
-   hed->Scale(1/3.789);
-   hey->Scale(1/3.789);
-   hexp->Scale(1/3.789);
-   heyp->Scale(1/3.789);
-   hew2->Scale(1/3.789);
- }
- if(tgt=="d"){
-   hed->Scale(1/4.063);
-   hey->Scale(1/4.063);
-   hexp->Scale(1/4.063);
-   heyp->Scale(1/4.063);
-   hew2->Scale(1/4.063);
- }
- // Dummy subtraction
- hsd->Add(hed,-1);
- hsy->Add(hey,-1);
- hsxp->Add(hexp,-1);
- hsyp->Add(heyp,-1);
- hsw2->Add(hew2,-1);
+ if(tgt!="c")
+   {
+     if(tgt=="h"){   
+       hed->Scale(1/3.789);
+       hey->Scale(1/3.789);
+       hexp->Scale(1/3.789);
+       heyp->Scale(1/3.789);
+       hew2->Scale(1/3.789);
+     }
+     if(tgt=="d"){
+       hed->Scale(1/4.063);
+       hey->Scale(1/4.063);
+       hexp->Scale(1/4.063);
+       heyp->Scale(1/4.063);
+       hew2->Scale(1/4.063);
+     }
+     // Dummy subtraction
+     hsd->Add(hed,-1);
+     hsy->Add(hey,-1);
+     hsxp->Add(hexp,-1);
+     hsyp->Add(heyp,-1);
+     hsw2->Add(hew2,-1);
+   }
  cout<<"After subtracting dummy"<<endl;
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
@@ -144,8 +156,8 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  hew2->SetFillStyle(3003);
  hew2->SetFillColor(kMagenta);
 
- hrd->GetYaxis()->SetRangeUser(0.8,1.1); 
- hmw2->GetXaxis()->SetRangeUser(9,15); 
+ hrd->GetYaxis()->SetRangeUser(0.8,1.3); 
+ // hmw2->GetXaxis()->SetRangeUser(9,15); 
 
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
@@ -188,33 +200,33 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
      hrd->Draw();
      leg->Draw("same");
      c1->cd(1);
-     hmy->Draw("HIST E");
+     hsy->Draw("HIST E");
      hey->Draw("same HIST E");
-     hsy->Draw("same HIST E");
+     hmy->Draw("same HIST E");
 
      c1->cd(3);
-     hmxp->Draw("HIST E");
+     hsxp->Draw("HIST E");
      hexp->Draw("same HIST E");
-     hsxp->Draw("same HIST E");
+     hmxp->Draw("same HIST E");
 
      c1->cd(2);
-     hmyp->Draw("HIST E");
+     hsyp->Draw("HIST E");
      heyp->Draw("same HIST E");
-     hsyp->Draw("same HIST E");
+     hmyp->Draw("same HIST E");
 
      c1->cd(5);
-     hmw2->Draw("HIST E");
+     hsw2->Draw("HIST E");
      hew2->Draw("same HIST E");
-     hsw2->Draw("same HIST E");
+     hmw2->Draw("same HIST E");
 
      TPaveText *pt=new TPaveText(0.1,.75,.3,.85,"NDC");
      pt->AddText(kin.c_str());
      //     pt->SetFillColor(20);
      c1->cd(1);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass5/ratios%s_%d.pdf",kin.c_str(),AllCorr));
+     c1->SaveAs(Form("ratiosOut/ratios%s_%d.pdf",kin.c_str(),AllCorr));
    }
 
- TFile *oFile=new TFile(Form("ratiosOut/pass5/ratios%s_%d.root",kin.c_str(),AllCorr),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/ratios%s_%d.root",kin.c_str(),AllCorr),"RECREATE");
 
  hdd->Write("hdd");
  hdy->Write("hdy");
