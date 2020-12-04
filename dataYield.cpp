@@ -12,12 +12,10 @@
 using namespace std;
 
 void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double_t betaMax=1.5, 
-	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString fname="test.root")
+	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString fname="test.root"){
 
-{
-
-  ofstream outFile;
-  outFile.open("dataYield.txt",ios::app | ios::out );
+  //ofstream outFile;
+  //outFile.open("dataYield.txt",ios::app | ios::out );
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, wt=0, sime=0,terr=0, piC=0;
   TString froot, report, fmc;
@@ -28,12 +26,10 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   //   Double_t deadTime=readReport(run,"edtm dt")/100.;
   Double_t deadTime=1.-readReport(run,"ps2 clt et");
   //    Double_t deadTime=1.-getLivetime(run,"lt");
-
   Double_t trackEff=readReport(run,"tr eff");
   Double_t psFact=readReport(run,"Ps2 fact");
   Double_t currentAvg=readReport(run,"BCM4C cut current");
   Double_t target=readReport(run,"target");
-
   //		    if(target==1.01)boilCorr=1.-currentAvg/100.*0.064; 
   //		    if(target==2.01)boilCorr=1.-currentAvg/100.*0.08; 
   if(target==1.01)boilCorr=1.-currentAvg/100.*0.069; 
@@ -190,6 +186,8 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       f->Close();
       delete f;
 
+      // include "syst" + stat errors in delta histo. (hdd2)
+      // needs some more thought
       for(Int_t i=1;i<=nbins;i++)
 	{
 	  double center=hdd2->GetBinCenter(i);
@@ -212,6 +210,7 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       cout << "QNY raw with prescale                              :" << goode/charge*psFact<<  "e-/mC" << endl;
       cout << "QNY corrected for tracking, lt, ps                 :"<< goode*scale/charge << "e-/mC" << endl;
       cout << "QNY corrected for tracking, lt, ps, cal, cer, boil :"<< goode_corr/charge << "e-/mC" << endl;
+
       oFile->cd();
       tree->Write();
       tree2->Write();
