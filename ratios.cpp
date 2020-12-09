@@ -13,9 +13,7 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
   // hs* Data - dummy
   gROOT->ForceStyle();
   //*****MC Histograms*****
-  //  TFile *fm=new TFile(Form("mcWtOut/deb_yesCSB_mcWt%s.root",kin.c_str()));
   TFile *fm=new TFile(Form("mcWtOut/pass8/mcWt%s.root",kin.c_str()));
-  //  TFile *fm=new TFile(Form("mcWtOut/mcWt%s.root",kin.c_str()));
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
@@ -26,9 +24,8 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
 // hmxp->Scale(1/1000.);
  // hmyp->Scale(1/1000.);
  // hmw2->Scale(1/1000.);
-  //****Data Histograms*****  TFile *fd=new TFile(Form("dataYieldOut/pass5/dataYield_%s.root",kin.c_str()));
- //TFile *fd=new TFile(Form("dataYieldOut/pass6nocal/dataYield_%s.root",kin.c_str()));
-TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
+ //****Data Histograms***** 
+ TFile *fd=new TFile(Form("dataYieldOut/pass11/dataYield_%s.root",kin.c_str()));
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdy=(TH1F*)fd->Get("hyd");
  TH1F *hdxp=(TH1F*)fd->Get("hxpd");
@@ -38,8 +35,7 @@ TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
  Float_t charge=0;
  Float_t charged=0;
  string dummyFile="al"+angle+"deg"+mom; 
-  TFile *fdum=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",dummyFile.c_str()));;
- // TFile *fdum=new TFile(Form("dataYieldOut/dataYield_%s.root",dummyFile.c_str()));;
+  TFile *fdum=new TFile(Form("dataYieldOut/pass11/dataYield_%s.root",dummyFile.c_str()));;
  charge=getCharge(tgt,angle,mom);
  charged=getCharge("al",angle,mom);
  hdd->Scale(1./charge);
@@ -157,7 +153,12 @@ TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
  hew2->SetFillColor(kMagenta);
 
  hrd->GetYaxis()->SetRangeUser(0.8,1.3); 
- // hmw2->GetXaxis()->SetRangeUser(9,15); 
+ hsw2->GetXaxis()->SetRangeUser(-5,15); 
+ hsd->GetXaxis()->SetRangeUser(-11,23); 
+ hrd->GetXaxis()->SetRangeUser(-11,23); 
+ hsxp->GetXaxis()->SetRangeUser(-60,60); 
+ hsyp->GetXaxis()->SetRangeUser(-50,50); 
+ hsy->GetXaxis()->SetRangeUser(-8,8); 
 
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
@@ -176,13 +177,13 @@ TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
  
  if (DRAW==1)
    {
-     /*    
+
      hsd->Scale(1/fact);
      hsy->Scale(1/fact);
      hsxp->Scale(1/fact);
      hsyp->Scale(1/fact);
      hsw2->Scale(1/fact);
-     */
+
      // Drawing
      TCanvas *c1=new TCanvas("c1","c1",600,900);
      c1->Divide(2,3);
@@ -191,7 +192,7 @@ TFile *fd=new TFile(Form("dataYieldOut/pass10/dataYield_%s.root",kin.c_str()));
      hmd->Draw("HIST E same");
      hed->Draw("HIST E same");
      
-     TLegend *leg=new TLegend(.12,.12,.5,.3);
+     TLegend *leg=new TLegend(.12,.62,.5,.85);
      leg->AddEntry(hmd,"MC","lfp");
      leg->AddEntry(hsd,"Data","lfp");
      leg->AddEntry(hed,"Dummy","lfp");
