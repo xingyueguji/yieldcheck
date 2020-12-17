@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"){
+void mcWt(string tgt="c",string angle="39", string mom="1p3", string spec="shms"){
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
 
@@ -117,7 +117,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass8/mcWt%s.root",kin.c_str());
+  TString fOut=Form("mcWtOut/pass20/mcWt%s.root",kin.c_str());
   //  TString fOut = "mcWtOut/deb_yesCSB_mcWt"+kin+".root";
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
@@ -228,6 +228,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
       Double_t p1=0.2 * thetaini*180./TMath::Pi() -0.6338;
       csb_cx=exp(p0)*(exp(p1*(ebeam-hsev))-1.);
       if(tgt=="d")csb_cx=2*csb_cx;
+      if(tgt=="c")csb_cx=0; //need to add. (use rad length)
       //csb_cx=0;
       wt=0;
 
@@ -253,7 +254,7 @@ void mcWt(string tgt="h",string angle="21", string mom="2p7", string spec="shms"
 	 ngen++;
 	  //	  wt=(rad)/phasespcor;
        }
-     if(fail_id==0 && delrec<22. && delrec >-10. && coll && fid)
+     if(fail_id==0 && delrec<22. && delrec >-10.)// && coll && fid)
        {
 	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<10.0)
 	   {
