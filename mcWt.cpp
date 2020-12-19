@@ -12,30 +12,64 @@
 
 using namespace std;
 
+//  Weights mc-single-arm output with a given model
+//  Calculates the MC scale factor 
+//  Outputs histograms of ytar, yp, xp, w2, and delta 
+//  Output txt file with luminocities, charge, factors etc
+
+//  Things to check
+// * mc generation range (dxp, dyp, delup, down)
+// * 
 void mcWt(string tgt="c",string angle="39", string mom="1p3", string spec="shms"){
+
   string kin=tgt+angle+"deg"+mom;
   cout <<" The Kinematic is " << kin<<endl;
-
   Double_t pOffset=0.;
   Double_t mp = .9382723;
   Double_t mp2 = mp*mp;
-  TGraph2D *gr;
-  TGraph2D *gr2;
-  TGraph2D *gr3;
-  Double_t dxp, dyp, delup, deldown;
+  //  Grids with model
+  TGraph2D *gr;   //born
+  TGraph2D *gr2;  //born/rad
+  TGraph2D *gr3;  //rad 
+  Double_t dxp, dyp, delup, deldown, delCutHi, delCutLo, xpCut, ypCut, yCut;
   Double_t target, ebeam, hsec, thetac, tgtDenLen, tgtMass;
   Double_t charge=0;
   ofstream oFile;
 
   ofstream outFile;
-  outFile.open("mcWt.txt",ios::app | ios::out );
-  dxp=60;
-  dyp=65;
-  delup=25;
-  deldown=-15;
+  outFile.open(Form("test_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+
+  if(spec=="shms")
+    {
+      dxp=60;
+      dyp=65;
+      delup=25;
+      deldown=-15;
+      //match data cuts
+      delCutLo = -10.;
+      delCutHi = +22.;
+      xpCut= 0.10;
+      ypCut= 0.10;
+      yCut= 10.;
+    }
+
+  if(spec=="hms")
+    {
+      dxp=110;
+      dyp=55;
+      delup=15;
+      deldown=-15;
+      //match data cuts
+      delCutLo = -6.;
+      delCutHi = +9.;
+      xpCut= 0.12;
+      ypCut= 0.12;
+      yCut= 10.;
+    }
 
   ebeam=10.602;
   //  charge=getCharge(tgt,angle,mom);
+  //  Want counts/uA
   charge=1.;
   hsec=getMom(kin,spec);
   cout << "The central momentum is "<<hsec<<endl;
@@ -90,35 +124,48 @@ void mcWt(string tgt="c",string angle="39", string mom="1p3", string spec="shms"
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
   Float_t zrec, ytarrec, delrec, yptarrec, xptarrec, xtarini, xstop, ystop, fail_id;
   //      TString fmc = "mc/casey/shms_"+kin+".root";
-   TString fmc = "mc/shms_"+kin+".root";
-  //shms_39deg_m1p3_h.out
+  TString fmc = "mc/"+spec+"_"+kin+".root";
   //    TString fmc = "mc/deb/shms_39deg_m1p3_h.root";
   //  TString fmc = "mc/abel/h39_1.3.root";
   TFile *fm=new TFile(fmc);
   fm->Print();
-  TTree *trm=(TTree*)fm->Get("h1411");
+
+
+  TTree *trm;
+  string arm;
+  if(spec=="shms")
+    {
+      trm=(TTree*)fm->Get("h1411");
+      arm="p";
+    }
+  if(spec=="hms")
+    {
+      trm=(TTree*)fm->Get("h1");
+      arm="h";
+    }
+
   cout << "The MC files has "<<trm->GetEntries()<< " entries"<< endl;
-  trm->SetBranchAddress("psxfp", &xfoc);
-  trm->SetBranchAddress("psyfp", &yfoc);
-  trm->SetBranchAddress("psxpfp", &dxdz);
-  trm->SetBranchAddress("psypfp", &dydz);
-  trm->SetBranchAddress("psztari", &ztarini);
-  trm->SetBranchAddress("psytari", &ytarini);
-  trm->SetBranchAddress("psdeltai", &delini);
-  trm->SetBranchAddress("psyptari", &yptarini);
-  trm->SetBranchAddress("psxptari", &xptarini);
-  trm->SetBranchAddress("psztar", &zrec);
-  trm->SetBranchAddress("psytar", &ytarrec);
-  trm->SetBranchAddress("psdelta", &delrec);
-  trm->SetBranchAddress("psyptar", &yptarrec);
-  trm->SetBranchAddress("psxptar", &xptarrec);
-  trm->SetBranchAddress("psxtari", &xtarini);
+
+  trm->SetBranchAddress(Form("%ssxfp",arm.c_str()), &xfoc);
+  trm->SetBranchAddress(Form("%ssyfp",arm.c_str()), &yfoc);
+  trm->SetBranchAddress(Form("%ssxpfp",arm.c_str()), &dxdz);
+  trm->SetBranchAddress(Form("%ssypfp",arm.c_str()), &dydz);
+  trm->SetBranchAddress(Form("%ssztari",arm.c_str()), &ztarini);
+  trm->SetBranchAddress(Form("%ssytari",arm.c_str()), &ytarini);
+  trm->SetBranchAddress(Form("%ssdeltai",arm.c_str()), &delini);
+  trm->SetBranchAddress(Form("%ssyptari",arm.c_str()), &yptarini);
+  trm->SetBranchAddress(Form("%ssxptari",arm.c_str()), &xptarini);
+  trm->SetBranchAddress(Form("%ssztar",arm.c_str()), &zrec);
+  trm->SetBranchAddress(Form("%ssytar",arm.c_str()), &ytarrec);
+  trm->SetBranchAddress(Form("%ssdelta",arm.c_str()), &delrec);
+  trm->SetBranchAddress(Form("%ssyptar",arm.c_str()), &yptarrec);
+  trm->SetBranchAddress(Form("%ssxptar",arm.c_str()), &xptarrec);
+  trm->SetBranchAddress(Form("%ssxtari",arm.c_str()), &xtarini);
   trm->SetBranchAddress("xsieve", &xstop);
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass20/mcWt%s.root",kin.c_str());
-  //  TString fOut = "mcWtOut/deb_yesCSB_mcWt"+kin+".root";
+  TString fOut=Form("mcWtOut/test/%smcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -254,9 +301,9 @@ void mcWt(string tgt="c",string angle="39", string mom="1p3", string spec="shms"
 	 ngen++;
 	  //	  wt=(rad)/phasespcor;
        }
-     if(fail_id==0 && delrec<22. && delrec >-10.)// && coll && fid)
+     if(fail_id==0 && delrec<delCutHi && delrec >delCutLo)// && coll && fid)
        {
-	 if(abs(xptarrec)<.1 && abs(yptarrec)<.1 && abs(ytarrec)<10.0)
+	 if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec)<yCut)
 	   {
 	     if(wt==0)
 	       {
