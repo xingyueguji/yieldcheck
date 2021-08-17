@@ -1,0 +1,1196 @@
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2489_-1.root
+Run Number                             2489
+File name                              shms_al21deg5p1_d_dataYield2489.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                38.2670 uA
+Boiling Correction                     0.0000 %
+Deadtime                               8.4200 %
+Tracking Efficiency                    96.7400 %
+Trigger Efficiency                     99.9129 %
+Pion Contamintaion (mean +/- rms)      0.0275 +/- 0.0075 %
+Cerenkov Efficiency (mean +/- rms)     99.3425 +/- 0.7110 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0002 %
+Good electrons (raw)                   201770.0000
+Good electrons (corr)                  55243.0396
+The integral of hdd                    55243.0396
+Charge (BCM4C)                         110068.5370 uC.
+QNY raw with prescale                  1.8331 e-/mC
+QNY corrected (flat corrections)       2.0709 e-/mC
+QNY corrected (all corrections)        0.5019 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2517_-1.root
+Run Number                             2517
+File name                              shms_al21deg4p0_d_dataYield2517.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                35.0400 uA
+Boiling Correction                     0.0000 %
+Deadtime                               15.2400 %
+Tracking Efficiency                    96.8000 %
+Trigger Efficiency                     99.9365 %
+Pion Contamintaion (mean +/- rms)      0.0770 +/- 0.0264 %
+Cerenkov Efficiency (mean +/- rms)     99.2419 +/- 0.7481 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   142132.0000
+Good electrons (corr)                  42258.9570
+The integral of hdd                    42258.9570
+Charge (BCM4C)                         24926.5060 uC.
+QNY raw with prescale                  5.7020 e-/mC
+QNY corrected (flat corrections)       6.9541 e-/mC
+QNY corrected (all corrections)        1.6953 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2530_-1.root
+Run Number                             2530
+File name                              shms_al21deg3p3_d_dataYield2530.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                35.7760 uA
+Boiling Correction                     0.0000 %
+Deadtime                               5.0200 %
+Tracking Efficiency                    96.8500 %
+Trigger Efficiency                     99.9206 %
+Pion Contamintaion (mean +/- rms)      0.1759 +/- 0.0618 %
+Cerenkov Efficiency (mean +/- rms)     99.2155 +/- 0.7613 %
+Calorimeter Efficiency (mean +/- rms)  99.8308 +/- 0.0107 %
+Good electrons (raw)                   50480.0000
+Good electrons (corr)                  26786.3205
+The integral of hdd                    26786.3205
+Charge (BCM4C)                         10451.0110 uC.
+QNY raw with prescale                  9.6603 e-/mC
+QNY corrected (flat corrections)       10.5100 e-/mC
+QNY corrected (all corrections)        2.5630 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2531_-1.root
+Run Number                             2531
+File name                              shms_al21deg3p3_d_dataYield2531.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                38.7890 uA
+Boiling Correction                     0.0000 %
+Deadtime                               5.7000 %
+Tracking Efficiency                    96.7500 %
+Trigger Efficiency                     99.9225 %
+Pion Contamintaion (mean +/- rms)      0.1753 +/- 0.0614 %
+Cerenkov Efficiency (mean +/- rms)     99.1968 +/- 0.7848 %
+Calorimeter Efficiency (mean +/- rms)  99.8310 +/- 0.0105 %
+Good electrons (raw)                   8143.0000
+Good electrons (corr)                  4353.9724
+The integral of hdd                    4353.9724
+Charge (BCM4C)                         1703.4550 uC.
+QNY raw with prescale                  9.5606 e-/mC
+QNY corrected (flat corrections)       10.4872 e-/mC
+QNY corrected (all corrections)        2.5560 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2553_-1.root
+Run Number                             2553
+File name                              shms_al21deg2p7_d_dataYield2553.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                38.6160 uA
+Boiling Correction                     0.0000 %
+Deadtime                               4.4600 %
+Tracking Efficiency                    96.3500 %
+Trigger Efficiency                     99.9182 %
+Pion Contamintaion (mean +/- rms)      0.4147 +/- 0.1430 %
+Cerenkov Efficiency (mean +/- rms)     99.2150 +/- 0.7518 %
+Calorimeter Efficiency (mean +/- rms)  99.7248 +/- 0.0974 %
+Good electrons (raw)                   47350.0000
+Good electrons (corr)                  37651.2135
+The integral of hdd                    37651.2135
+Charge (BCM4C)                         11424.7160 uC.
+QNY raw with prescale                  12.4336 e-/mC
+QNY corrected (flat corrections)       13.5181 e-/mC
+QNY corrected (all corrections)        3.2956 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2554_-1.root
+Run Number                             2554
+File name                              shms_al21deg2p7_d_dataYield2554.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                34.6850 uA
+Boiling Correction                     0.0000 %
+Deadtime                               4.2200 %
+Tracking Efficiency                    96.6100 %
+Trigger Efficiency                     99.9178 %
+Pion Contamintaion (mean +/- rms)      0.4141 +/- 0.1430 %
+Cerenkov Efficiency (mean +/- rms)     99.2138 +/- 0.7548 %
+Calorimeter Efficiency (mean +/- rms)  99.7245 +/- 0.0979 %
+Good electrons (raw)                   77208.0000
+Good electrons (corr)                  61093.5413
+The integral of hdd                    61093.5413
+Charge (BCM4C)                         18625.1560 uC.
+QNY raw with prescale                  12.4361 e-/mC
+QNY corrected (flat corrections)       13.4507 e-/mC
+QNY corrected (all corrections)        3.2802 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2489_-1.root
+Run Number                             2489
+File name                              shms_al21deg5p1_h_dataYield2489.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                38.2670 uA
+Boiling Correction                     0.0000 %
+Deadtime                               8.4200 %
+Tracking Efficiency                    96.7400 %
+Trigger Efficiency                     99.9129 %
+Pion Contamintaion (mean +/- rms)      0.0275 +/- 0.0075 %
+Cerenkov Efficiency (mean +/- rms)     99.3425 +/- 0.7110 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0002 %
+Good electrons (raw)                   201770.0000
+Good electrons (corr)                  59590.7987
+The integral of hdd                    59590.7987
+Charge (BCM4C)                         110068.5370 uC.
+QNY raw with prescale                  1.8331 e-/mC
+QNY corrected (flat corrections)       2.0709 e-/mC
+QNY corrected (all corrections)        0.5414 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2517_-1.root
+Run Number                             2517
+File name                              shms_al21deg4p0_h_dataYield2517.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                35.0400 uA
+Boiling Correction                     0.0000 %
+Deadtime                               15.2400 %
+Tracking Efficiency                    96.8000 %
+Trigger Efficiency                     99.9365 %
+Pion Contamintaion (mean +/- rms)      0.0770 +/- 0.0264 %
+Cerenkov Efficiency (mean +/- rms)     99.2419 +/- 0.7481 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   142132.0000
+Good electrons (corr)                  45495.5986
+The integral of hdd                    45495.5986
+Charge (BCM4C)                         24926.5060 uC.
+QNY raw with prescale                  5.7020 e-/mC
+QNY corrected (flat corrections)       6.9541 e-/mC
+QNY corrected (all corrections)        1.8252 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2530_-1.root
+Run Number                             2530
+File name                              shms_al21deg3p3_h_dataYield2530.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                35.7760 uA
+Boiling Correction                     0.0000 %
+Deadtime                               5.0200 %
+Tracking Efficiency                    96.8500 %
+Trigger Efficiency                     99.9206 %
+Pion Contamintaion (mean +/- rms)      0.1759 +/- 0.0618 %
+Cerenkov Efficiency (mean +/- rms)     99.2155 +/- 0.7613 %
+Calorimeter Efficiency (mean +/- rms)  99.8308 +/- 0.0107 %
+Good electrons (raw)                   50480.0000
+Good electrons (corr)                  28826.8287
+The integral of hdd                    28826.8287
+Charge (BCM4C)                         10451.0110 uC.
+QNY raw with prescale                  9.6603 e-/mC
+QNY corrected (flat corrections)       10.5100 e-/mC
+QNY corrected (all corrections)        2.7583 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2531_-1.root
+Run Number                             2531
+File name                              shms_al21deg3p3_h_dataYield2531.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                38.7890 uA
+Boiling Correction                     0.0000 %
+Deadtime                               5.7000 %
+Tracking Efficiency                    96.7500 %
+Trigger Efficiency                     99.9225 %
+Pion Contamintaion (mean +/- rms)      0.1753 +/- 0.0614 %
+Cerenkov Efficiency (mean +/- rms)     99.1968 +/- 0.7848 %
+Calorimeter Efficiency (mean +/- rms)  99.8310 +/- 0.0105 %
+Good electrons (raw)                   8143.0000
+Good electrons (corr)                  4686.6765
+The integral of hdd                    4686.6765
+Charge (BCM4C)                         1703.4550 uC.
+QNY raw with prescale                  9.5606 e-/mC
+QNY corrected (flat corrections)       10.4872 e-/mC
+QNY corrected (all corrections)        2.7513 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2553_-1.root
+Run Number                             2553
+File name                              shms_al21deg2p7_h_dataYield2553.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                38.6160 uA
+Boiling Correction                     0.0000 %
+Deadtime                               4.4600 %
+Tracking Efficiency                    96.3500 %
+Trigger Efficiency                     99.9182 %
+Pion Contamintaion (mean +/- rms)      0.4147 +/- 0.1430 %
+Cerenkov Efficiency (mean +/- rms)     99.2150 +/- 0.7518 %
+Calorimeter Efficiency (mean +/- rms)  99.7248 +/- 0.0974 %
+Good electrons (raw)                   47350.0000
+Good electrons (corr)                  40489.3341
+The integral of hdd                    40489.3341
+Charge (BCM4C)                         11424.7160 uC.
+QNY raw with prescale                  12.4336 e-/mC
+QNY corrected (flat corrections)       13.5181 e-/mC
+QNY corrected (all corrections)        3.5440 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2554_-1.root
+Run Number                             2554
+File name                              shms_al21deg2p7_h_dataYield2554.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                34.6850 uA
+Boiling Correction                     0.0000 %
+Deadtime                               4.2200 %
+Tracking Efficiency                    96.6100 %
+Trigger Efficiency                     99.9178 %
+Pion Contamintaion (mean +/- rms)      0.4141 +/- 0.1430 %
+Cerenkov Efficiency (mean +/- rms)     99.2138 +/- 0.7548 %
+Calorimeter Efficiency (mean +/- rms)  99.7245 +/- 0.0979 %
+Good electrons (raw)                   77208.0000
+Good electrons (corr)                  65692.6836
+The integral of hdd                    65692.6836
+Charge (BCM4C)                         18625.1560 uC.
+QNY raw with prescale                  12.4361 e-/mC
+QNY corrected (flat corrections)       13.4507 e-/mC
+QNY corrected (all corrections)        3.5271 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2484_-1.root
+Run Number                             2484
+File name                              shms_h21deg5p1_dataYield2484.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                46.9530 uA
+Boiling Correction                     1.7983 %
+Deadtime                               24.3900 %
+Tracking Efficiency                    96.7200 %
+Trigger Efficiency                     99.8862 %
+Pion Contamintaion (mean +/- rms)      0.0209 +/- 0.0035 %
+Cerenkov Efficiency (mean +/- rms)     99.1740 +/- 0.9548 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   645549.0000
+Good electrons (corr)                  902399.0595
+The integral of hdd                    902399.0595
+Charge (BCM4C)                         135738.6960 uC.
+QNY raw with prescale                  4.7558 e-/mC
+QNY corrected (flat corrections)       6.6299 e-/mC
+QNY corrected (all corrections)        6.6481 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2485_-1.root
+Run Number                             2485
+File name                              shms_h21deg5p1_dataYield2485.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                42.8000 uA
+Boiling Correction                     1.6392 %
+Deadtime                               23.3000 %
+Tracking Efficiency                    96.7200 %
+Trigger Efficiency                     99.8880 %
+Pion Contamintaion (mean +/- rms)      0.0209 +/- 0.0035 %
+Cerenkov Efficiency (mean +/- rms)     99.1773 +/- 0.9562 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   463226.0000
+Good electrons (corr)                  637275.2068
+The integral of hdd                    637275.2068
+Charge (BCM4C)                         96223.6480 uC.
+QNY raw with prescale                  4.8141 e-/mC
+QNY corrected (flat corrections)       6.6049 e-/mC
+QNY corrected (all corrections)        6.6229 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2486_-1.root
+Run Number                             2486
+File name                              shms_h21deg5p1_dataYield2486.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                45.9270 uA
+Boiling Correction                     1.7590 %
+Deadtime                               24.4300 %
+Tracking Efficiency                    96.6500 %
+Trigger Efficiency                     99.8847 %
+Pion Contamintaion (mean +/- rms)      0.0209 +/- 0.0035 %
+Cerenkov Efficiency (mean +/- rms)     99.1743 +/- 0.9562 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0002 %
+Good electrons (raw)                   156693.0000
+Good electrons (corr)                  219224.6371
+The integral of hdd                    219224.6371
+Charge (BCM4C)                         33225.9530 uC.
+QNY raw with prescale                  4.7160 e-/mC
+QNY corrected (flat corrections)       6.5800 e-/mC
+QNY corrected (all corrections)        6.5980 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2487_-1.root
+Run Number                             2487
+File name                              shms_h21deg5p1_dataYield2487.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                45.8090 uA
+Boiling Correction                     1.7545 %
+Deadtime                               24.2200 %
+Tracking Efficiency                    96.6700 %
+Trigger Efficiency                     99.8850 %
+Pion Contamintaion (mean +/- rms)      0.0209 +/- 0.0035 %
+Cerenkov Efficiency (mean +/- rms)     99.1753 +/- 0.9513 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   423864.0000
+Good electrons (corr)                  591210.8453
+The integral of hdd                    591210.8453
+Charge (BCM4C)                         88799.1190 uC.
+QNY raw with prescale                  4.7733 e-/mC
+QNY corrected (flat corrections)       6.6399 e-/mC
+QNY corrected (all corrections)        6.6578 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2488_-1.root
+Run Number                             2488
+File name                              shms_h21deg5p1_dataYield2488.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                44.6260 uA
+Boiling Correction                     1.7092 %
+Deadtime                               23.9300 %
+Tracking Efficiency                    96.6900 %
+Trigger Efficiency                     99.8869 %
+Pion Contamintaion (mean +/- rms)      0.0209 +/- 0.0035 %
+Cerenkov Efficiency (mean +/- rms)     99.1764 +/- 0.9534 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   512757.0000
+Good electrons (corr)                  711984.3158
+The integral of hdd                    711984.3158
+Charge (BCM4C)                         107257.7620 uC.
+QNY raw with prescale                  4.7806 e-/mC
+QNY corrected (flat corrections)       6.6201 e-/mC
+QNY corrected (all corrections)        6.6381 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2521_-1.root
+Run Number                             2521
+File name                              shms_h21deg4p0_dataYield2521.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                35.0750 uA
+Boiling Correction                     1.3434 %
+Deadtime                               8.5700 %
+Tracking Efficiency                    96.7000 %
+Trigger Efficiency                     99.9294 %
+Pion Contamintaion (mean +/- rms)      0.0496 +/- 0.0174 %
+Cerenkov Efficiency (mean +/- rms)     99.0799 +/- 0.9417 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   457237.0000
+Good electrons (corr)                  1052542.3207
+The integral of hdd                    1052542.3207
+Charge (BCM4C)                         50458.3280 uC.
+QNY raw with prescale                  18.1234 e-/mC
+QNY corrected (flat corrections)       20.7924 e-/mC
+QNY corrected (all corrections)        20.8596 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2522_-1.root
+Run Number                             2522
+File name                              shms_h21deg4p0_dataYield2522.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                36.4270 uA
+Boiling Correction                     1.3952 %
+Deadtime                               8.2800 %
+Tracking Efficiency                    96.7300 %
+Trigger Efficiency                     99.9310 %
+Pion Contamintaion (mean +/- rms)      0.0497 +/- 0.0174 %
+Cerenkov Efficiency (mean +/- rms)     99.0776 +/- 0.9461 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   581318.0000
+Good electrons (corr)                  1334195.8723
+The integral of hdd                    1334195.8723
+Charge (BCM4C)                         64050.0850 uC.
+QNY raw with prescale                  18.1520 e-/mC
+QNY corrected (flat corrections)       20.7635 e-/mC
+QNY corrected (all corrections)        20.8305 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2523_-1.root
+Run Number                             2523
+File name                              shms_h21deg4p0_dataYield2523.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                34.6630 uA
+Boiling Correction                     1.3276 %
+Deadtime                               7.8100 %
+Tracking Efficiency                    96.7800 %
+Trigger Efficiency                     99.9308 %
+Pion Contamintaion (mean +/- rms)      0.0497 +/- 0.0174 %
+Cerenkov Efficiency (mean +/- rms)     99.0779 +/- 0.9446 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   148290.0000
+Good electrons (corr)                  338205.5554
+The integral of hdd                    338205.5554
+Charge (BCM4C)                         16329.5150 uC.
+QNY raw with prescale                  18.1622 e-/mC
+QNY corrected (flat corrections)       20.6445 e-/mC
+QNY corrected (all corrections)        20.7113 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2524_-1.root
+Run Number                             2524
+File name                              shms_h21deg3p3_dataYield2524.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                36.6060 uA
+Boiling Correction                     1.4020 %
+Deadtime                               6.7100 %
+Tracking Efficiency                    96.6900 %
+Trigger Efficiency                     99.9117 %
+Pion Contamintaion (mean +/- rms)      0.1356 +/- 0.0625 %
+Cerenkov Efficiency (mean +/- rms)     99.0528 +/- 0.9458 %
+Calorimeter Efficiency (mean +/- rms)  99.8311 +/- 0.0105 %
+Good electrons (raw)                   234327.0000
+Good electrons (corr)                  793076.3479
+The integral of hdd                    793076.3479
+Charge (BCM4C)                         26741.5500 uC.
+QNY raw with prescale                  26.2880 e-/mC
+QNY corrected (flat corrections)       29.5839 e-/mC
+QNY corrected (all corrections)        29.6571 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2525_-1.root
+Run Number                             2525
+File name                              shms_h21deg3p3_dataYield2525.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                36.5870 uA
+Boiling Correction                     1.4013 %
+Deadtime                               6.7400 %
+Tracking Efficiency                    96.7000 %
+Trigger Efficiency                     99.9155 %
+Pion Contamintaion (mean +/- rms)      0.1355 +/- 0.0624 %
+Cerenkov Efficiency (mean +/- rms)     99.0579 +/- 0.9367 %
+Calorimeter Efficiency (mean +/- rms)  99.8311 +/- 0.0105 %
+Good electrons (raw)                   266629.0000
+Good electrons (corr)                  902548.0810
+The integral of hdd                    902548.0810
+Charge (BCM4C)                         30453.7990 uC.
+QNY raw with prescale                  26.2656 e-/mC
+QNY corrected (flat corrections)       29.5639 e-/mC
+QNY corrected (all corrections)        29.6366 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2526_-1.root
+Run Number                             2526
+File name                              shms_h21deg3p3_dataYield2526.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                37.3820 uA
+Boiling Correction                     1.4317 %
+Deadtime                               6.8900 %
+Tracking Efficiency                    96.8300 %
+Trigger Efficiency                     99.9158 %
+Pion Contamintaion (mean +/- rms)      0.1356 +/- 0.0624 %
+Cerenkov Efficiency (mean +/- rms)     99.0512 +/- 0.9534 %
+Calorimeter Efficiency (mean +/- rms)  99.8311 +/- 0.0105 %
+Good electrons (raw)                   112437.0000
+Good electrons (corr)                  380831.7445
+The integral of hdd                    380831.7445
+Charge (BCM4C)                         12833.1270 uC.
+QNY raw with prescale                  26.2844 e-/mC
+QNY corrected (flat corrections)       29.6020 e-/mC
+QNY corrected (all corrections)        29.6757 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2551_-1.root
+Run Number                             2551
+File name                              shms_h21deg2p7_dataYield2551.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        17
+Average Current (BCM4C)                42.6920 uA
+Boiling Correction                     1.6351 %
+Deadtime                               0.0000 %
+Tracking Efficiency                    96.2500 %
+Trigger Efficiency                     99.9005 %
+Pion Contamintaion (mean +/- rms)      0.5012 +/- 0.2721 %
+Cerenkov Efficiency (mean +/- rms)     99.0552 +/- 0.9385 %
+Calorimeter Efficiency (mean +/- rms)  99.7258 +/- 0.0976 %
+Good electrons (raw)                   50651.0000
+Good electrons (corr)                  909246.7331
+The integral of hdd                    909246.7331
+Charge (BCM4C)                         25824.8140 uC.
+QNY raw with prescale                  33.3426 e-/mC
+QNY corrected (flat corrections)       35.2526 e-/mC
+QNY corrected (all corrections)        35.2083 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2552_-1.root
+Run Number                             2552
+File name                              shms_h21deg2p7_dataYield2552.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        9
+Average Current (BCM4C)                43.4780 uA
+Boiling Correction                     1.6652 %
+Deadtime                               0.2200 %
+Tracking Efficiency                    96.1500 %
+Trigger Efficiency                     99.8970 %
+Pion Contamintaion (mean +/- rms)      0.5011 +/- 0.2727 %
+Cerenkov Efficiency (mean +/- rms)     99.0525 +/- 0.9395 %
+Calorimeter Efficiency (mean +/- rms)  99.7262 +/- 0.0974 %
+Good electrons (raw)                   275998.0000
+Good electrons (corr)                  2632542.3167
+The integral of hdd                    2632542.3167
+Charge (BCM4C)                         74537.6920 uC.
+QNY raw with prescale                  33.3252 e-/mC
+QNY corrected (flat corrections)       35.3606 e-/mC
+QNY corrected (all corrections)        35.3183 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2490_-1.root
+Run Number                             2490
+File name                              shms_d21deg5p1_dataYield2490.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                48.3370 uA
+Boiling Correction                     2.1462 %
+Deadtime                               12.8500 %
+Tracking Efficiency                    96.5000 %
+Trigger Efficiency                     99.8418 %
+Pion Contamintaion (mean +/- rms)      0.0168 +/- 0.0069 %
+Cerenkov Efficiency (mean +/- rms)     99.1718 +/- 0.9556 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0002 %
+Good electrons (raw)                   210378.0000
+Good electrons (corr)                  513494.5430
+The integral of hdd                    513494.5430
+Charge (BCM4C)                         46783.3110 uC.
+QNY raw with prescale                  8.9937 e-/mC
+QNY corrected (flat corrections)       10.9460 e-/mC
+QNY corrected (all corrections)        10.9760 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2491_-1.root
+Run Number                             2491
+File name                              shms_d21deg5p1_dataYield2491.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                47.0780 uA
+Boiling Correction                     2.0903 %
+Deadtime                               12.5300 %
+Tracking Efficiency                    96.5300 %
+Trigger Efficiency                     99.8408 %
+Pion Contamintaion (mean +/- rms)      0.0168 +/- 0.0069 %
+Cerenkov Efficiency (mean +/- rms)     99.1664 +/- 0.9617 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   703936.0000
+Good electrons (corr)                  1710473.5022
+The integral of hdd                    1710473.5022
+Charge (BCM4C)                         155433.9770 uC.
+QNY raw with prescale                  9.0577 e-/mC
+QNY corrected (flat corrections)       10.9739 e-/mC
+QNY corrected (all corrections)        11.0045 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2492_-1.root
+Run Number                             2492
+File name                              shms_d21deg5p1_dataYield2492.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                46.4030 uA
+Boiling Correction                     2.0603 %
+Deadtime                               12.3200 %
+Tracking Efficiency                    96.5000 %
+Trigger Efficiency                     99.8401 %
+Pion Contamintaion (mean +/- rms)      0.0168 +/- 0.0069 %
+Cerenkov Efficiency (mean +/- rms)     99.1708 +/- 0.9602 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   732492.0000
+Good electrons (corr)                  1775596.4846
+The integral of hdd                    1775596.4846
+Charge (BCM4C)                         161783.3150 uC.
+QNY raw with prescale                  9.0552 e-/mC
+QNY corrected (flat corrections)       10.9448 e-/mC
+QNY corrected (all corrections)        10.9752 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2493_-1.root
+Run Number                             2493
+File name                              shms_d21deg5p1_dataYield2493.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                47.9840 uA
+Boiling Correction                     2.1305 %
+Deadtime                               12.5500 %
+Tracking Efficiency                    96.5100 %
+Trigger Efficiency                     99.8395 %
+Pion Contamintaion (mean +/- rms)      0.0168 +/- 0.0069 %
+Cerenkov Efficiency (mean +/- rms)     99.1706 +/- 0.9571 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0004 %
+Good electrons (raw)                   771034.0000
+Good electrons (corr)                  1875089.9329
+The integral of hdd                    1875089.9329
+Charge (BCM4C)                         170483.0430 uC.
+QNY raw with prescale                  9.0453 e-/mC
+QNY corrected (flat corrections)       10.9683 e-/mC
+QNY corrected (all corrections)        10.9987 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2494_-1.root
+Run Number                             2494
+File name                              shms_d21deg5p1_dataYield2494.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                48.6780 uA
+Boiling Correction                     2.1613 %
+Deadtime                               12.7300 %
+Tracking Efficiency                    96.5300 %
+Trigger Efficiency                     99.8294 %
+Pion Contamintaion (mean +/- rms)      0.0168 +/- 0.0069 %
+Cerenkov Efficiency (mean +/- rms)     99.1683 +/- 0.9506 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0000 %
+Good electrons (raw)                   29244.0000
+Good electrons (corr)                  71287.3665
+The integral of hdd                    71287.3665
+Charge (BCM4C)                         6519.4710 uC.
+QNY raw with prescale                  8.9713 e-/mC
+QNY corrected (flat corrections)       10.9033 e-/mC
+QNY corrected (all corrections)        10.9345 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2518_-1.root
+Run Number                             2518
+File name                              shms_d21deg4p0_dataYield2518.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        5
+Average Current (BCM4C)                32.0010 uA
+Boiling Correction                     1.4208 %
+Deadtime                               0.5800 %
+Tracking Efficiency                    96.6000 %
+Trigger Efficiency                     99.9067 %
+Pion Contamintaion (mean +/- rms)      0.0834 +/- 0.0408 %
+Cerenkov Efficiency (mean +/- rms)     99.0773 +/- 0.9486 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   487406.0000
+Good electrons (corr)                  2583976.9260
+The integral of hdd                    2583976.9260
+Charge (BCM4C)                         72177.4590 uC.
+QNY raw with prescale                  33.7644 e-/mC
+QNY corrected (flat corrections)       35.6968 e-/mC
+QNY corrected (all corrections)        35.8003 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2519_-1.root
+Run Number                             2519
+File name                              shms_d21deg4p0_dataYield2519.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        5
+Average Current (BCM4C)                38.9900 uA
+Boiling Correction                     1.7312 %
+Deadtime                               0.5700 %
+Tracking Efficiency                    96.5500 %
+Trigger Efficiency                     99.9048 %
+Pion Contamintaion (mean +/- rms)      0.0832 +/- 0.0409 %
+Cerenkov Efficiency (mean +/- rms)     99.0705 +/- 0.9530 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   471286.0000
+Good electrons (corr)                  2507552.1529
+The integral of hdd                    2507552.1529
+Charge (BCM4C)                         70187.4060 uC.
+QNY raw with prescale                  33.5734 e-/mC
+QNY corrected (flat corrections)       35.6224 e-/mC
+QNY corrected (all corrections)        35.7265 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2520_-1.root
+Run Number                             2520
+File name                              shms_d21deg4p0_dataYield2520.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        5
+Average Current (BCM4C)                37.0280 uA
+Boiling Correction                     1.6440 %
+Deadtime                               0.5400 %
+Tracking Efficiency                    96.5400 %
+Trigger Efficiency                     99.9015 %
+Pion Contamintaion (mean +/- rms)      0.0832 +/- 0.0408 %
+Cerenkov Efficiency (mean +/- rms)     99.0759 +/- 0.9540 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   202842.0000
+Good electrons (corr)                  1078114.9093
+The integral of hdd                    1078114.9093
+Charge (BCM4C)                         29915.1370 uC.
+QNY raw with prescale                  33.9029 e-/mC
+QNY corrected (flat corrections)       35.9342 e-/mC
+QNY corrected (all corrections)        36.0391 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2527_-1.root
+Run Number                             2527
+File name                              shms_d21deg3p3_dataYield2527.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                38.1370 uA
+Boiling Correction                     1.6933 %
+Deadtime                               31.4400 %
+Tracking Efficiency                    96.4200 %
+Trigger Efficiency                     99.8909 %
+Pion Contamintaion (mean +/- rms)      0.2688 +/- 0.1257 %
+Cerenkov Efficiency (mean +/- rms)     99.0541 +/- 0.9495 %
+Calorimeter Efficiency (mean +/- rms)  99.8309 +/- 0.0106 %
+Good electrons (raw)                   292879.0000
+Good electrons (corr)                  1355082.9502
+The integral of hdd                    1355082.9502
+Charge (BCM4C)                         25589.9690 uC.
+QNY raw with prescale                  34.3352 e-/mC
+QNY corrected (flat corrections)       52.8923 e-/mC
+QNY corrected (all corrections)        52.9537 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2528_-1.root
+Run Number                             2528
+File name                              shms_d21deg3p3_dataYield2528.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        3
+Average Current (BCM4C)                38.8620 uA
+Boiling Correction                     1.7255 %
+Deadtime                               31.8300 %
+Tracking Efficiency                    96.4300 %
+Trigger Efficiency                     99.8906 %
+Pion Contamintaion (mean +/- rms)      0.2684 +/- 0.1257 %
+Cerenkov Efficiency (mean +/- rms)     99.0587 +/- 0.9422 %
+Calorimeter Efficiency (mean +/- rms)  99.8310 +/- 0.0106 %
+Good electrons (raw)                   337065.0000
+Good electrons (corr)                  1568733.6811
+The integral of hdd                    1568733.6811
+Charge (BCM4C)                         29404.1390 uC.
+QNY raw with prescale                  34.3895 e-/mC
+QNY corrected (flat corrections)       53.2912 e-/mC
+QNY corrected (all corrections)        53.3508 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2529_-1.root
+Run Number                             2529
+File name                              shms_d21deg3p3_dataYield2529.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        9
+Average Current (BCM4C)                35.3610 uA
+Boiling Correction                     1.5700 %
+Deadtime                               0.1100 %
+Tracking Efficiency                    96.3300 %
+Trigger Efficiency                     99.8900 %
+Pion Contamintaion (mean +/- rms)      0.2691 +/- 0.1256 %
+Cerenkov Efficiency (mean +/- rms)     99.0552 +/- 0.9445 %
+Calorimeter Efficiency (mean +/- rms)  99.8309 +/- 0.0106 %
+Good electrons (raw)                   219387.0000
+Good electrons (corr)                  2089369.5299
+The integral of hdd                    2089369.5299
+Charge (BCM4C)                         39150.5270 uC.
+QNY raw with prescale                  50.4331 e-/mC
+QNY corrected (flat corrections)       53.3068 e-/mC
+QNY corrected (all corrections)        53.3676 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2549_-1.root
+Run Number                             2549
+File name                              shms_d21deg2p7_dataYield2549.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        17
+Average Current (BCM4C)                54.4480 uA
+Boiling Correction                     2.4175 %
+Deadtime                               1.2800 %
+Tracking Efficiency                    95.2100 %
+Trigger Efficiency                     99.8692 %
+Pion Contamintaion (mean +/- rms)      0.8103 +/- 0.3406 %
+Cerenkov Efficiency (mean +/- rms)     99.0475 +/- 0.9497 %
+Calorimeter Efficiency (mean +/- rms)  99.7247 +/- 0.0976 %
+Good electrons (raw)                   219389.0000
+Good electrons (corr)                  4054321.1389
+The integral of hdd                    4054321.1389
+Charge (BCM4C)                         62880.0940 uC.
+QNY raw with prescale                  59.3131 e-/mC
+QNY corrected (flat corrections)       64.7529 e-/mC
+QNY corrected (all corrections)        64.4770 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2550_-1.root
+Run Number                             2550
+File name                              shms_d21deg2p7_dataYield2550.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        17
+Average Current (BCM4C)                49.2270 uA
+Boiling Correction                     2.1857 %
+Deadtime                               0.8000 %
+Tracking Efficiency                    95.3400 %
+Trigger Efficiency                     99.8739 %
+Pion Contamintaion (mean +/- rms)      0.8091 +/- 0.3409 %
+Cerenkov Efficiency (mean +/- rms)     99.0507 +/- 0.9405 %
+Calorimeter Efficiency (mean +/- rms)  99.7252 +/- 0.0976 %
+Good electrons (raw)                   115809.0000
+Good electrons (corr)                  2121719.5140
+The integral of hdd                    2121719.5140
+Charge (BCM4C)                         33081.4840 uC.
+QNY raw with prescale                  59.5122 e-/mC
+QNY corrected (flat corrections)       64.4117 e-/mC
+QNY corrected (all corrections)        64.1362 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2507_-1.root
+Run Number                             2507
+File name                              shms_c21deg5p1_dataYield2507.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                29.7120 uA
+Boiling Correction                     0.0000 %
+Deadtime                               9.7900 %
+Tracking Efficiency                    96.8600 %
+Trigger Efficiency                     99.8916 %
+Pion Contamintaion (mean +/- rms)      0.0396 +/- 0.0075 %
+Cerenkov Efficiency (mean +/- rms)     98.9551 +/- 1.2397 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   92705.0000
+Good electrons (corr)                  106576.3767
+The integral of hdd                    106576.3767
+Charge (BCM4C)                         34961.9020 uC.
+QNY raw with prescale                  2.6516 e-/mC
+QNY corrected (flat corrections)       3.0379 e-/mC
+QNY corrected (all corrections)        3.0484 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2508_-1.root
+Run Number                             2508
+File name                              shms_c21deg5p1_dataYield2508.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                28.6690 uA
+Boiling Correction                     0.0000 %
+Deadtime                               9.7400 %
+Tracking Efficiency                    96.8300 %
+Trigger Efficiency                     99.8912 %
+Pion Contamintaion (mean +/- rms)      0.0396 +/- 0.0075 %
+Cerenkov Efficiency (mean +/- rms)     98.9633 +/- 1.2354 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0003 %
+Good electrons (raw)                   360310.0000
+Good electrons (corr)                  414129.5443
+The integral of hdd                    414129.5443
+Charge (BCM4C)                         135352.2160 uC.
+QNY raw with prescale                  2.6620 e-/mC
+QNY corrected (flat corrections)       3.0491 e-/mC
+QNY corrected (all corrections)        3.0596 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2509_-1.root
+Run Number                             2509
+File name                              shms_c21deg4p0_dataYield2509.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                36.1320 uA
+Boiling Correction                     0.0000 %
+Deadtime                               21.5400 %
+Tracking Efficiency                    96.8500 %
+Trigger Efficiency                     99.9292 %
+Pion Contamintaion (mean +/- rms)      0.0869 +/- 0.0251 %
+Cerenkov Efficiency (mean +/- rms)     98.8697 +/- 1.2139 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   512021.0000
+Good electrons (corr)                  676857.7086
+The integral of hdd                    676857.7086
+Charge (BCM4C)                         67309.0640 uC.
+QNY raw with prescale                  7.6070 e-/mC
+QNY corrected (flat corrections)       10.0178 e-/mC
+QNY corrected (all corrections)        10.0560 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2510_-1.root
+Run Number                             2510
+File name                              shms_c21deg4p0_dataYield2510.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                36.7710 uA
+Boiling Correction                     0.0000 %
+Deadtime                               21.5100 %
+Tracking Efficiency                    96.8200 %
+Trigger Efficiency                     99.9273 %
+Pion Contamintaion (mean +/- rms)      0.0868 +/- 0.0251 %
+Cerenkov Efficiency (mean +/- rms)     98.8717 +/- 1.2096 %
+Calorimeter Efficiency (mean +/- rms)  99.8394 +/- 0.0001 %
+Good electrons (raw)                   154430.0000
+Good electrons (corr)                  204134.5357
+The integral of hdd                    204134.5357
+Charge (BCM4C)                         20369.4730 uC.
+QNY raw with prescale                  7.5814 e-/mC
+QNY corrected (flat corrections)       9.9836 e-/mC
+QNY corrected (all corrections)        10.0216 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2540_-1.root
+Run Number                             2540
+File name                              shms_c21deg3p3_dataYield2540.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                44.7000 uA
+Boiling Correction                     0.0000 %
+Deadtime                               14.9300 %
+Tracking Efficiency                    96.7800 %
+Trigger Efficiency                     99.9147 %
+Pion Contamintaion (mean +/- rms)      0.1837 +/- 0.0618 %
+Cerenkov Efficiency (mean +/- rms)     98.8425 +/- 1.2094 %
+Calorimeter Efficiency (mean +/- rms)  99.8309 +/- 0.0106 %
+Good electrons (raw)                   382564.0000
+Good electrons (corr)                  932901.4723
+The integral of hdd                    932901.4723
+Charge (BCM4C)                         61394.0410 uC.
+QNY raw with prescale                  12.4626 e-/mC
+QNY corrected (flat corrections)       15.1501 e-/mC
+QNY corrected (all corrections)        15.1953 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2541_-1.root
+Run Number                             2541
+File name                              shms_c21deg3p3_dataYield2541.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        2
+Average Current (BCM4C)                39.4190 uA
+Boiling Correction                     0.0000 %
+Deadtime                               12.3600 %
+Tracking Efficiency                    96.8200 %
+Trigger Efficiency                     99.9167 %
+Pion Contamintaion (mean +/- rms)      0.1837 +/- 0.0618 %
+Cerenkov Efficiency (mean +/- rms)     98.8435 +/- 1.2157 %
+Calorimeter Efficiency (mean +/- rms)  99.8309 +/- 0.0106 %
+Good electrons (raw)                   323603.0000
+Good electrons (corr)                  765641.9080
+The integral of hdd                    765641.9080
+Charge (BCM4C)                         50226.5510 uC.
+QNY raw with prescale                  12.8857 e-/mC
+QNY corrected (flat corrections)       15.1986 e-/mC
+QNY corrected (all corrections)        15.2438 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2547_-1.root
+Run Number                             2547
+File name                              shms_c21deg2p7_dataYield2547.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        5
+Average Current (BCM4C)                40.6040 uA
+Boiling Correction                     0.0000 %
+Deadtime                               1.2600 %
+Tracking Efficiency                    96.4400 %
+Trigger Efficiency                     99.9115 %
+Pion Contamintaion (mean +/- rms)      0.4433 +/- 0.1638 %
+Cerenkov Efficiency (mean +/- rms)     98.8310 +/- 1.2122 %
+Calorimeter Efficiency (mean +/- rms)  99.7249 +/- 0.0977 %
+Good electrons (raw)                   191610.0000
+Good electrons (corr)                  1007366.2884
+The integral of hdd                    1007366.2884
+Charge (BCM4C)                         52976.5300 uC.
+QNY raw with prescale                  18.0844 e-/mC
+QNY corrected (flat corrections)       19.0081 e-/mC
+QNY corrected (all corrections)        19.0153 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-2-shms-data/shms_replay_production_2548_-1.root
+Run Number                             2548
+File name                              shms_c21deg2p7_dataYield2548.root
+Delta Cut                              -10 to 22
+E/p Cut                                0.7
+Cerenekov Cut                          2
+Current Cut (BCM4C)                    5
+Prescale Factor                        5
+Average Current (BCM4C)                34.3410 uA
+Boiling Correction                     0.0000 %
+Deadtime                               0.9700 %
+Tracking Efficiency                    96.4700 %
+Trigger Efficiency                     99.9132 %
+Pion Contamintaion (mean +/- rms)      0.4431 +/- 0.1639 %
+Cerenkov Efficiency (mean +/- rms)     98.8387 +/- 1.2072 %
+Calorimeter Efficiency (mean +/- rms)  99.7250 +/- 0.0979 %
+Good electrons (raw)                   209507.0000
+Good electrons (corr)                  1097849.4097
+The integral of hdd                    1097849.4097
+Charge (BCM4C)                         57942.7620 uC.
+QNY raw with prescale                  18.0788 e-/mC
+QNY corrected (flat corrections)       18.9403 e-/mC
+QNY corrected (all corrections)        18.9471 e-/mC
+***************************************************************************************
+

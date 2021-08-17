@@ -1,0 +1,234 @@
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1588_-1.root
+Run Number                             1588
+File name                              hms_c21deg5p7_dataYield1588.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                29.7580 uA
+Boiling Correction                     0.0000 %
+Deadtime                               1.2700 %
+Tracking Efficiency                    99.8300 %
+Trigger Efficiency                     99.9875 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0001 %
+Good electrons (raw)                   25595.0000
+Good electrons (corr)                  26554.7733
+The integral of hdd                    26554.7733
+Charge (BCM4C)                         35054.6250 uC.
+QNY raw with prescale                  0.7301 e-/mC
+QNY corrected (flat corrections)       0.7409 e-/mC
+QNY corrected (all corrections)        0.7575 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1589_-1.root
+Run Number                             1589
+File name                              hms_c21deg5p7_dataYield1589.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                28.6760 uA
+Boiling Correction                     0.0000 %
+Deadtime                               1.2800 %
+Tracking Efficiency                    99.8500 %
+Trigger Efficiency                     99.9876 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0002 %
+Good electrons (raw)                   99792.0000
+Good electrons (corr)                  103523.6915
+The integral of hdd                    103523.6915
+Charge (BCM4C)                         136026.3910 uC.
+QNY raw with prescale                  0.7336 e-/mC
+QNY corrected (flat corrections)       0.7443 e-/mC
+QNY corrected (all corrections)        0.7611 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1590_-1.root
+Run Number                             1590
+File name                              hms_c21deg5p1_dataYield1590.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                36.2600 uA
+Boiling Correction                     0.0000 %
+Deadtime                               3.8000 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9809 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0002 %
+Good electrons (raw)                   173324.0000
+Good electrons (corr)                  184490.8885
+The integral of hdd                    184490.8885
+Charge (BCM4C)                         67385.7310 uC.
+QNY raw with prescale                  2.5721 e-/mC
+QNY corrected (flat corrections)       2.6777 e-/mC
+QNY corrected (all corrections)        2.7378 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1591_-1.root
+Run Number                             1591
+File name                              hms_c21deg5p1_dataYield1591.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                36.7340 uA
+Boiling Correction                     0.0000 %
+Deadtime                               3.6700 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9840 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0001 %
+Good electrons (raw)                   53142.0000
+Good electrons (corr)                  56487.7349
+The integral of hdd                    56487.7349
+Charge (BCM4C)                         20554.3410 uC.
+QNY raw with prescale                  2.5854 e-/mC
+QNY corrected (flat corrections)       2.6879 e-/mC
+QNY corrected (all corrections)        2.7482 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1619_-1.root
+Run Number                             1619
+File name                              hms_c21deg4p5_dataYield1619.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                38.9630 uA
+Boiling Correction                     0.0000 %
+Deadtime                               8.5900 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9708 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0002 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0002 %
+Good electrons (raw)                   229878.0000
+Good electrons (corr)                  257536.5460
+The integral of hdd                    257536.5460
+Charge (BCM4C)                         42565.8060 uC.
+QNY raw with prescale                  5.4005 e-/mC
+QNY corrected (flat corrections)       5.9175 e-/mC
+QNY corrected (all corrections)        6.0503 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1622_-1.root
+Run Number                             1622
+File name                              hms_c21deg4p0_dataYield1622.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                40.8680 uA
+Boiling Correction                     0.0000 %
+Deadtime                               12.6200 %
+Tracking Efficiency                    99.8800 %
+Trigger Efficiency                     99.9353 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0003 %
+Good electrons (raw)                   333741.0000
+Good electrons (corr)                  391240.1812
+The integral of hdd                    391240.1812
+Charge (BCM4C)                         42134.1120 uC.
+QNY raw with prescale                  7.9209 e-/mC
+QNY corrected (flat corrections)       9.0817 e-/mC
+QNY corrected (all corrections)        9.2856 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1619_-1.root
+Run Number                             1619
+File name                              hms_c21deg4p5_dataYield1619.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                38.9630 uA
+Boiling Correction                     0.0000 %
+Deadtime                               8.5900 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9708 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0002 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0002 %
+Good electrons (raw)                   229878.0000
+Good electrons (corr)                  257536.5460
+The integral of hdd                    257536.5460
+Charge (BCM4C)                         42565.8060 uC.
+QNY raw with prescale                  5.4005 e-/mC
+QNY corrected (flat corrections)       5.9175 e-/mC
+QNY corrected (all corrections)        6.0503 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1622_-1.root
+Run Number                             1622
+File name                              hms_c21deg4p0_dataYield1622.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                40.8680 uA
+Boiling Correction                     0.0000 %
+Deadtime                               12.6200 %
+Tracking Efficiency                    99.8800 %
+Trigger Efficiency                     99.9353 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0003 %
+Good electrons (raw)                   333741.0000
+Good electrons (corr)                  391240.1812
+The integral of hdd                    391240.1812
+Charge (BCM4C)                         42134.1120 uC.
+QNY raw with prescale                  7.9209 e-/mC
+QNY corrected (flat corrections)       9.0817 e-/mC
+QNY corrected (all corrections)        9.2856 e-/mC
+***************************************************************************************
+
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/ROOTfiles/hms_replay_production_1623_-1.root
+Run Number                             1623
+File name                              hms_c21deg4p0_dataYield1623.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                34.3240 uA
+Boiling Correction                     0.0000 %
+Deadtime                               11.5200 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9369 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0002 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0004 %
+Good electrons (raw)                   466441.0000
+Good electrons (corr)                  540050.1155
+The integral of hdd                    540050.1155
+Charge (BCM4C)                         58185.1570 uC.
+QNY raw with prescale                  8.0165 e-/mC
+QNY corrected (flat corrections)       9.0778 e-/mC
+QNY corrected (all corrections)        9.2816 e-/mC
+***************************************************************************************
+

@@ -1,0 +1,112 @@
+**************  MC  ****************
+pass 7: After switching to initial quants. for model, csb, phasespace
+pass 8: add collimator and fidicial cut
+pass20: With mc-single-arm update (matrix, coll. flare, hb pos.)
+pass21: hms and shms code
+pass22: latest mc-single-arm 10M events
+pass23: latest mc-single-arm with offsets 50M events (hms 10M)
+pass24: old mc-single-arm branch rewind
+pass25: testing arunis matrix
+pass26: testing three matrixes
+pass27: fix shms forward matrix (March 12th) hms: 60cm recon no momentum offset
+pass28: fix shms forward matrix (March 12th) hms: older recon yes momentum offset
+pass29: fix shms forward matrix (March 12th) hms: older recon no momentum offset
+pass30: add my own interpolation hms: older recon yes momentum offset
+pass31: 50M MC  
+pass32: Trying different offsets  
+pass33: 50M; f1f221v0.995
+pass34: flip sign in HMS theta calc
+pass35: 50M; f1f221v0.995 0.35mr offset
+pass36: beamTheta=0.45
+pass37: beamTheta=-0.45
+
+pass37: dummy
+
+pass50: final Results
+
+pass61:  dummyStudy
+pass62: Arunis dummy file
+
+************* Data ****************
+pass 8: no calorimeter, etracknorm
+pass 9: change to jmu boiling 6.9/7.3 H/D
+pass 10: add collimator and fidicial cut
+pass 11: still jmu, adding beta cut (DG)
+pass 21: latest shms and hms new format
+pass 22: my boilingl add trigger eff
+pass 23: new pion contamination 
+pass 24: hms no p_cent yes debs delta corr 
+pass 25: datayield w/o trig eff and pionC
+pass 26: datayield w/o trig eff and pionC  yes  Deb
+pass 27: datayield w/o trig eff and pionC  no Deb
+pass 31: datayield with everything (no pion in HMS) Deb's correction in HMS
+pass 32: datayield with everything (no pion in HMS) ETOTTRACKNORM
+pass 33: turned off T.Horn correctio
+pass 34: like pass 31 but with realpass-2 data
+pass 35: like pass 31 but with realpass-3d data
+pass 36: like pass 31 but with caseys pass4 data
+pass 37: like pass 31 but debs correction in HMS
+pass 38: like pass 31 but debs correction in HMS ETOTTRACKNORM
+pass 39: like pass 31 but flip sifn in HMS theta calc cer>1 
+pass 40: like pass 31 but flip sifn in HMS theta calc ETOTTRACKNORM
+pass 41: like pass 31 but flip sifn in HMS theta calc Best Guess
+pass 42: ELOG 476
+pass 43: ELOG
+pass 33: Errors??
+pass 45: Pass3d (tof tolerance change)(slightly different boiling)
+pass 46: Like 43 but delta correction off
+pass 47: Everything.  New CerenekovEff, pass 3d (except 25deg4p4)
+pass 48: beam theta 0.45mr
+pass 49: beam theta -0.45mr
+pass 50: Final Results
+
+************* Ratios ****************
+pass7: data:pass8 MC:pass7
+pass8: data:pass9 MC:pass7   ELOG428/431 
+pass9: data:pass10 MC:pass8  (collimator and fid) 21deg only
+pass10: data:pass11 MC:pass8  (beta cut)
+pass20: data:pass8 MC:pass20  
+pass21: data:pass21 MC:pass21
+pass99: dataa:pass22  MC:pass 7
+pass100: dataa:pass22  MC:pass 21
+pass101: 
+pass102:
+pass103: data:pass23  MC:pass 25
+pass104: data:pass25  MC:pass 26
+pass105: data:pass26  MC:pass 31
+pass106: data:pass26  MC:pass 28  Deb and Hollys (10cm)
+pass107: data:pass27  MC:pass 29  No Deb and Hollys (10cm)
+pass108: data:pass27  MC:pass 28  
+pass109: data:pass26  MC:pass 29  
+pass110: data:pass27  MC:pass 29  
+pass111: data:pass31  MC:pass 31 New Dummy
+pass112: data:pass33  MC:pass 31 remove T. Horn correction carbon
+pass114?: data:pass31  MC:pass 32 playing with offsets
+pass115: data:pass31  MC:pass 33 
+pass116: data:pass34  MC:pass 33 
+pass117: data:pass35  MC:pass 33 
+pass118: data:pass36  MC:pass 33 
+pass119: data:pass31  MC:pass 33 extraxt cx in W2
+pass120: data:pass31  MC:pass 31 HMS 
+pass121: data:pass32  MC:pass 31 HMS
+pass122: data:pass37  MC:pass 31 HMS Debs Correction
+
+pass123: data:pass39  MC:pass 33 cer>1
+pass124: data:pass40  MC:pass 33 ETOTTRACKNORM
+pass125: data:pass41  MC:pass 33 best
+
+pass126: data:pass41  MC:pass 34 flip signs in mcWt
+pass127: data:pass41  MC:pass 99  I think?? 
+pass128: data:pass31  MC:pass 33 removing scale fact for casey 
+pass129: data:pass42  MC:pass33
+pass130: data:pass43  MC:pass33
+pass131: data:pass43  MC:pass35  
+pass132: data:pass44  MC:pass35  ???? maybe errors
+pass133: data:pass45  MC:pass33  Pass-3d
+pass134: data:pass46  MC:pass33  delta_corr off
+pass135: data:pass47  MC:pass33  new cerenkov, pass 3d*
+pass136: data:pass48  MC:pass36  +0.45mr
+pass137: data:pass49  MC:pass37  -0.45mr
+pass150: data:pass50  MC:pass50  final results
+
+

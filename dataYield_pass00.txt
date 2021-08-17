@@ -1,0 +1,26 @@
+***************************************************************************************
+ROOTfile: /volatile/hallc/spring17/wmhenry/f2/boiling/tof100/hms_replay_production_1565_-1.root
+Run Number                             1565
+File name                              run1565.root
+Delta Cut                              -6 to 9
+E/p Cut                                0.7
+Cerenekov Cut                          1.5
+Current Cut (BCM4C)                    5
+Prescale Factor                        1
+Average Current (BCM4C)                46.9430 uA
+Boiling Correction                     1.7979 %
+Deadtime                               3.5000 %
+Tracking Efficiency                    99.8700 %
+Trigger Efficiency                     99.9906 %
+Pion Contamintaion (mean +/- rms)      0.0000 +/- 0.0000 %
+Cerenkov Efficiency (mean +/- rms)     98.0000 +/- 0.0001 %
+Calorimeter Efficiency (mean +/- rms)  99.8000 +/- 0.0002 %
+Good electrons (raw)                   168484.0000
+Good electrons (corr)                  182037.0587
+The integral of hdd                    182037.0587
+Charge (BCM4C)                         131273.1690 uC.
+QNY raw with prescale                  1.2835 e-/mC
+QNY corrected (flat corrections)       1.3563 e-/mC
+QNY corrected (all corrections)        1.3867 e-/mC
+***************************************************************************************
+

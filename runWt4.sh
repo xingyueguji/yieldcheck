@@ -1,0 +1,11 @@
+#!/Bin/bash
+root -b -q 'mcWt.cpp("d","29","2p4","shms")'
+root -b -q 'mcWt.cpp("d","29","2p0","shms")'
+root -b -q 'mcWt.cpp("d","25","4p4","shms")'
+root -b -q 'mcWt.cpp("d","25","3p5","shms")'
+root -b -q 'mcWt.cpp("d","25","3p0","shms")'
+root -b -q 'mcWt.cpp("d","25","2p5","shms")'
+root -b -q 'mcWt.cpp("d","39","2p5","shms")'
+root -b -q 'mcWt.cpp("d","39","2p0","shms")'
+root -b -q 'mcWt.cpp("d","39","1p6","shms")'
+root -b -q 'mcWt.cpp("d","39","1p3","shms")'

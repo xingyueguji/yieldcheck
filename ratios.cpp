@@ -1,11 +1,33 @@
 #include "src/readReport.cpp"
 #include "src/getCharge.cpp"
+#include "src/getHMSCharge.cpp"
 
+void fixRange(TH1F *h){
+  double min=0;
+  double max=0;
+  bool foundmin=0;
+  bool foundmax=0;
+  bool foundpeak=0;
+  for(int i=0; i < h->GetNbinsX(); i++) {
+    double val = h ->GetBinContent(i);
+    if(val==h->GetMaximum())foundpeak=1;
+    if(!foundmin && val>0){min=h->GetBinCenter(i);foundmin=1;}
+    if(foundpeak==1 && foundmin && !foundmax && val==0){max=h->GetBinCenter(i);foundmax=1;}
+  }
+  cout<<"Found Min and max to be \t"<<min<<"  "<<max<<endl;
+  Double_t fact=h->GetBinWidth(0);
+  h->GetXaxis()->SetRangeUser(min-3*fact,max+3*fact);
+  return;
+}
 
-void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
+void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms"){
+  //  gStyle->SetOptStat(0);
+
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
+  bool scale_em=true;
+
   // histos
   // hm* MC
   // hd* Data
@@ -13,7 +35,9 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
   // hs* Data - dummy
   gROOT->ForceStyle();
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/pass8/mcWt%s.root",kin.c_str()));
+  //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
+   TFile *fm=new TFile(Form("mcWtOut/pass37/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+   if(!fm->IsOpen())return;
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
@@ -25,54 +49,160 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  // hmyp->Scale(1/1000.);
  // hmw2->Scale(1/1000.);
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass11/dataYield_%s.root",kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass49/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
+ TH1F *hdd_stat=(TH1F*)hdd->Clone();
+ hdd_stat->SetName("hdd_stat");
+ // TH1F *herr=(TH1F*)fd->Get("herr");
+ TH1F *herr=(TH1F*)fd->Get("herr_pt2pt");
  TH1F *hdy=(TH1F*)fd->Get("hyd");
  TH1F *hdxp=(TH1F*)fd->Get("hxpd");
  TH1F *hdyp=(TH1F*)fd->Get("hypd");
  TH1F *hdw2=(TH1F*)fd->Get("hw2d");
+ // TH1F *hsys=(TH1F*)fd->Get("herrBand");
+ // TH1F *hsysR=(TH1F*)fd->Get("herrBandR");
+ TH1F *hsys=(TH1F*)fd->Get("herr_global");
+ TH1F *hsysR=(TH1F*)fd->Get("herr_globalR");
+ herr->Divide(hdd);
+ hsys->Divide(hdd);
+ hsysR->Divide(hdd);
 
+ //=============================
+ // add point to point errors to statisical
+ //=============================
+ int nbins=hdd->GetNbinsX();
+ for(int i=0;i<nbins;i++){
+   double content=hdd->GetBinContent(i);
+   double statErr=hdd->GetBinError(i)/content;
+   double ptErr=herr->GetBinContent(i);
+   double total=sqrt(statErr*statErr+ptErr*ptErr)*content;
+   if(content!=0){
+     hdd->SetBinError(i,total);
+     cout<< "Stat: "<<statErr<<"Pt2pt: "<<ptErr<<"Total: "<<total<<endl;} 
+ }
+
+
+ //=============================
+ // Charge Normalize data yields
+ //=============================
  Float_t charge=0;
- Float_t charged=0;
- string dummyFile="al"+angle+"deg"+mom; 
-  TFile *fdum=new TFile(Form("dataYieldOut/pass11/dataYield_%s.root",dummyFile.c_str()));;
- charge=getCharge(tgt,angle,mom);
- charged=getCharge("al",angle,mom);
+ if(spec=="shms")charge=getCharge(tgt,angle,mom);
+ if(spec=="hms")charge=getHMSCharge(kin);
+ cout << "The Charge is: "<<charge<<endl;
  hdd->Scale(1./charge);
+ hdd_stat->Scale(1./charge);
  hdy->Scale(1./charge);
  hdxp->Scale(1./charge);
  hdyp->Scale(1./charge);
  hdw2->Scale(1./charge);
- //*****Dummy Histos *****
- TH1F *hed=(TH1F*)fdum->Get("hdd");
- TH1F *hey=(TH1F*)fdum->Get("hyd");
- TH1F *hexp=(TH1F*)fdum->Get("hxpd");
- TH1F *heyp=(TH1F*)fdum->Get("hypd");
- TH1F *hew2=(TH1F*)fdum->Get("hw2d");
- hed->Scale(1./charged);
- hey->Scale(1./charged);
- hexp->Scale(1./charged);
- heyp->Scale(1./charged);
- hew2->Scale(1./charged);
 
- // Clone data histos then subtract dummt
+ // Clone data histos to subtract dummy
  TH1F *hsd=(TH1F*)hdd->Clone();
+ TH1F *hsd_stat=(TH1F*)hdd_stat->Clone();
  TH1F *hsy=(TH1F*)hdy->Clone();
  TH1F *hsxp=(TH1F*)hdxp->Clone();
  TH1F *hsyp=(TH1F*)hdyp->Clone();
  TH1F *hsw2=(TH1F*)hdw2->Clone();
+ hsd->SetName("hsd");
+ hsy->SetName("hsy");
+ hsxp->SetName("hsxp");
+ hsyp->SetName("hsyp");
+ hsw2->SetName("hw2");
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
  cout <<"yp data="<<hsyp->Integral()<<endl;
  cout <<"xp data="<<hsxp->Integral()<<endl;
+
+ //=============================
+ // Dummy normalized data yields
+ //=============================
+   Float_t charged=0;
+   if(spec=="hms")
+     {
+       if(kin=="h21deg3p3"||kin=="d21deg3p3"){
+	 charged+=readReport(1641,"BCM4C charge");
+       }
+       if(kin=="h21deg4p0"||kin=="d21deg4p0"){
+	 charged+=readReport(1628,"BCM4C charge");
+	 charged+=readReport(1629,"BCM4C charge");
+       }
+       if(kin=="h21deg4p5"||kin=="d21deg4p5"){
+	 charged+=readReport(1609,"BCM4C charge");
+	 charged+=readReport(1610,"BCM4C charge");
+       }
+       if(kin=="h21deg5p1"||kin=="d21deg5p1"){
+	 charged+=readReport(1596,"BCM4C charge");
+       }
+       if(kin=="h21deg5p7"||kin=="d21deg5p7"){
+	 charged+=readReport(1573,"BCM4C charge");
+       }
+     }
+   if(spec=="shms")charged=getCharge("al",angle,mom);
+
+   TH1F *hed, *hey, *hexp, *heyp, *hew2, *heerr, *hed_stat; 
  if(tgt!="c")
    {
+     string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
+     TFile *fdum=new TFile(Form("dataYieldOut/pass49/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+if(!fdum->IsOpen())return;
+     //*****Dummy Histos *****
+     hed=(TH1F*)fdum->Get("hdd");
+     hed_stat=(TH1F*)hed->Clone();
+     //     heerr=(TH1F*)fdum->Get("herr");
+     heerr=(TH1F*)fdum->Get("herr_pt2pt");
+     hey=(TH1F*)fdum->Get("hyd");
+     hexp=(TH1F*)fdum->Get("hxpd");
+     heyp=(TH1F*)fdum->Get("hypd");
+     hew2=(TH1F*)fdum->Get("hw2d");
+     hed->SetName("hed");
+     hed_stat->SetName("hed_stat");
+     heerr->SetName("heerr");
+     hey->SetName("hey");
+     hexp->SetName("hexp");
+     heyp->SetName("heyp");
+     hew2->SetName("hew2");
+
+     //=============================
+     // add point to point errors to statisical
+     //=============================
+     heerr->Divide(hed);
+     for(int i=0;i<nbins;i++){
+       double content=hed->GetBinContent(i);
+       double statErr=hed->GetBinError(i)/content;
+       double ptErr=heerr->GetBinContent(i);
+       double total=sqrt(statErr*statErr+ptErr*ptErr)*content;
+       if(content!=0){
+	 cout<< "Stat: "<<statErr<<"Pt2pt: "<<ptErr<<"Total: "<<total<<endl;
+	 hed->SetBinError(i,total);
+       }
+     }
+
+
+     hed->Scale(1./charged);
+     hed_stat->Scale(1./charged);
+     hey->Scale(1./charged);
+     hexp->Scale(1./charged);
+     heyp->Scale(1./charged);
+     hew2->Scale(1./charged);
+   }
+      if(tgt!="c")cout << "Before scaling dummy hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
+
+ if(tgt!="c")
+   {
+     /*
      if(tgt=="h"){   
        hed->Scale(1/3.789);
        hey->Scale(1/3.789);
        hexp->Scale(1/3.789);
        heyp->Scale(1/3.789);
        hew2->Scale(1/3.789);
+
+       //hed->Scale(.296);
+       //       hey->Scale(.296);
+       //       hexp->Scale(.296);
+       //       heyp->Scale(.296);
+       //       hew2->Scale(.296);
      }
      if(tgt=="d"){
        hed->Scale(1/4.063);
@@ -81,20 +211,28 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
        heyp->Scale(1/4.063);
        hew2->Scale(1/4.063);
      }
+     */
+      if(tgt!="c")cout << "Before dummy subtraction hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
      // Dummy subtraction
      hsd->Add(hed,-1);
+     hsd_stat->Add(hed_stat,-1);
      hsy->Add(hey,-1);
      hsxp->Add(hexp,-1);
      hsyp->Add(heyp,-1);
      hsw2->Add(hew2,-1);
+      if(tgt!="c")cout << "Before dummy subtraction hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
    }
+
  cout<<"After subtracting dummy"<<endl;
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
  cout <<"yp data="<<hsyp->Integral()<<endl;
  cout <<"xp data="<<hsxp->Integral()<<endl;
 
- TH1F *hrd=(TH1F*)hsd->Clone();
+  TH1F *hrd=(TH1F*)hsd->Clone();
+  TH1F *hrd_stat=(TH1F*)hsd_stat->Clone();
+  hrd_stat->SetName("hrd_stat");
+ // TH1F *hrd=(TH1F*)hsw2->Clone();
  hrd->SetTitle("Ratio Data/MC");
  hmd->SetTitle("dp/p (%)");
  hmy->SetTitle("Y_{tar} (cm)");
@@ -103,7 +241,9 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  hmw2->SetTitle("W2 (GeV^{2})");
 
  //  RATIO DATA/MC
- hrd->Divide(hmd);
+  hrd->Divide(hmd);
+  hrd_stat->Divide(hmd);
+ // hrd->Divide(hmw2);
 
  //  Foramatting
  hdd->SetLineColor(kBlack);
@@ -129,36 +269,66 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  hmw2->SetFillStyle(3002);
  hmw2->SetFillColor(kRed);
 
+ hsd->SetMarkerStyle(21);
+ hsy->SetMarkerStyle(21);
+ hsxp->SetMarkerStyle(21);
+ hsyp->SetMarkerStyle(21);
+ hsw2->SetMarkerStyle(21);
+
+ hsd->SetMarkerSize(.5);
+ hsy->SetMarkerSize(.5);
+ hsxp->SetMarkerSize(.5);
+ hsyp->SetMarkerSize(.5);
+ hsw2->SetMarkerSize(.5);
+
  hsd->SetLineColor(kBlue);
  hsy->SetLineColor(kBlue);
  hsxp->SetLineColor(kBlue);
  hsyp->SetLineColor(kBlue);
  hsw2->SetLineColor(kBlue);
 
- hed->SetLineColor(kMagenta);
- hey->SetLineColor(kMagenta);
- hexp->SetLineColor(kMagenta);
- heyp->SetLineColor(kMagenta);
- hew2->SetLineColor(kMagenta);
+ hsd->SetMarkerColor(kBlue);
+ hsy->SetMarkerColor(kBlue);
+ hsxp->SetMarkerColor(kBlue);
+ hsyp->SetMarkerColor(kBlue);
+ hsw2->SetMarkerColor(kBlue);
 
- hed->SetFillStyle(3003);
- hed->SetFillColor(kMagenta);
- hey->SetFillStyle(3003);
- hey->SetFillColor(kMagenta);
- hexp->SetFillStyle(3003);
- hexp->SetFillColor(kMagenta);
- heyp->SetFillStyle(3003);
- heyp->SetFillColor(kMagenta);
- hew2->SetFillStyle(3003);
- hew2->SetFillColor(kMagenta);
-
- hrd->GetYaxis()->SetRangeUser(0.8,1.3); 
- hsw2->GetXaxis()->SetRangeUser(-5,15); 
+ if(tgt!="c")
+   {
+     hed->SetLineColor(kMagenta);
+     hey->SetLineColor(kMagenta);
+     hexp->SetLineColor(kMagenta);
+     heyp->SetLineColor(kMagenta);
+     hew2->SetLineColor(kMagenta);
+     
+     hed->SetFillStyle(3003);
+     hed->SetFillColor(kMagenta);
+     hey->SetFillStyle(3003);
+     hey->SetFillColor(kMagenta);
+     hexp->SetFillStyle(3003);
+     hexp->SetFillColor(kMagenta);
+     heyp->SetFillStyle(3003);
+     heyp->SetFillColor(kMagenta);
+     hew2->SetFillStyle(3003);
+     hew2->SetFillColor(kMagenta);
+   }
+ hrd->GetYaxis()->SetRangeUser(0.5,1.50); 
+ // hrd->GetYaxis()->SetRangeUser(0.8,1.20); 
+ // hsw2->GetXaxis()->SetRangeUser(-5,15); 
+ // hsw2->GetXaxis()->SetRangeUser(0,15); 
+ // hsw2->GetXaxis()->SetRangeUser(8,15); 
  hsd->GetXaxis()->SetRangeUser(-11,23); 
  hrd->GetXaxis()->SetRangeUser(-11,23); 
- hsxp->GetXaxis()->SetRangeUser(-60,60); 
+ if(spec=="hms")
+   {
+ hsd->GetXaxis()->SetRangeUser(-6.5,9.5); 
+ hrd->GetXaxis()->SetRangeUser(-6.5,9.5); 
+   }
+ hsxp->GetXaxis()->SetRangeUser(-100,100); 
  hsyp->GetXaxis()->SetRangeUser(-50,50); 
- hsy->GetXaxis()->SetRangeUser(-8,8); 
+ hmy->GetXaxis()->SetRangeUser(-5,5); 
+ if(tgt=="c") hmy->GetXaxis()->SetRangeUser(-1.5,1.5); 
+ // hsy->GetXaxis()->SetRangeUser(-5,5); 
 
  cout <<"d data="<<hsd->Integral()<<endl;
  cout <<"y data="<<hsy->Integral()<<endl;
@@ -173,75 +343,124 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  cout <<"yp data/mc="<<hsyp->Integral()/hmyp->Integral()<<endl;
  cout <<"xp data/mc="<<hsxp->Integral()/hmxp->Integral()<<endl;
  Double_t fact=hsd->Integral()/hmd->Integral();
- //Double_t fact=1;
+ // fact=1;
  
  if (DRAW==1)
    {
-
-     hsd->Scale(1/fact);
-     hsy->Scale(1/fact);
-     hsxp->Scale(1/fact);
-     hsyp->Scale(1/fact);
-     hsw2->Scale(1/fact);
-
+     if(scale_em)
+       {
+	 hsd->Scale(1/fact);
+	 hsy->Scale(1/fact);
+	 hsxp->Scale(1/fact);
+	 hsyp->Scale(1/fact);
+	 hsw2->Scale(1/fact);
+       }
      // Drawing
      TCanvas *c1=new TCanvas("c1","c1",600,900);
      c1->Divide(2,3);
      c1->cd(4);
-     hsd->Draw("HIST E");
+     hsd->Draw("E");
      hmd->Draw("HIST E same");
-     hed->Draw("HIST E same");
+     if(tgt!="c")hed->Draw("HIST E same");
      
-     TLegend *leg=new TLegend(.12,.62,.5,.85);
+
+     TLegend *leg=new TLegend(.3,.1,.7,.3);
+
+     //     TLegend *leg=new TLegend(.3,.6,.7,.9);  standard
+
+     //     TLegend *leg=new TLegend(.12,.62,.5,.85);
+
+     //     TLegend *leg=new TLegend(.5,.6,.9,.9);
      leg->AddEntry(hmd,"MC","lfp");
-     leg->AddEntry(hsd,"Data","lfp");
-     leg->AddEntry(hed,"Dummy","lfp");
-     leg->SetHeader(Form("Scale data/mc=%2.4f",fact));
+     //     leg->AddEntry(hdd,"Data","lfp");
+     leg->AddEntry(hsd,"Data - dummy","lfp");
+     if(tgt!="c")leg->AddEntry(hed,"Dummy","lfp");
+     //     leg->SetHeader(Form("Scale data/mc=%2.4f",fact));
      c1->cd(6);
      hrd->Draw();
+     gStyle->SetOptFit(1);
+     hrd->Fit("pol1");
+     //     fixRange(hrd);
+     //     hrd->Draw();
      leg->Draw("same");
      c1->cd(1);
-     hsy->Draw("HIST E");
-     hey->Draw("same HIST E");
-     hmy->Draw("same HIST E");
+     hmy->Draw("HIST E");
+     //     fixRange(hsy);
+     if(tgt!="c")hey->Draw("same HIST E");
 
+     hsy->Draw("E same");
      c1->cd(3);
-     hsxp->Draw("HIST E");
-     hexp->Draw("same HIST E");
+     hsxp->Draw("E");
+     //          fixRange(hsxp);
+     if(tgt!="c")hexp->Draw("same HIST E");
      hmxp->Draw("same HIST E");
 
      c1->cd(2);
-     hsyp->Draw("HIST E");
-     heyp->Draw("same HIST E");
+     hsyp->Draw("E");
+     fixRange(hsyp);
+     if(tgt!="c")heyp->Draw("same HIST E");
      hmyp->Draw("same HIST E");
 
      c1->cd(5);
-     hsw2->Draw("HIST E");
-     hew2->Draw("same HIST E");
+     hsw2->Draw("E");
+     fixRange(hsw2);
+     if(tgt!="c")hew2->Draw("same HIST E");
      hmw2->Draw("same HIST E");
 
-     TPaveText *pt=new TPaveText(0.1,.75,.3,.85,"NDC");
+     //     TPaveText *pt=new TPaveText(0.38,.3,.58,.55,"NDC");
+     TPaveText *pt=new TPaveText(0.25,.45,.45,.55,"NDC");
      pt->AddText(kin.c_str());
+     //     pt->AddText("Std; z target 3mm upstream");
+     //     pt->AddText("Std; Spec. X' -3mr");
+     //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
-     c1->cd(1);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/ratios%s_%d.pdf",kin.c_str(),AllCorr));
+     c1->cd(4);pt->Draw("BR");
+     c1->SaveAs(Form("ratiosOut/pass137/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     /*
+     //    Figure for write up
+     TCanvas *c2=new TCanvas("c2","c2",1200,600);
+     c2->Divide(2,1);
+     c2->cd(1);
+     hsd->GetXaxis()->SetTitle("Delta");
+     hsd->SetTitle("Charge Normalized Yield");
+     hrd->GetXaxis()->SetTitle("Delta");
+     hsd->Draw("E");
+     hsd->GetYaxis()->SetRangeUser(0,1.6);
+     hdd->Draw("E same");
+     hmd->Draw("HIST E same");
+     leg->Draw("same");
+     if(tgt!="c")hed->Draw("HIST E same");
+     pt->Draw("BR");
+     c2->cd(2);
+     hrd->Draw();
+     c2->SaveAs("deltaHistos.pdf");
+     */
    }
 
- TFile *oFile=new TFile(Form("ratiosOut/ratios%s_%d.root",kin.c_str(),AllCorr),"RECREATE");
+
+ TFile *oFile=new TFile(Form("ratiosOut/pass137/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
+ hdd_stat->Write("hdd_stat");
  hdy->Write("hdy");
  hdxp->Write("hdxp");
  hdyp->Write("hdyp");
  hdw2->Write("hdw2");
+ hsys->Write("hsys");
+ hsysR->Write("hsysR");
 
- hed->Write("hed");
- hey->Write("hey");
- hexp->Write("hexp");
- heyp->Write("heyp");
- hew2->Write("hew2");
+ if(tgt!="c")
+   {
+     hed->Write("hed");
+     hed_stat->Write("hed_stat");
+     hey->Write("hey");
+     hexp->Write("hexp");
+     heyp->Write("heyp");
+     hew2->Write("hew2");
+   }
 
  hsd->Write("hsd");
+ hsd_stat->Write("hsd_stat");
  hsy->Write("hsy");
  hsxp->Write("hsxp");
  hsyp->Write("hsyp");
@@ -254,7 +473,9 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",Int_t AllCorr=1){
  hmw2->Write("hmw2");
 
  hrd->Write("hrd");
+ hrd_stat->Write("hrd_stat");
  oFile->Close();
+ if(tgt!="c")cout << "The very end     hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
  /* 
  cout<<fixed<<setprecision(4);
  cout <<endl<<"Delta Histigrams Integrals"<<endl;

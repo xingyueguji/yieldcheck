@@ -1,0 +1,16 @@
+#!/Bin/bash
+
+root -b -q 'runDataYields.cpp("21","al","3p3","shms","d")';
+root -b -q 'runDataYields.cpp("21","al","3p3","shms","h")';
+root -b -q 'runDataYields.cpp("21","h","3p3","shms")';
+root -b -q 'runDataYields.cpp("21","d","3p3","shms")';
+
+cd dataYieldOut/pass44
+
+hadd -f shms_dataYield_al21deg3p3_h.root shms_al21deg3p3_h*
+hadd -f shms_dataYield_al21deg3p3_d.root shms_al21deg3p3_d*
+hadd -f shms_dataYield_h21deg3p3.root shms_h21deg3p3*
+hadd -f shms_dataYield_d21deg3p3.root shms_d21deg3p3*
+hadd -f shms_dataYield_c21deg3p3.root shms_c21deg3p3*
+
+
