@@ -5,7 +5,7 @@ void plotEm(){
   gStyle->SetTitleW(.8);
 
   TGraphErrors *g0_shms=makeGr("xsec_0.txt",1);
-  TGraphErrors *gp45_shms=makeGr("xsec_m45mr.txt",1);
+  TGraphErrors *gp45_shms=makeGr("xsec_m45mr_extractm45.txt",1);
   double x, y0, yp;
   int n=g0_shms->GetN();
   vector <double> xx_shms, yy_shms;
@@ -20,12 +20,12 @@ void plotEm(){
   TGraph *g1=new TGraph(n,&xx_shms[0],&yy_shms[0]);
   g1->SetMarkerStyle(33);
   g1->SetTitle("xsec (beamAngle=-0.45mr) / xsec (beamAngle=0.mr)");
-  g1->GetYaxis()->SetRangeUser(.97,1.03);
+  g1->GetYaxis()->SetRangeUser(.87,1.13);
   g1->Draw("ap");
 
 
   TGraphErrors *g0_hms=makeGr("xsec_0.txt",0);
-  TGraphErrors *gp45_hms=makeGr("xsec_m45mr.txt",0);
+  TGraphErrors *gp45_hms=makeGr("xsec_m45mr_extractm45.txt",0);
   
   n=g0_hms->GetN();
   vector <double> xx_hms, yy_hms;
