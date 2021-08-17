@@ -1,11 +1,11 @@
-#include "makeGr.cpp"
+#include "makeGr2.cpp"
 
 void plotEm(){
   gStyle->SetTitleX(.1);
   gStyle->SetTitleW(.8);
 
-  TGraphErrors *g0_shms=makeGr("xsec_0.txt",1);
-  TGraphErrors *gp45_shms=makeGr("xsec_m45mr_extractm45.txt",1);
+  TGraphErrors *g0_shms=makeGr("xsec_0.txt",21.035);
+  TGraphErrors *gp45_shms=makeGr("xsec_m45mr_extractm45.txt",21.00922);
   double x, y0, yp;
   int n=g0_shms->GetN();
   vector <double> xx_shms, yy_shms;
@@ -20,12 +20,12 @@ void plotEm(){
   TGraph *g1=new TGraph(n,&xx_shms[0],&yy_shms[0]);
   g1->SetMarkerStyle(33);
   g1->SetTitle("xsec (beamAngle=-0.45mr) / xsec (beamAngle=0.mr)");
-  g1->GetYaxis()->SetRangeUser(.87,1.13);
+  g1->GetYaxis()->SetRangeUser(.8,1.2);
   g1->Draw("ap");
 
 
-  TGraphErrors *g0_hms=makeGr("xsec_0.txt",0);
-  TGraphErrors *gp45_hms=makeGr("xsec_m45mr_extractm45.txt",0);
+  TGraphErrors *g0_hms=makeGr("xsec_0.txt",20.995);
+  TGraphErrors *gp45_hms=makeGr("xsec_m45mr_extractm45.txt",21.02078);
   
   n=g0_hms->GetN();
   vector <double> xx_hms, yy_hms;
