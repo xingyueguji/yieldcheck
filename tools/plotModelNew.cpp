@@ -4,14 +4,16 @@
 //double getCxsec(double angle=21.1, double x=5., string target="h", Int_t choice=1, string spec="shms"){
 //TGraph2D* getRadCorrW2(string target="c", Int_t choice=1, string spec="shms"){
 
-TGraph* plotModelNew(string target="d", string version="v0.995b", double thetac=21)
+TGraph* plotModelNew(string target="r", string version="v0.995", double thetac=21)
 {
-  TGraph2D * grh=getRadCorrW2("h",1,"shms",version);
-  TGraph2D * grd=getRadCorrW2("d",1,"shms",version);
+  TGraph2D * grh=getRadCorrW2("h",3,"shms",version);
+  TGraph2D * grd=getRadCorrW2("d",3,"shms",version);
 
   Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax;
-  xmin=2.7*.9;
-  xmax=5.1*1.22;
+    xmin=2.7*.9;
+    xmax=5.1*1.22;
+  //  xmin=5.508;
+  //  xmax=5.559;
   vector <float> mx;
   vector <float> my;   
   for (Int_t i=0;i<1000;i++)
@@ -28,14 +30,16 @@ TGraph* plotModelNew(string target="d", string version="v0.995b", double thetac=
 
      modelh=getCxsec(grh,thetac,w2);
      modeld=getCxsec(grd,thetac,w2);
-
-     mx.push_back(xb);
+     if(xb<0.95){
+     mx.push_back(ep);
      if(modelh!=0 && modeld!=0)
        {
      if(target=="h")my.push_back(modelh);
      if(target=="d")my.push_back(modeld);
-     if(target=="r")my.push_back(modeld/modelh);
+     if(target=="r")my.push_back(modeld/modelh/2);
        }
+     }
+     else cout << xb << "\t" << modelh <<"\t"<<modeld << endl;
    }
  Int_t pts=mx.size();
  TGraph *gm=new TGraph(pts,&mx[0],&my[0]);

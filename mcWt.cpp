@@ -46,7 +46,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
   Double_t charge=0;
   ofstream oFile;
   ofstream outFile;
-  outFile.open(Form("pass37_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+  outFile.open(Form("pass36_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
 
 
   if(spec=="shms")
@@ -88,7 +88,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
       yCut= 10.;
     }
 
-  ebeam=10.602;
+  ebeam=10.602;//*(1.0-0.001);
   //  charge=getCharge(tgt,angle,mom);
   //  Want counts/uA
   charge=1.;
@@ -100,6 +100,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
     offset = -0.000276*pow(hsec,3) + 0.002585*pow(hsec,2) - 0.008697*hsec+1.0064;
     hsec=hsec*offset;
   }
+  //  hsec=hsec*(1.-0.001);
   cout << "The central momentum is "<<hsec<<endl;
   if(angle=="39")thetac=38.975;
   if(angle=="33")thetac=32.975;
@@ -161,7 +162,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
   ////****  Beam is not along z ******
   cout << "Correcting central angle for beam angle"<<endl;
   cout << "Before: "<<thetac<<endl;
-  beamTheta=-.00045; //shooting beam right .45mr
+  beamTheta=0.00045;//-0.00025; //shooting beam right .45mr
   if(spec=="hms")beamTheta*=-1;
   thetac+=beamTheta*180./TMath::Pi();
   cout << "After: "<<thetac<<endl;
@@ -224,7 +225,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass37/%s_mcWt%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("mcWtOut/pass36/%s_mcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;

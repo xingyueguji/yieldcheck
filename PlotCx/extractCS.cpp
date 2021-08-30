@@ -2,6 +2,7 @@
 #include "src/getChargeError.cpp"
 #include "src/getRadError.cpp"
 #include "src/getGlobalError.cpp"
+#include "src/getKinErrorFromMc.cpp"
 #include "src/getAngle.cpp"
 #include "src/getMom.cpp"
 
@@ -10,11 +11,13 @@
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0
 
-TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39",string mom="1p3", int cs=2, string pass="pass103", string xaxis="xb"){
+TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39",string mom="1p3", int cs=1, string pass="pass150", string xaxis="xb"){
+  TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec);
+
   //  int cnt=0;
   // cout << "Hello"<<cnt<<endl;cnt++;
-  //  ofstream ofile;
-  //  ofile.open("q2range.txt",ios::app | ios::out );
+  ofstream ofile;
+  ofile.open("q2rangeMthn.txt",ios::app | ios::out );
 
   ////////////////////////////
   ////   Just for printing charge error
@@ -162,7 +165,7 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
 	  }
 	  if(cs==2 && cxd/cxh/2<1.15)//error band
 	    {
-	      //	     ofile << kin << "\t" << ep << "\t" << q2 << endl;
+	      if(xb<0.4)ofile << kin << "\t" << ep << "\t" << q2 << endl;
 	      if(target=="h")cx.push_back(0.);
 	      if(target=="d")cx.push_back(0.);
 	      if(target=="r")cx.push_back(sys_y);
@@ -171,7 +174,7 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
 	      if(target=="d")cxe.push_back(errd*modeld); //need to fix
 	      //if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.*modeld/modelh/2);
 	      if(target=="r"){// correct for D/H
-		double val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad);  
+		double val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i);  
 		//		cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.);
 		cxe.push_back(val*cxd/cxh/2);
 		//		cxe.push_back(val);
@@ -220,7 +223,7 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
       cout<<cx.at(i)<<"\t +/-";
       cout<<cxe.at(i)<<endl;
     }
-  //  ofile.close();
+  ofile.close();
   ofile2.close();
   TGraphErrors *gcx=new TGraphErrors(pts,&eprime[0],&cx[0],0,&cxe[0]);
   return gcx;

@@ -17,12 +17,24 @@ pass32: Trying different offsets
 pass33: 50M; f1f221v0.995
 pass34: flip sign in HMS theta calc
 pass35: 50M; f1f221v0.995 0.35mr offset
-pass36: beamTheta=0.45
+************************
+pass36: beamTheta=0.45     Best Pass
+***********************
 pass37: beamTheta=-0.45
+Kinematic Uncertainities
+
+pass38: beamTheta=0.45 +.25mr
+pass39: beamTheta=0.45 -.25mr
+pass40: beamTheta=0.45 Ebeam +0.1%
+pass41: beamTheta=0.45 Ebeam -0.1%
+pass42: beamTheta=0.45 E' +0.1%
+pass43: beamTheta=0.45 E' -0.1%
+
+
 
 pass37: dummy
 
-pass50: final Results
+pass50: final Results (beam theta=0)
 
 pass61:  dummyStudy
 pass62: Arunis dummy file
@@ -44,7 +56,7 @@ pass 32: datayield with everything (no pion in HMS) ETOTTRACKNORM
 pass 33: turned off T.Horn correctio
 pass 34: like pass 31 but with realpass-2 data
 pass 35: like pass 31 but with realpass-3d data
-pass 36: like pass 31 but with caseys pass4 data
+pass 36: ****like pass 31 but with caseys pass4 data "Ooops I overwrote this"
 pass 37: like pass 31 but debs correction in HMS
 pass 38: like pass 31 but debs correction in HMS ETOTTRACKNORM
 pass 39: like pass 31 but flip sifn in HMS theta calc cer>1 
@@ -58,8 +70,9 @@ pass 46: Like 43 but delta correction off
 pass 47: Everything.  New CerenekovEff, pass 3d (except 25deg4p4)
 pass 48: beam theta 0.45mr
 pass 49: beam theta -0.45mr
-pass 50: Final Results
 
+pass 50: Final Results beamTheta 0.00
+pass 36: Final Results beamTheta 0.45
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
 pass8: data:pass9 MC:pass7   ELOG428/431 
@@ -107,6 +120,11 @@ pass134: data:pass46  MC:pass33  delta_corr off
 pass135: data:pass47  MC:pass33  new cerenkov, pass 3d*
 pass136: data:pass48  MC:pass36  +0.45mr
 pass137: data:pass49  MC:pass37  -0.45mr
-pass150: data:pass50  MC:pass50  final results
 
+
+pass150: data:pass50  MC:pass50  
+
+
+ARUNI USE THIS ONE
+pass151: data:pass36  MC:pass36 final results
 
