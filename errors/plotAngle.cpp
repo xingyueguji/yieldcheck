@@ -13,7 +13,7 @@ void plotAngle(string tgt="r",string angle="39",string spec="shms"){
  double xdum[2]={-1,2};
  double ydum[2]={0,0};
  TGraph *gdum=new TGraph(2,xdum,ydum);
- gdum->GetYaxis()->SetRangeUser(0,5);
+ gdum->GetYaxis()->SetRangeUser(0,3.5);
  gdum->GetXaxis()->SetRangeUser(-.1,.97);
  gdum->GetXaxis()->SetTitle("x_{B}");
  gdum->GetYaxis()->SetTitle("Error (%)");

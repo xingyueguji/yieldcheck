@@ -1,3 +1,4 @@
+#include "src/whitlow/readIt.cpp"
 #include "extractCS.cpp"
 #include "src/formatHist.cpp"
 #include "src/xsecTable.cpp"
@@ -10,15 +11,66 @@
 #include "src/getKP.cpp"
 #include "jmu/getJmu.cpp"
 
-void plot_cx(string target="d", string angle="39", string spec="shms", string pass="pass105", float xbmin=0.0, float xbmax=1.0, float cxmin=0.0, float cxmax = 50.0, float ratiomin = 0.7, float ratiomax =1.3, string xaxis = "xb", int numPad=2 ){
+void normalizeIt(TGraphErrors *g, TGraph* gcj){
+  double x,y;
+  int npts= g->GetN();
+  for(int i=0; i<npts; i++)
+    {
+
+      g->GetPoint(i,x,y);
+      cout << "n2 Before x,y: "<<x<<","<<y<<"\t";
+      double y_cj=gcj->Eval(x);
+      double new_y=y/y_cj;
+      double error= g->GetErrorY(i)/y_cj;
+      g->SetPoint(i,x,new_y);
+      g->SetPointError(i,0,error);
+      g->GetPoint(i,x,y);
+      cout << "n2 After x,y: "<<x<<","<<y<<endl;
+    }
+
+}
+
+void normalizeItband(TGraphErrors *g, TGraph* gcj){
+  double x,y;
+  int npts= g->GetN();
+  for(int i=0; i<npts; i++)
+    {
+
+      g->GetPoint(i,x,y);
+      double y_cj=gcj->Eval(x);
+      double error= g->GetErrorY(i)/y_cj;
+      g->SetPoint(i,x,0.7);
+      g->SetPointError(i,0,error);
+
+    }
+
+}
+
+void normalizeIt(TGraph *g, TGraph* gcj){
+  double x,y;
+  int npts= g->GetN();
+  for(int i=0; i<npts; i++)
+    {
+      g->GetPoint(i,x,y);
+      cout << "n1 Before x,y: "<<x<<","<<y<<"\t";
+      double y_cj=gcj->Eval(x);
+      double new_y=y/y_cj;
+      g->SetPoint(i,x,new_y);
+      g->GetPoint(i,x,y);
+      cout << "n1 After x,y: "<<x<<","<<y<<endl;
+    }
+}
+void plot_cx(string target="r", string angle="21", string spec="shms", string pass="pass151", float xbmin=0.0, float xbmax=1.0, float cxmin=0.0, float cxmax = 50.0, float ratiomin = 0.7, float ratiomax =1.3, string xaxis = "xb", int numPad=1 ){
 
  Float_t delta, ratio, err, ep, model_k, modeld, modelh, xmin, xmax;
  string pset[5];
  float psetf[5];
  getMomList(angle,pset,psetf,spec);
- xmin=psetf[0]*(.9);
- xmax=psetf[3]*(1.22);
- if(spec=="hms")xmax=psetf[4]*(1.1);
+  xmin=psetf[0]*(.9);
+  xmax=psetf[3]*(1.22);
+    xmin=.85*2.7;
+  //  xmin=1.22*5.1;
+  // if(spec=="hms")xmax=psetf[4]*(1.1);
 
   ////////////////////////////////////////
   ////////   MODEL   /////////////////////
@@ -31,8 +83,8 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  double wmin,wmax;
 
  Double_t thetac=getAngle(angle,spec);
- TGraph2D *grd=getRadCorrW2("d",1,spec);  
- TGraph2D *grh=getRadCorrW2("h",1,spec);  
+ TGraph2D *grd=getRadCorrW2("d",1,"shms");  
+ TGraph2D *grh=getRadCorrW2("h",1,"shms");  
   for (Int_t i=0;i<1000;i++)
    {
      ep=xmin+i/1000.*(xmax-xmin);
@@ -65,6 +117,12 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  TGraph *gm_k=getKP("dis",angle);  
  TGraph *gm_k1=getKP("hybrid",angle);  
  TGraph *gm_k2=getKP("akp17",angle);  
+ normalizeIt(gm,gm_cj);
+ // normalizeIt(gm_cj,gm_cj);
+ normalizeIt(gm_k1,gm_cj);
+ normalizeIt(gm_k2,gm_cj);
+ normalizeIt(gm_k,gm_cj);
+
  if(xaxis=="xb") gm->GetXaxis()->SetTitle("Bjorken x");
  if(xaxis=="ep") gm->GetXaxis()->SetTitle("E' (GeV)");
  if(xaxis=="w2") gm->GetXaxis()->SetTitle("W2 (GeV^2)");
@@ -76,7 +134,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_cj->SetLineColor(kRed);
  gm_k->SetLineColor(kGreen+3);
  gm_k1->SetLineColor(kOrange-6);
- gm_k2->SetLineColor(kMagenta);
+ gm_k2->SetLineColor(9);
  
  // gm->SetLineStyle(1);
  gm_cj->SetLineStyle(2);
@@ -104,7 +162,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
    gm->GetYaxis()->SetRangeUser(cxmin,cxmax);
  }
 if(target=="r"){
-  gm->GetYaxis()->SetTitle("#sigma_{D}/#sigma_{H}");
+  gm->GetYaxis()->SetTitle("(#sigma_{D}/#sigma_{H})/CJ15");
   gm->SetTitle(Form("%s D/H/2 %sdeg",spec.c_str(),angle.c_str()));
   gm->GetYaxis()->SetRangeUser(cxmin,cxmax);
  }
@@ -139,14 +197,15 @@ if(target=="r"){
    pad2->SetGrid();
    pad1->cd();
  }
- // if(spec=="shms")
-gm->Draw("la");
-// if(target=="r" && spec=="shms" && xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+
+ if(spec=="hms")gm->Draw("la");
+ if(target=="r" && spec=="hms" && xaxis=="xb"){gm_k->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
 
 
   ////////////////////////////////////////
   ////////   Data   /////////////////////
   ////////////////////////////////////////
+ TGraphErrors *gwhit=readIt();
   double mrthn_x[7]={.195, .225, .255, .285, .315, .345, .375};
   double mrthn_w[7]={12.2,11.7,11.3,10.9,10.5,10.1,9.63};
   if(xaxis=="w2"){
@@ -159,8 +218,11 @@ gm->Draw("la");
   TGraphErrors *mrthn=new TGraphErrors(7,mrthn_x,mrthn_y,0,mrthn_ye);
   mrthn->SetMarkerStyle(21);
   mrthn->SetMarkerSize(1);
-  mrthn->SetMarkerColor(kMagenta+2);
-  //  if(target=="r"&& angle=="21")mrthn->Draw("sp");
+  mrthn->SetMarkerColor(kGreen+2);
+ normalizeIt(mrthn,gm_cj);
+ normalizeIt(gwhit,gm_cj);
+ if(target=="r"&& angle=="21"){mrthn->Draw("sp");gwhit->Draw("sp");}
+
   /////////////////////////////////////////////////////////////////////
 
   TGraphErrors *grcx1=extractCS(spec,target,angle,pset[0],1,pass,xaxis);
@@ -190,24 +252,25 @@ gm->Draw("la");
   grsys4->SetName("grsys4");
   TGraphErrors *grsys5;
   if(spec=="hms")grsys5=extractCS(spec,target,angle,pset[4],2,pass,xaxis); 
-  
+
   TGraphErrors *gr1=extractCS(spec,target,angle,pset[0],0,pass,xaxis);
   TGraphErrors *gr2=extractCS(spec,target,angle,pset[1],0,pass,xaxis);
   TGraphErrors *gr3=extractCS(spec,target,angle,pset[2],0,pass,xaxis);
   TGraphErrors *gr4=extractCS(spec,target,angle,pset[3],0,pass,xaxis);
   TGraphErrors *gr5;
   if(spec=="hms")gr5=extractCS(spec,target,angle,pset[4],0,pass,xaxis);
-  TGraphErrors *jmur=getJmu(target,angle,grd,grh,0);
 
   ///////////////////////////////////////////////////////
   string kin=spec+"_"+target+angle+"deg";
   xsecTable(grcx1, grsys1, gr1, thetac, kin+pset[0], target);
-  xsecTable(grcx2, grsys2, gr2, thetac,  kin+pset[1], target);
+  xsecTable(grcx2, grsys2, gr2, thetac, kin+pset[1], target);
   xsecTable(grcx3, grsys3, gr3, thetac,  kin+pset[2], target);
-  xsecTable(grcx4, grsys4, gr4, thetac,  kin+pset[3], target);
+  xsecTable(grcx4, grsys4, gr4, thetac, kin+pset[3], target);
   if(spec=="hms")xsecTable(grcx5, grsys5, gr5, thetac, kin+pset[4], target);
   ////////////////////////////////////////////////////////
+  cout << "I got out of the table routine"<<endl;
   TGraphErrors *jmu=getJmu(target,angle,grd,grh,1);
+ normalizeIt(jmu,gm_cj);
 
  jmu->SetMarkerStyle(33);
 
@@ -236,27 +299,23 @@ gm->Draw("la");
  grcx4a->SetMarkerSize(.6);
  if(spec=="hms")grcx5a->SetMarkerSize(.6);
 
- jmu->SetMarkerColor(kBlack);
- grcx1->SetMarkerColor(kRed);
- grcx2->SetMarkerColor(kBlue);
- grcx3->SetMarkerColor(kGreen+3);
- grcx4->SetMarkerColor(kViolet);
+ jmu->SetMarkerColor(kBlue);
+ // grcx1->SetMarkerColor(kRed);
+ // grcx2->SetMarkerColor(kBlue);
+ // grcx3->SetMarkerColor(kGreen+3);
+ // grcx4->SetMarkerColor(kViolet);
+
+ grsys1->SetFillColorAlpha(kGray+2,.5);
+ grsys2->SetFillColorAlpha(kGray+2,.5);
+ grsys3->SetFillColorAlpha(kGray+2,.5);
+ grsys4->SetFillColorAlpha(kGray+2,.5);
+ 
+ grsys1->SetFillStyle(3254);
+ grsys2->SetFillStyle(3254);
+ grsys3->SetFillStyle(3254);
+ grsys4->SetFillStyle(3254);
 
 
- grcx1a->SetMarkerColor(kRed);
- grcx2a->SetMarkerColor(kBlue);
- grcx3a->SetMarkerColor(kGreen+3);
- grcx4a->SetMarkerColor(kViolet);
-
- grsys1->SetFillColorAlpha(kGray+2,1);
- grsys2->SetFillColorAlpha(kGray+2,1);
- grsys3->SetFillColorAlpha(kGray+2,1);
- grsys4->SetFillColorAlpha(kGray+2,1);
-
- if(spec=="hms")grsys5->SetFillStyle(1001);
- if(spec=="hms")grsys5->SetFillColorAlpha(kGray+2,.35);
- if(spec=="hms")grcx5->SetMarkerColor(kRed);
- /*
  if(spec=="hms"){
    grcx1->SetMarkerColor(kPink+7);
    grcx2->SetMarkerColor(kPink+7);
@@ -290,28 +349,47 @@ gm->Draw("la");
    grcx4a->SetMarkerStyle(20);
    grcx5a->SetMarkerStyle(20);
 
-   grsys1->SetFillColorAlpha(kCyan+3,.5);
-   grsys2->SetFillColorAlpha(kCyan+3,.5);
-   grsys3->SetFillColorAlpha(kCyan+3,.5);
-   grsys4->SetFillColorAlpha(kCyan+3,.5);
-   grsys5->SetFillColorAlpha(kCyan+3,.5);
-
+   grsys1->SetFillColorAlpha(kPink+7,.5);
+   grsys2->SetFillColorAlpha(kPink+7,.5);
+   grsys3->SetFillColorAlpha(kPink+7,.5);
+   grsys4->SetFillColorAlpha(kPink+7,.5);
+   grsys5->SetFillColorAlpha(kPink+7,.5);
+   grsys1->SetFillStyle(3245);
+   grsys2->SetFillStyle(3245);
+   grsys3->SetFillStyle(3245);
+   grsys4->SetFillStyle(3245);
+   grsys5->SetFillStyle(3245);
  }
- */
- grsys1->SetFillStyle(1001);
- grsys2->SetFillStyle(1001);
- grsys3->SetFillStyle(1001);
- grsys4->SetFillStyle(1001);
 
 
- // jmu->Draw("sp");
+ normalizeIt(grcx1,gm_cj);
+ normalizeIt(grcx2,gm_cj);
+ normalizeIt(grcx3,gm_cj);
+ normalizeIt(grcx4,gm_cj);
+ if(spec=="hms")normalizeIt(grcx5,gm_cj);
+
+ normalizeIt(grcx1a,gm_cj);
+ normalizeIt(grcx2a,gm_cj);
+ normalizeIt(grcx3a,gm_cj);
+ normalizeIt(grcx4a,gm_cj);
+ if(spec=="hms")normalizeIt(grcx5a,gm_cj);
+
+ normalizeItband(grsys1,gm_cj);
+ normalizeItband(grsys2,gm_cj);
+ normalizeItband(grsys3,gm_cj);
+ normalizeItband(grsys4,gm_cj);
+ if(spec=="hms")normalizeItband(grsys5,gm_cj);
+
+
+
+  jmu->Draw("sp");
  // if(spec=="shms"){
- //   grsys1->Draw("E3 same");
- //   grsys2->Draw("E3 same");
- //   grsys3->Draw("E3 same");
- //   grsys4->Draw("E3 same");
+   grsys1->Draw("E3 same");
+   grsys2->Draw("E3 same");
+   grsys3->Draw("E3 same");
+   grsys4->Draw("E3 same");
    // }
- //   if(spec=="hms") grsys5->Draw("E3 same");
+   if(spec=="hms") grsys5->Draw("E3 same");
  grcx1->Draw("sp");
  grcx2->Draw("sp");
  grcx3->Draw("sp");
@@ -328,12 +406,17 @@ gm->Draw("la");
   
  //  gm->Draw("same");
 
- // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
  if(numPad==2)
    {
      pad2->cd();
-
+     TGraphErrors *gr1=extractCS(spec,target,angle,pset[0],0,pass,xaxis);
+     TGraphErrors *gr2=extractCS(spec,target,angle,pset[1],0,pass,xaxis);
+     TGraphErrors *gr3=extractCS(spec,target,angle,pset[2],0,pass,xaxis);
+     TGraphErrors *gr4=extractCS(spec,target,angle,pset[3],0,pass,xaxis);
+     TGraphErrors *gr5;
+     if(spec=="hms")gr5=extractCS(spec,target,angle,pset[4],0,pass,xaxis);
+     //     TGraphErrors *jmur=getJmu(target,angle,grd,grh,0);
      
      //gStyle->SetTitleFontSize(.1);
      if(xaxis=="xb") gr1->GetXaxis()->SetTitle("Bjorken X");
@@ -351,29 +434,29 @@ gm->Draw("la");
      gr1->GetYaxis()->SetLabelSize(.06);
      gr1->GetXaxis()->SetNdivisions(-5);
  // gr1->GetYaxis()->SetNdivisions(5);
-     jmur->SetMarkerStyle(33);
+     //     jmur->SetMarkerStyle(33);
      gr1->SetMarkerStyle(27);
      gr2->SetMarkerStyle(27);
      gr3->SetMarkerStyle(27);
      gr4->SetMarkerStyle(27);
      if(spec=="hms")gr5->SetMarkerStyle(27);
 
-     jmur->SetMarkerSize(.6);
+     //     jmur->SetMarkerSize(.6);
      gr1->SetMarkerSize(.6);
      gr2->SetMarkerSize(.6);
      gr3->SetMarkerSize(.6);
      gr4->SetMarkerSize(.6);
      if(spec=="hms")gr5->SetMarkerSize(.6);
 
-     jmur->SetMarkerColor(kBlack);
+     //     jmur->SetMarkerColor(kBlack);
      gr1->SetMarkerColor(kRed);
-     gr2->SetMarkerColor(kBlue);
+     gr2->SetMarkerColor(kOrange);
      gr3->SetMarkerColor(kGreen+3);
-     gr4->SetMarkerColor(kViolet);
+     gr4->SetMarkerStyle(kViolet);
      if(spec=="hms")gr5->SetMarkerColor(kBlack);
 
      gr1->Draw("ap");
-     // jmur->Draw("sp");
+     //     jmur->Draw("sp");
      gr1->Draw("sp");
      gr2->Draw("sp");
      gr3->Draw("sp");
@@ -381,8 +464,6 @@ gm->Draw("la");
      if(spec=="hms")gr5->Draw("sp");
      pad1->cd();
    }
- // if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
-
  TPaveText *t1=new TPaveText(.15,.15,.25,.2,"NDC");
 
 
@@ -404,8 +485,12 @@ gm->Draw("la");
  leg->AddEntry(gm,"F1F221","l");
  if(xaxis=="xb")
    {
+     leg->AddEntry(gm_k,"KP DIS","l");
+     leg->AddEntry(gm_k1,"KP HYBRID","l");
+     leg->AddEntry(gm_k2,"AKP17","l");
+     leg->AddEntry(gwhit,"Whitlow Data","p");
    }
- if(spec=="shms")leg->AddEntry(grcx1,"SHMS Data (E12-10-002)","p");
+ if(spec=="shms")leg->AddEntry(grcx1,"Data (E12-10-002)","p");
  if(spec=="hms"){
    double dum[3]={1,2,3};
    TGraphErrors *g=new TGraphErrors(3,dum,dum,dum,dum);
@@ -413,15 +498,14 @@ gm->Draw("la");
    g->SetMarkerSize(.6);
    g->SetMarkerColor(kBlack);
    leg->AddEntry(grcx1,"HMS Hall C, E12-10-002","p");
-   //   leg->AddEntry(g,"SHMS Hall C, E12-10-002","p");
-   //   leg->AddEntry(mrthn,"Hall A, MARATHON","p");
+   leg->AddEntry(g,"SHMS Hall C, E12-10-002","p");
+   leg->AddEntry(mrthn,"Hall A, MARATHON","p");
  }
  // leg->AddEntry(grcx1,Form("E'=%2.2f GeV/c",psetf[0]),"p");
  // leg->AddEntry(grcx2,Form("E'=%2.2f GeV/c",psetf[1]),"p");
  // leg->AddEntry(grcx3,Form("E'=%2.2f GeV/c",psetf[2]),"p");
  // leg->AddEntry(grcx4,Form("E'=%2.2f GeV/c",psetf[3]),"p");
  // if(spec=="hms") leg->AddEntry(grcx5,Form("E'=%2.2f GeV/c",psetf[4]),"p");
-
  // leg->AddEntry(jmu,"JMU","p");
  leg->SetName(Form("leg_%s",spec.c_str()));
  if(target=="r") leg->Draw();

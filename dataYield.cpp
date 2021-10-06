@@ -39,9 +39,9 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass36.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass53.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass36.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass53.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -101,19 +101,38 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
     p2perrBoil=abs(49.84-currentAvg)/100.*0.0072/boilCorr; 
   } 
   */
+
+  Double_t h_boil =0.0384;
+  Double_t h_boil_err =0.0073;
+  Double_t d_boil =0.0430;
+  Double_t d_boil_err =0.0082;
+  Double_t wt_corr = 1.000;
+  if( (spec=="hms" && run >= 1879 && target==2.01) || (spec=="shms" && run >= 2808 && target==2.01) ){
+    wt_corr=1.006;
+    cout << "Correcting density because Deut temp = 22.4 K "<<endl;
+    cout << "Yields will go up to match MC where rho = 22.0 K "<<endl;
+  }
+  if( (spec=="shms" && run < 2808) || (spec=="hms" && run < 1879) ){
+    cout << "Using Dave Mack's boiling since our result"<<endl;
+    cout << "Applies to target temp of 22.0 K"<<endl;
+    d_boil= 0.0284;
+    d_boil_err=0.0032;
+    ;
+  }
+
   if(target==1.01){
-    boilCorr=1.-currentAvg/100.*0.0384; // ~0.98 +/-
-    errBoil=currentAvg/100.*0.0073/boilCorr; // ~ 0.0032 / 0.98 +/-
-    avgboilCorr=1- 46.94/100.*0.0384; // ~0.98
-    avgerrBoil=46.94/100.*0.0073/avgboilCorr;  
-    p2perrBoil=abs(46.94-currentAvg)/100.*0.0073/boilCorr; 
+    boilCorr=1.-currentAvg/100.*h_boil; // ~0.98 +/-
+    errBoil=currentAvg/100.*h_boil_err/boilCorr; // ~ 0.0032 / 0.98 +/-
+    avgboilCorr=1- 46.94/100.*h_boil; // ~0.98
+    avgerrBoil=46.94/100.*h_boil_err/avgboilCorr;  
+    p2perrBoil=abs(46.94-currentAvg)/100.*h_boil_err/boilCorr; 
   }
   if(target==2.01){
-    boilCorr=1.-currentAvg/100.*0.0430; 
-    errBoil=currentAvg/100.*0.0082/boilCorr; 
-    avgboilCorr=1- 49.84/100.*0.0430;
-    avgerrBoil=49.84/100.*0.0082/avgboilCorr;  
-    p2perrBoil=abs(49.84-currentAvg)/100.*0.0082/boilCorr; 
+    boilCorr=1.-currentAvg/100.*d_boil; 
+    errBoil=currentAvg/100.*d_boil_err/boilCorr; 
+    avgboilCorr=1- 49.84/100.*d_boil;
+    avgerrBoil=49.84/100.*d_boil_err/avgboilCorr;  
+    p2perrBoil=abs(49.84-currentAvg)/100.*d_boil_err/boilCorr; 
   } 
 
   if(target>2.01){
@@ -145,7 +164,7 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass36/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass52/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -363,7 +382,7 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  
 		  //
 
-		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale;
+		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale*wt_corr;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  
 		  hdd->Fill(delta,wt);
@@ -412,7 +431,7 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  terr_pt2pt=0;
 		  terr_pt2pt+=pow(p2perrBoil,2.);
-		  terr_pt2pt+=pow(errLive,2.);
+		  //		  terr_pt2pt+=pow(errLive,2.);
 		  terr_pt2pt+=pow(errTrack,2.);
 		  terr_pt2pt+=pow(errTrig,2.);
 		  terr_pt2pt=sqrt(terr_pt2pt);

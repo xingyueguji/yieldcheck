@@ -72,16 +72,18 @@ TGraph* getP2p(string tgt="h",string angle="25", string mom="3p5",string spec="s
    double tot_err=sqrt(hyd_err*hyd_err+deut_err*deut_err);
 
    cout << what << "\t"<< hyd_err << "\t"<< deut_err<< "\t"<< xb << endl;
-
-   if(!TMath::IsNaN(total_stat_err)&&!TMath::IsNaN(tot_err)&&total_stat_err!=0&&tot_err!=0){
-     x.push_back(xb);
-     if(what=="stat"){
-       y.push_back(total_stat_err*100);
-       
-   } 
-     else 
-       y.push_back(tot_err*100);
-   }
+   if(w2>4.0)
+     {
+       if(!TMath::IsNaN(total_stat_err)&&!TMath::IsNaN(tot_err)&&total_stat_err!=0&&tot_err!=0){
+	 x.push_back(xb);
+	 if(what=="stat"){
+	   y.push_back(total_stat_err*100);
+	   
+	 } 
+	 else 
+	   y.push_back(tot_err*100);
+       }
+     }
  }
  int pts=x.size();
  TGraph *g=new TGraph(pts,&x[0],&y[0]);

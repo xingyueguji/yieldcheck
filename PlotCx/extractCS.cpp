@@ -11,7 +11,7 @@
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0
 
-TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39",string mom="1p3", int cs=1, string pass="pass150", string xaxis="xb"){
+TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass151", string xaxis="xb"){
   TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec);
 
   //  int cnt=0;
@@ -80,9 +80,11 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
   if(cs==3)hrdd=(TH1F*)frd->Get("hrd_stat");    // stat error only  
   TH1F *hsysd=(TH1F*)frd->Get("hsys");          
   TH1F *hsysdR=(TH1F*)frd->Get("hsysR");  
+  TH1F *hlte_d=(TH1F*)frd->Get("herr_live");  
   hrdd->SetDirectory(0);
   hsysd->SetDirectory(0);
   hsysdR->SetDirectory(0);
+  hlte_d->SetDirectory(0);
   // correctrun run 1640 for temp. fluctuation
   if( (target=="r" || target=="d") && spec=="hms" && angle=="21" && mom == "3p3"){
     hrdd->Scale(1.0229);
@@ -97,9 +99,11 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
   if(cs==3)hrdh=(TH1F*)frh->Get("hrd");  // stat error only
   TH1F *hsysh=(TH1F*)frh->Get("hsys");  
   TH1F *hsyshR=(TH1F*)frh->Get("hsysR");  
+  TH1F *hlte_h=(TH1F*)frh->Get("herr_live");  
   hrdh->SetDirectory(0);
   hsysh->SetDirectory(0);
   hsyshR->SetDirectory(0);
+  hlte_h->SetDirectory(0);
   frh->Close();
 //*******************************************************************************************
 
@@ -117,7 +121,19 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
       deltah=hrdh->GetBinCenter(i);
       ratioh=hrdh->GetBinContent(i);
       errh=hrdh->GetBinError(i); 
-      
+    
+      //Debs delta correction for SHMS  
+      if(spec=="shms")
+	{
+	  double p0 = 1.00156;
+	  double p1 = -0.002473; 
+	  double p2 = -1.54588e-05;
+	  double p3 = 6.63986e-06;
+	  double shms_delta_corr=p0+p1*deltad+p2*pow(deltad,2)+p3*pow(deltad,3);
+	  ratiod=ratiod/shms_delta_corr;
+	  ratioh=ratioh/shms_delta_corr;
+	}
+
       if(cs==2){ //Error band
 	errh=hsysh->GetBinContent(i)*ratioh;
 	errd=hsysd->GetBinContent(i)*ratiod;
@@ -175,6 +191,13 @@ TGraphErrors* extractCS(string spec="shms", string target="d", string angle="39"
 	      //if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.*modeld/modelh/2);
 	      if(target=="r"){// correct for D/H
 		double val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i);  
+
+		//add livetime error to band
+		double lte;
+
+		lte=abs(hlte_d->GetBinContent(30)-hlte_h->GetBinContent(30));
+		val=sqrt(val*val+lte*lte);
+		cout << "Livetime error is " <<lte<<"     And the total global error is :"<<val<<endl;
 		//		cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.);
 		cxe.push_back(val*cxd/cxh/2);
 		//		cxe.push_back(val);

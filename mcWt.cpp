@@ -4,6 +4,7 @@
 #include "TTree.h"
 #include "TSystem.h"
 #include "TStyle.h"
+#include "TRandom.h"
 #include "TGraph.h"
 #include "TProfile.h"
 #include "TGraph2D.h"
@@ -29,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shms"){
+void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="shms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -46,7 +47,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
   Double_t charge=0;
   ofstream oFile;
   ofstream outFile;
-  outFile.open(Form("pass36_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+  outFile.open(Form("pass51_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
 
 
   if(spec=="shms")
@@ -225,7 +226,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass36/%s_mcWt%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -308,11 +309,11 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
       wt=0;
       if(i%250000==0)cout<<i<<endl;
       trm->GetEntry(i);
-      if(fail_id==0){
+      if(fail_id==0 ){
       //	cout << "Event:\t"<<i<<"\t";
       //	cout << "Before ytarrec:\t"<<ytarrec;
-      ytarrec=ytarrec + gRandom->Gaus(0,.4);
-      //	cout << "/tAfter ytarrec:\t"<<ytarrec<<endl;
+	//      ytarrec=ytarrec + gRandom->Gaus(0,.4);
+	//	cout << "/tAfter ytarrec:\t"<<ytarrec<<endl;
       }
 
       //Calculate E' and apply offset
@@ -396,7 +397,7 @@ void mcWt(string tgt="alu",string angle="21", string mom="2p7", string spec="shm
       //      if(mom=="5p7" && spec=="hms" && tgt=="h") pi_thsh_cut = w2>1.2;
       //      if(mom=="5p1" && spec=="shms" && tgt=="h") pi_thsh_cut = w2>1.2;
       if(tgt=="h") pi_thsh_cut = w2>1.2;
-      if(fail_id==0 && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
+      if( (fail_id==0||fail_id==33) && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
 	{
 	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec)<yCut)
 	  //	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec-1.5)<0.5)

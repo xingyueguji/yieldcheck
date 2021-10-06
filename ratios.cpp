@@ -20,7 +20,7 @@ void fixRange(TH1F *h){
   return;
 }
 
-void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms"){
+void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms"){
   //  gStyle->SetOptStat(0);
 
   string kin=tgt+angle+"deg"+mom; 
@@ -36,7 +36,7 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
   gROOT->ForceStyle();
   //*****MC Histograms*****
   //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
-   TFile *fm=new TFile(Form("mcWtOut/pass36/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+   TFile *fm=new TFile(Form("mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
    if(!fm->IsOpen())return;
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
@@ -49,7 +49,7 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
  // hmyp->Scale(1/1000.);
  // hmw2->Scale(1/1000.);
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass36/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
 if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
@@ -64,9 +64,11 @@ if(!fd->IsOpen())return;
  // TH1F *hsysR=(TH1F*)fd->Get("herrBandR");
  TH1F *hsys=(TH1F*)fd->Get("herr_global");
  TH1F *hsysR=(TH1F*)fd->Get("herr_globalR");
+ TH1F *herr_live=(TH1F*)fd->Get("herr_live");
  herr->Divide(hdd);
  hsys->Divide(hdd);
  hsysR->Divide(hdd);
+ herr_live->Divide(hdd);
 
  //=============================
  // add point to point errors to statisical
@@ -144,7 +146,7 @@ if(!fd->IsOpen())return;
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass36/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
      hed=(TH1F*)fdum->Get("hdd");
@@ -448,7 +450,7 @@ if(!fdum->IsOpen())return;
  hdw2->Write("hdw2");
  hsys->Write("hsys");
  hsysR->Write("hsysR");
-
+ herr_live->Write("herr_live");
  if(tgt!="c")
    {
      hed->Write("hed");

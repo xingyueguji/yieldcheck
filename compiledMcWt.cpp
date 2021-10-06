@@ -1,5 +1,5 @@
 //g++ compiledMcWt.cpp -o mcWt `root-config --cflags --glibs`
-#include "mcWt3.cpp"
+#include "mcWt.cpp"
 
 int main(int argc, char **argv)
 {
