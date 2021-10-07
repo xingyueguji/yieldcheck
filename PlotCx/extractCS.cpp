@@ -121,7 +121,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
       deltah=hrdh->GetBinCenter(i);
       ratioh=hrdh->GetBinContent(i);
       errh=hrdh->GetBinError(i); 
-    
+      /*    
       //Debs delta correction for SHMS  
       if(spec=="shms")
 	{
@@ -133,7 +133,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	  ratiod=ratiod/shms_delta_corr;
 	  ratioh=ratioh/shms_delta_corr;
 	}
-
+      */
       if(cs==2){ //Error band
 	errh=hsysh->GetBinContent(i)*ratioh;
 	errd=hsysd->GetBinContent(i)*ratiod;

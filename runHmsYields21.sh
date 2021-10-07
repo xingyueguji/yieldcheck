@@ -1,12 +1,12 @@
 #!/Bin/bash
 
-#root -b -q 'runDataYields.cpp("21","al","all","hms","h")';
-#root -b -q 'runDataYields.cpp("21","al","all","hms","d")';
-#root -b -q 'runDataYields.cpp("21","h","all","hms")';
-#root -b -q 'runDataYields.cpp("21","d","all","hms")';
-#root -b -q 'runDataYields.cpp("21","c","all","hms")';
+root -b -q 'runDataYields.cpp("21","al","all","hms","h")';
+root -b -q 'runDataYields.cpp("21","al","all","hms","d")';
+root -b -q 'runDataYields.cpp("21","h","all","hms")';
+root -b -q 'runDataYields.cpp("21","d","all","hms")';
+root -b -q 'runDataYields.cpp("21","c","all","hms")';
 
-cd dataYieldOut/pass52
+cd dataYieldOut/pass51
 
 hadd -f hms_dataYield_al21deg5p1_h.root hms_al21deg5p1_h*
 hadd -f hms_dataYield_al21deg4p0_h.root hms_al21deg4p0_h*
