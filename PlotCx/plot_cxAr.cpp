@@ -201,11 +201,11 @@ gm->Draw("la");
 
   ///////////////////////////////////////////////////////
   string kin=spec+"_"+target+angle+"deg";
-  xsecTable(grcx1, grsys1, gr1, thetac, kin+pset[0], target);
-  xsecTable(grcx2, grsys2, gr2, thetac,  kin+pset[1], target);
-  xsecTable(grcx3, grsys3, gr3, thetac,  kin+pset[2], target);
-  xsecTable(grcx4, grsys4, gr4, thetac,  kin+pset[3], target);
-  if(spec=="hms")xsecTable(grcx5, grsys5, gr5, thetac, kin+pset[4], target);
+  xsecTable(grcx1a, grcx1, grsys1, gr1, thetac, kin+pset[0], target);
+  xsecTable(grcx2a, grcx2, grsys2, gr2, thetac,  kin+pset[1], target);
+  xsecTable(grcx3a, grcx3, grsys3, gr3, thetac,  kin+pset[2], target);
+  xsecTable(grcx4a, grcx4, grsys4, gr4, thetac,  kin+pset[3], target);
+  if(spec=="hms")xsecTable(grcx5a, grcx5, grsys5, gr5, thetac, kin+pset[4], target);
   ////////////////////////////////////////////////////////
   TGraphErrors *jmu=getJmu(target,angle,grd,grh,1);
 

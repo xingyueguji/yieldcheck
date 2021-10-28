@@ -67,6 +67,7 @@ void q2correction(){
   x.push_back(.345);
   x.push_back(.375);
   TGraph *g=new TGraph(6,&x[0],&y[0]);
+  g->SetTitle("Q2 Correction vs X_B");
   g->SetMarkerStyle(33);
   g->Draw("ap");
   return;

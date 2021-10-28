@@ -30,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="shms"){
+void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -309,12 +309,12 @@ void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="shms"
       wt=0;
       if(i%250000==0)cout<<i<<endl;
       trm->GetEntry(i);
-      if(fail_id==0 ){
+      //      if(fail_id==0 ){
       //	cout << "Event:\t"<<i<<"\t";
       //	cout << "Before ytarrec:\t"<<ytarrec;
 	//      ytarrec=ytarrec + gRandom->Gaus(0,.4);
 	//	cout << "/tAfter ytarrec:\t"<<ytarrec<<endl;
-      }
+      //      }
 
       //Calculate E' and apply offset
       hsev=hsec*(1. + delini/100.);
@@ -351,6 +351,7 @@ void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="shms"
       hp->Fill(xb,born);
       phasespcor=pow(1+pow(xptarini,2)+pow(yptarini,2),-1.5);
       born_corr=born*phasespcor;
+
       //Add CSB
       csb_cx=0;
       if(spec=="shms")

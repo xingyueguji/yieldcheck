@@ -382,7 +382,7 @@ if(target=="r"){
 
 
 
-  jmu->Draw("sp");
+ //  jmu->Draw("sp");
  // if(spec=="shms"){
    grsys1->Draw("E3 same");
    grsys2->Draw("E3 same");

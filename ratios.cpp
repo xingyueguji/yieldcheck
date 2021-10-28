@@ -23,6 +23,18 @@ void fixRange(TH1F *h){
 void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms"){
   //  gStyle->SetOptStat(0);
 
+
+  bool rebin=false;
+
+  int xbins_l =12;
+  double start =-10.;
+  double xbins[xbins_l];
+  cout << "Will we rebin?"<<rebin;
+  cout << "i"  << "xbin[i]"<<endl;
+  for(int i=0; i<xbins_l; i++){
+  xbins[i]=start+i*3;
+  cout << i <<"\t"<< xbins[i] << endl;
+  }
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
@@ -36,7 +48,7 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms
   gROOT->ForceStyle();
   //*****MC Histograms*****
   //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
-   TFile *fm=new TFile(Form("mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+   TFile *fm=new TFile(Form("mcWtOut/pass36/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
    if(!fm->IsOpen())return;
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
@@ -65,11 +77,31 @@ if(!fd->IsOpen())return;
  TH1F *hsys=(TH1F*)fd->Get("herr_global");
  TH1F *hsysR=(TH1F*)fd->Get("herr_globalR");
  TH1F *herr_live=(TH1F*)fd->Get("herr_live");
+ TH1F *herr_boil=(TH1F*)fd->Get("herr_boil");
  herr->Divide(hdd);
  hsys->Divide(hdd);
  hsysR->Divide(hdd);
  herr_live->Divide(hdd);
+ herr_boil->Divide(hdd);
 
+ if(rebin)
+{
+   hdd->Rebin(3);
+   hdd_stat->Rebin(3);
+   hmd->Rebin(3);
+
+   herr->Rebin(3);
+   hsys->Rebin(3);
+   hsysR->Rebin(3);
+   herr_live->Rebin(3);
+   herr_boil->Rebin(3);
+
+   herr->Scale(1/3.);
+   hsys->Scale(1/3.);
+   hsysR->Scale(1/3.);
+   herr_live->Scale(1/3.);
+   herr_boil->Scale(1/3.);
+ }
  //=============================
  // add point to point errors to statisical
  //=============================
@@ -165,7 +197,13 @@ if(!fdum->IsOpen())return;
      heyp->SetName("heyp");
      hew2->SetName("hew2");
 
-     //=============================
+     if(rebin){
+       hed->Rebin(3);
+       hed_stat->Rebin(3);
+       heerr->Rebin(3);
+       heerr->Scale(1/3.);
+     }
+ //=============================
      // add point to point errors to statisical
      //=============================
      heerr->Divide(hed);
@@ -417,7 +455,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass151/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass199/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -440,10 +478,10 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass151/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass199/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
- hdd_stat->Write("hdd_stat");
+ hdd_stat->Write("hdd_stt");
  hdy->Write("hdy");
  hdxp->Write("hdxp");
  hdyp->Write("hdyp");
@@ -451,6 +489,7 @@ if(!fdum->IsOpen())return;
  hsys->Write("hsys");
  hsysR->Write("hsysR");
  herr_live->Write("herr_live");
+ herr_boil->Write("herr_boil");
  if(tgt!="c")
    {
      hed->Write("hed");

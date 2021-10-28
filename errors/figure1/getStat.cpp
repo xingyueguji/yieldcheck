@@ -6,7 +6,7 @@ TGraph* getP2p(string tgt="h",string angle="25", string mom="3p5",string spec="s
   string kinh="h"+angle+"deg"+mom; 
   string kind="d"+angle+"deg"+mom; 
 
- TFile *fd=new TFile(Form("../dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),kind.c_str()));
+ TFile *fd=new TFile(Form("../dataYieldOut/pass36/%s_dataYield_%s.root",spec.c_str(),kind.c_str()));
  TH1F *hdd_d=(TH1F*)fd->Get("hdd");
  TH1F* herr_d;
  if(what=="pt2pt")herr_d=(TH1F*)fd->Get("herr_pt2pt");
@@ -21,7 +21,7 @@ TGraph* getP2p(string tgt="h",string angle="25", string mom="3p5",string spec="s
  // double test;
  // cin >> test;
 
- TFile *fh=new TFile(Form("../dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),kinh.c_str()));
+ TFile *fh=new TFile(Form("../dataYieldOut/pass36/%s_dataYield_%s.root",spec.c_str(),kinh.c_str()));
  TH1F *hdd_h=(TH1F*)fh->Get("hdd");
  TH1F* herr_h;
  if(what=="pt2pt")herr_h=(TH1F*)fh->Get("herr_pt2pt");

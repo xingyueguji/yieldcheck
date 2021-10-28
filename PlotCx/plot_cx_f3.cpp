@@ -196,12 +196,21 @@ if(target=="r"){
   TGraphErrors *grsys5;
   if(spec=="hms")grsys5=extractCS(spec,target,angle,pset[4],2,pass,xaxis); 
   ///////////////////////////////////////////////////////
+
+  TGraphErrors *gr1=extractCS(spec,target,angle,pset[0],0,pass,xaxis);
+  TGraphErrors *gr2=extractCS(spec,target,angle,pset[1],0,pass,xaxis);
+  TGraphErrors *gr3=extractCS(spec,target,angle,pset[2],0,pass,xaxis);
+  TGraphErrors *gr4=extractCS(spec,target,angle,pset[3],0,pass,xaxis);
+  TGraphErrors *gr5;
+  if(spec=="hms")gr5=extractCS(spec,target,angle,pset[4],0,pass,xaxis);
+
+  ///////////////////////////////////////////////////////
   string kin=spec+"_"+target+angle+"deg";
-  xsecTable(grcx1, grsys1, thetac, kin+pset[0], target);
-  xsecTable(grcx2, grsys2, thetac, kin+pset[1], target);
-  xsecTable(grcx3, grsys3, thetac, kin+pset[2], target);
-  xsecTable(grcx4, grsys4, thetac, kin+pset[3], target);
-  if(spec=="hms")xsecTable(grcx5, grsys5, thetac, kin+pset[4], target);
+  xsecTable(grcx1a, grcx1, grsys1, gr1, thetac, kin+pset[0], target);
+  xsecTable(grcx2a, grcx2, grsys2, gr2, thetac,  kin+pset[1], target);
+  xsecTable(grcx3a, grcx3, grsys3, gr3, thetac,  kin+pset[2], target);
+  xsecTable(grcx4a, grcx4, grsys4, gr4, thetac,  kin+pset[3], target);
+  if(spec=="hms")xsecTable(grcx5a, grcx5, grsys5, gr5, thetac, kin+pset[4], target);
   ////////////////////////////////////////////////////////
   cout << "I got out of the table routine"<<endl;
   TGraphErrors *jmu=getJmu(target,angle,grd,grh,1);
