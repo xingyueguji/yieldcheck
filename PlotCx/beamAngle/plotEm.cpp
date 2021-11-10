@@ -3,7 +3,8 @@
 void plotEm(){
   gStyle->SetTitleX(.1);
   gStyle->SetTitleW(.8);
-
+  TCanvas *c1=new TCanvas();
+c1->Divide
   TGraphErrors *g0_shms=makeGr("xsec_0.txt",21.035);
   TGraphErrors *gp45_shms=makeGr("xsec_m45mr_extractm45.txt",21.00922);
   double x, y0, yp;
