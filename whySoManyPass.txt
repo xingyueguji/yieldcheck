@@ -21,11 +21,7 @@ pass35: 50M; f1f221v0.995 0.35mr offset
 pass36: beamTheta=0.45     Best Pass
 ***********************
 pass37: beamTheta=-0.45
-
-
-
-Kinematic Uncertainities
-
+****** Kinematic Uncertainities ********
 pass38: beamTheta=0.45 +.25mr
 pass39: beamTheta=0.45 -.25mr
 pass40: beamTheta=0.45 Ebeam +0.1%
@@ -33,12 +29,10 @@ pass41: beamTheta=0.45 Ebeam -0.1%
 pass42: beamTheta=0.45 E' +0.1%
 pass43: beamTheta=0.45 E' -0.1%
 pass44: Trying stop_id==33
-
 pass37: dummy
-
 pass50: final Results (beam theta=0)
-
 pass51: final Results (beam theta=0.45) 
+pass52: Rerunning.  Should be the same as 51 but without ytar smearing
 pass61:  dummyStudy
 pass62: Arunis dummy file
 
@@ -73,11 +67,11 @@ pass 46: Like 43 but delta correction off
 pass 47: Everything.  New CerenekovEff, pass 3d (except 25deg4p4)
 pass 48: beam theta 0.45mr
 pass 49: beam theta -0.45mr
-
 pass 50: Final Results beamTheta 0.00
 pass 36: Final Results beamTheta 0.45
 pass 51: Final Results beamTheta 0.45 (Macks D boiling for first half of run)
 pass 52: Final Results beamTheta 0.45 (Macks D boiling for first half of run) use clt
+
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
 pass8: data:pass9 MC:pass7   ELOG428/431 
@@ -108,11 +102,9 @@ pass119: data:pass31  MC:pass 33 extraxt cx in W2
 pass120: data:pass31  MC:pass 31 HMS 
 pass121: data:pass32  MC:pass 31 HMS
 pass122: data:pass37  MC:pass 31 HMS Debs Correction
-
 pass123: data:pass39  MC:pass 33 cer>1
 pass124: data:pass40  MC:pass 33 ETOTTRACKNORM
 pass125: data:pass41  MC:pass 33 best
-
 pass126: data:pass41  MC:pass 34 flip signs in mcWt
 pass127: data:pass41  MC:pass 99  I think?? 
 pass128: data:pass31  MC:pass 33 removing scale fact for casey 
@@ -137,5 +129,6 @@ pass151a: data:pass36  MC:pass36 final results
 
 ARUNI USE THIS ONE
 pass151: data:pass51  MC:pass36 final results  daveMacks boiling + 0.6%
+pass251: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6%
 
 

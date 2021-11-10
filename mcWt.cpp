@@ -47,7 +47,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   Double_t charge=0;
   ofstream oFile;
   ofstream outFile;
-  outFile.open(Form("pass51_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+  outFile.open(Form("pass52_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
 
 
   if(spec=="shms")
@@ -226,7 +226,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("mcWtOut/pass52/%s_mcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;

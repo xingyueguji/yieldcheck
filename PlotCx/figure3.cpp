@@ -24,7 +24,7 @@ void figure3(double angle=21){
   gStyle->SetFrameBorderMode(0);
   gROOT->ForceStyle();
 
-  gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"hms\",\"pass151\",.2,.95,0.5,1.,.85,1.15,\"xb\",1)");
+  gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"hms\",\"pass199\",.2,.95,0.5,1.,.85,1.15,\"xb\",1)");
 
   //  l->DeleteEntry();
 
@@ -42,14 +42,15 @@ void figure3(double angle=21){
 
   //  t1->AddText("#theta_{c} = 25.0#circ");
   //  t1->AddText("4.41 < Q^{2} (GeV^{2}) < 9.91");
-  t1->AddText("3.39 < Q^{2} (GeV^{2}) < 5.2; #theta_{c} = 21.0#circ");
+  //  t1->AddText("3.39 < Q^{2} (GeV^{2}) < 5.2; #theta_{c} = 21.0#circ");
+  t1->AddText("3.39 < Q^{2} (GeV^{2}) < 5.2");
 
   t1->SetBorderSize(0);
   t1->SetFillColor(kWhite);
   t1->Draw();
 
   TGraphErrors *gs=(TGraphErrors*)gPad->GetListOfPrimitives()->FindObject("grcx1");
-  gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"shms\",\"pass151\",.2,.95,0.5,1.,.85,1.15,\"xb\",1)");
+  gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"shms\",\"pass199\",.2,.95,0.5,1.,.85,1.15,\"xb\",1)");
   TLegend* l0= (TLegend*)gPad->GetListOfPrimitives()->FindObject("leg_shms");
   l0->Delete();
 

@@ -13,7 +13,23 @@
 
 TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass151", string xaxis="xb"){
   TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec);
-  bool rebin=false;
+  ///////////////////////?/////////////////////////////////////////////////
+  bool rebin=true;
+  if(spec=="hms" && angle=="21" && (mom=="5p1" || mom=="5p7"))rebin=false;
+  if(spec=="shms" && angle=="21" && (mom=="4p0" || mom=="5p1"))rebin=false;
+  if(spec=="shms" && angle=="25" && (mom=="3p5" || mom=="4p4"))rebin=false;
+  if(spec=="shms" && angle=="29" && (mom=="3p0" || mom=="3p7"))rebin=false;
+  if(spec=="shms" && angle=="33" && (mom=="2p6" || mom=="3p2"))rebin=false;
+  if(spec=="shms" && angle=="39" && (mom=="2p0" || mom=="2p5"))rebin=false;
+
+
+  rebin=false;
+  //  ofstream ofile3;
+  //  ofile3.open("trash.txt",ios::app | ios::out );
+  //  ofile3 << spec <<"\t"<< angle <<"\t"<< mom <<"\t"<< rebin<<endl;
+  //  ofile3.close();
+  ///////////////////////?/////////////////////////////////////////////////
+
   if(rebin){
   hkinErr->Rebin(3);
   hkinErr->Scale(1/3.);

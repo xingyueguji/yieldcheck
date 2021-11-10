@@ -81,8 +81,8 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_k1->SetLineColor(kOrange-6);
  gm_k2->SetLineColor(9);
  
- // gm->SetLineStyle(1);
- gm_cj->SetLineStyle(2);
+  gm->SetLineStyle(2);
+  // gm_cj->SetLineStyle(2);
  gm_k->SetLineStyle(3);
  gm_k1->SetLineStyle(4);
  gm_k2->SetLineStyle(6);
@@ -143,7 +143,8 @@ if(target=="r"){
    pad1->cd();
  }
  if(spec=="hms")gm->Draw("la");
- if(target=="r" && spec=="hms" && xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r" && spec=="hms" && xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r" && spec=="hms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
 
 
   ////////////////////////////////////////
@@ -330,7 +331,8 @@ if(target=="r"){
   
  //  gm->Draw("same");
 
- if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
  if(numPad==2)
    {
      pad2->cd();
@@ -409,10 +411,7 @@ if(target=="r"){
  leg->AddEntry(gm,"F1F221","l");
  if(xaxis=="xb")
    {
-     leg->AddEntry(gm_k,"KP DIS","l");
-     leg->AddEntry(gm_k1,"KP HYBRID","l");
-     leg->AddEntry(gm_k2,"AKP17","l");
-     leg->AddEntry(gm_cj,"CJ15","l");
+
    }
  if(spec=="shms")leg->AddEntry(grcx1,"Data (E12-10-002)","p");
  if(spec=="hms"){
@@ -422,8 +421,15 @@ if(target=="r"){
    g->SetMarkerSize(.6);
    g->SetMarkerColor(kBlack);
    leg->AddEntry(grcx1,"HMS Hall C, E12-10-002","p");
+     leg->AddEntry(gm_k1,"KP HYBRID","l");
    leg->AddEntry(g,"SHMS Hall C, E12-10-002","p");
+     leg->AddEntry(gm_k2,"AKP17","l");
    leg->AddEntry(mrthn,"Hall A, MARATHON","p");
+
+   //     leg->AddEntry(gm_k,"KP DIS","l");
+
+
+     leg->AddEntry(gm_cj,"CJ15","l");
  }
  // leg->AddEntry(grcx1,Form("E'=%2.2f GeV/c",psetf[0]),"p");
  // leg->AddEntry(grcx2,Form("E'=%2.2f GeV/c",psetf[1]),"p");
