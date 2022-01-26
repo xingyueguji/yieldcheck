@@ -19,7 +19,7 @@
 #include "src/getRadCorrW2.cpp"
 using namespace std;
 
-void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double_t betaMax=1.5, 
+void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double_t betaMax=1.5, 
 	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
   bool use_saturation_correction=true;
   bool use_delta_correction=true;
@@ -39,9 +39,9 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass51.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass53.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass51.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass53.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -164,7 +164,7 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass51/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass53/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -206,8 +206,11 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   tree->Branch("wt",&wt);
 
   if(spec=="shms"){
-    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3d-shms-data/shms_replay_production_%d_-1.root",run);
-    froot = Form("/w/hallc-scifs17exp/xem2/abishek/f2-emc/ROOTfiles/realpass-3d-shms-new/shms_replay_production_%d_-1.root",run);
+    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3e-shms-data/shms_replay_production_%d_-1.root",run);
+    //    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3d-shms-data/shms_replay_production_%d_-1.root",run);
+    //    froot = Form("/w/hallc-scifs17exp/xem2/abishek/f2-emc/ROOTfiles/realpass-3d-shms-new/shms_replay_production_%d_-1.root",run);
+    //    froot = Form("/lustre19/expphy/volatile/hallc/xem2/abishek/ROOTfiles/realpass-3d-shms-corrMatrix/shms_replay_production_%d_-1.root",run);
+
     //         froot = Form("/lustre/expphy/cache/hallc/E12-10-002/cmorean/pass4-shms-data/shms_replay_production_%d_-1.root",run);
     //    if(abs(hsec-4.3)<.12 && abs(thetac-25.)<1){
       //    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3c-shms-data/shms_replay_production_%d_-1.root",run);
@@ -270,6 +273,12 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH1D *hcal=new TH1D("hcal","Cal Eff",100,.995,1.);      
       TH1D *hxb=new TH1D("hxb","xb Good Events",120,0,3);     
       TH2D *hdumFact=new TH2D("hdumFact","Dummy Scale factor vs ytar",50,-10,10,50,.1,.3);
+      // Focal Plane Plots
+      TH2F *xVy=new TH2F("xVy","x_fp vs y_fp; y_fp (cm); x_fp (cm)",100,-40.,40.0,100,-40.,40.);
+      TH2F *xpVyp=new TH2F("xpVyp","xp_fp vs yp_fp; yp_fp (rad); xp_fp (rad)",100,-0.06,0.06,100,-0.1,0.1);
+      TH2F *xVxp=new TH2F("xVxp","x_fp vs x_fp; xp_fp (rad); x_fp (cm)",100,-0.1,0.1,100,-40.,40.);
+      TH2F *ypVy=new TH2F("ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
+
       heff->Sumw2();
       TFile *f=new TFile(froot);
       f->Print();
@@ -341,7 +350,6 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	  //   only apply w2 cut for hydrogen analysis
 	  bool w2_cut=true;
 	  if(use_w2_cut)w2_cut = w2_calc > 1.2;
-
 	  if(ngc > ngcCut && delta > deltaMin && delta < deltaMax && etracknorm > minEdep){
 	    //	    if(abs(thd)<xpCut && abs(phd)<ypCut && abs(yd) < yCut && w2_cut && yd>0)
 	    if(abs(thd)<xpCut && abs(phd)<ypCut && abs(yd) < yCut && w2_cut)
@@ -381,7 +389,6 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hdumFact->Fill(yd,dumscale);
 		  
 		  //
-
 		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale*wt_corr;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  
@@ -409,6 +416,10 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  heffcer->Fill(delta,cerEff);
 		  herrcer->Fill(delta,errCer);
 		  heffpion->Fill(delta,1-piC);
+		  xVy->Fill(yfp,xfp,wt);
+		  xpVyp->Fill(ypfp,xpfp,wt);
+		  xVxp->Fill(xpfp,xfp,wt);
+		  ypVy->Fill(yfp,ypfp,wt);
 		  //wt=(1.0-piC)/cerEff/(boilCorr)*scale;
 		  // errors should be fractional (%)
 
@@ -643,6 +654,10 @@ void dataYield(Int_t run=2525, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       hcerr->Write();
       hpion->Write();
       hcal->Write();
+      xVy->Write();
+      xpVyp->Write();
+      xVxp->Write();
+      ypVy->Write();
       oFile->Close();
       delete oFile;
       

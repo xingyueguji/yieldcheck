@@ -23,7 +23,7 @@ void fixRange(TH1F *h){
 void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms",   bool rebin=false){
   //  gStyle->SetOptStat(0);
 
-  rebin=false;
+  //  rebin=false;
 
   int xbins_l =12;
   double start =-10.;
@@ -47,7 +47,7 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms
   gROOT->ForceStyle();
   //*****MC Histograms*****
   //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
-   TFile *fm=new TFile(Form("mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+   TFile *fm=new TFile(Form("mcWtOut/pass52/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
    if(!fm->IsOpen())return;
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
@@ -60,7 +60,7 @@ void ratios(string tgt="h",string angle="21", string mom="2p7",string spec="shms
  // hmyp->Scale(1/1000.);
  // hmw2->Scale(1/1000.);
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass53/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
 if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
@@ -177,7 +177,7 @@ if(!fd->IsOpen())return;
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass51/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass53/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
      hed=(TH1F*)fdum->Get("hdd");
@@ -454,7 +454,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass251/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass301/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -477,7 +477,7 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass251/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass301/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdd_stat->Write("hdd_stt");

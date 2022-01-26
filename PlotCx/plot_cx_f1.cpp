@@ -7,6 +7,7 @@
 #include "src/getMomList.cpp"
 #include "src/getCSB.cpp"
 #include "src/getCJ.cpp"
+#include "src/getJAM.cpp"
 #include "src/getKull.cpp"
 #include "src/getKP.cpp"
 #include "jmu/getJmu.cpp"
@@ -68,6 +69,8 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  TGraph *gm_k=getKP("dis",angle);  
  TGraph *gm_k1=getKP("hybrid",angle);  
  TGraph *gm_k2=getKP("akp17",angle);  
+ TGraphErrors *gm_jam=getJAM(thetac);  
+
  if(xaxis=="xb") gm->GetXaxis()->SetTitle("Bjorken x");
  if(xaxis=="ep") gm->GetXaxis()->SetTitle("E' (GeV)");
  if(xaxis=="w2") gm->GetXaxis()->SetTitle("W2 (GeV^2)");
@@ -78,7 +81,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm->SetLineColor(kBlue);
  gm_cj->SetLineColor(kRed);
  gm_k1->SetLineColor(kGreen+3);
- // gm_k1->SetLineColor(kOrange-6);
+ gm_jam->SetLineColor(kOrange-6);
  gm_k2->SetLineColor(9);
  
  gm->SetLineStyle(2);
@@ -144,7 +147,7 @@ if(target=="r"){
  }
  if(spec=="hms")gm->Draw("la");
  // if(target=="r" && spec=="hms" && xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- if(target=="r" && spec=="hms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r" && spec=="hms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");}
 
 
   ////////////////////////////////////////
@@ -166,7 +169,7 @@ if(target=="r"){
   mrthn->SetMarkerSize(0.5);
   mrthn->SetMarkerColor(kGreen+2);
   if(target=="r"&& angle=="21")mrthn->Draw("sp");
-  gwhit->Draw("sp");
+  //  if(spec=="hms")gwhit->Draw("sp");
   /////////////////////////////////////////////////////////////////////
 
   TGraphErrors *grcx1=extractCS(spec,target,angle,pset[0],1,pass,xaxis);
@@ -217,11 +220,11 @@ if(target=="r"){
 
  jmu->SetMarkerStyle(33);
 
- grcx1->SetMarkerStyle(27);
- grcx2->SetMarkerStyle(27);
- grcx3->SetMarkerStyle(27);
- grcx4->SetMarkerStyle(27);
- if(spec=="hms")grcx5->SetMarkerStyle(27);
+ grcx1->SetMarkerStyle(33);
+ grcx2->SetMarkerStyle(33);
+ grcx3->SetMarkerStyle(33);
+ grcx4->SetMarkerStyle(33);
+ if(spec=="hms")grcx5->SetMarkerStyle(33);
 
  jmu->SetMarkerSize(1.);
  grcx1->SetMarkerSize(1.);
@@ -230,11 +233,11 @@ if(target=="r"){
  grcx4->SetMarkerSize(1.);
  if(spec=="hms")grcx5->SetMarkerSize(1.);
 
- grcx1a->SetMarkerStyle(27);
- grcx2a->SetMarkerStyle(27);
- grcx3a->SetMarkerStyle(27);
- grcx4a->SetMarkerStyle(27);
- if(spec=="hms")grcx5a->SetMarkerStyle(27);
+ grcx1a->SetMarkerStyle(33);
+ grcx2a->SetMarkerStyle(33);
+ grcx3a->SetMarkerStyle(33);
+ grcx4a->SetMarkerStyle(33);
+ if(spec=="hms")grcx5a->SetMarkerStyle(33);
 
  grcx1a->SetMarkerSize(1.);
  grcx2a->SetMarkerSize(1.);
@@ -331,7 +334,8 @@ if(target=="r"){
  //  gm->Draw("same");
 
  // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r" && spec=="hms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");}
  if(numPad==2)
    {
      pad2->cd();
@@ -360,11 +364,11 @@ if(target=="r"){
      gr1->GetXaxis()->SetNdivisions(-5);
  // gr1->GetYaxis()->SetNdivisions(5);
      jmur->SetMarkerStyle(33);
-     gr1->SetMarkerStyle(27);
-     gr2->SetMarkerStyle(27);
-     gr3->SetMarkerStyle(27);
-     gr4->SetMarkerStyle(27);
-     if(spec=="hms")gr5->SetMarkerStyle(27);
+     gr1->SetMarkerStyle(33);
+     gr2->SetMarkerStyle(33);
+     gr3->SetMarkerStyle(33);
+     gr4->SetMarkerStyle(33);
+     if(spec=="hms")gr5->SetMarkerStyle(33);
 
      jmur->SetMarkerSize(1.);
      gr1->SetMarkerSize(1.);
@@ -389,7 +393,7 @@ if(target=="r"){
      if(spec=="hms")gr5->Draw("sp");
      pad1->cd();
    }
- TPaveText *t1=new TPaveText(.15,.15,.25,.2,"NDC");
+ TPaveText *t1=new TPaveText(.15,.18,.25,.2,"NDC");
 
 
 
@@ -405,7 +409,7 @@ if(target=="r"){
    {
      leg=new TLegend(.35,.6,.65,.9);
    }
- else leg=new TLegend(.15,.5,.55,.9);
+ else leg=new TLegend(.17,.55,.58,.92);
  leg->SetBorderSize(1);
  leg->AddEntry(gm,"F1F221","l");
  if(xaxis=="xb")
@@ -416,7 +420,7 @@ if(target=="r"){
  if(spec=="hms"){
    double dum[3]={1,2,3};
    TGraphErrors *g=new TGraphErrors(3,dum,dum,dum,dum);
-   g->SetMarkerStyle(27);
+   g->SetMarkerStyle(33);
    g->SetMarkerSize(1.0);
    g->SetMarkerColor(kBlack);
    leg->AddEntry(grcx1,"HMS Hall C, E12-10-002","p");
@@ -425,8 +429,8 @@ if(target=="r"){
    leg->AddEntry(gm_k2,"AKP17","l");
    leg->AddEntry(mrthn,"Hall A, MARATHON","p");
    leg->AddEntry(gm_cj,"CJ15","l");
-
-
+   //   leg->AddEntry(gwhit,"SLAC, (Whitlow)","p");
+   leg->AddEntry(gm_jam,"JAM","l");
 
 
  }
@@ -438,7 +442,7 @@ if(target=="r"){
 
  // leg->AddEntry(jmu,"JMU","p");
  leg->SetName(Form("leg_%s",spec.c_str()));
- if(target=="r") leg->Draw();
+ if(target=="r"&&spec=="hms") leg->Draw();
  /// c1->SaveAs(Form("cs_%s%sdeg.pdf",target.c_str(),angle.c_str()));
   return;
 }

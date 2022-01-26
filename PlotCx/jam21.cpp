@@ -1,7 +1,7 @@
-#include "plot_cx_f1.cpp"
+#include "plotjam21.cpp"
 //#include "plot_cx_raffaella.cpp"
 
-void figure1(double angle=21){
+void jam21(double angle=21){
   gStyle->SetCanvasColor(0);
   gStyle->SetFrameBorderMode(0);
   gStyle->SetStatBorderSize(1);

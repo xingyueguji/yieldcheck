@@ -23,7 +23,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   if(spec=="shms" && angle=="39" && (mom=="2p0" || mom=="2p5"))rebin=false;
 
 
-  rebin=false;
+  //  rebin=false;
   //  ofstream ofile3;
   //  ofile3.open("trash.txt",ios::app | ios::out );
   //  ofile3 << spec <<"\t"<< angle <<"\t"<< mom <<"\t"<< rebin<<endl;

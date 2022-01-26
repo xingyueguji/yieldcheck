@@ -35,6 +35,7 @@ pass51: final Results (beam theta=0.45)
 pass52: Rerunning.  Should be the same as 51 but without ytar smearing
 pass61:  dummyStudy
 pass62: Arunis dummy file
+pass63: v0.999test
 
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
@@ -71,6 +72,7 @@ pass 50: Final Results beamTheta 0.00
 pass 36: Final Results beamTheta 0.45
 pass 51: Final Results beamTheta 0.45 (Macks D boiling for first half of run)
 pass 52: Final Results beamTheta 0.45 (Macks D boiling for first half of run) use clt
+pass 53: Final Results beamTheta 0.45 (Macks D boiling for first half of run) matrix fix
 
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
@@ -129,6 +131,8 @@ pass151a: data:pass36  MC:pass36 final results
 
 ARUNI USE THIS ONE
 pass151: data:pass51  MC:pass36 final results  daveMacks boiling + 0.6%
-pass251: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6%
+pass252: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6% REBINNED
 
+pass300: data:53  MC:pass 52 
+pass301: data:53  MC:pass 53
 

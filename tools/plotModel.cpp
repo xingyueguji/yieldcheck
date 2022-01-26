@@ -8,8 +8,8 @@ TGraph* plotModel(string target="d", int version=1, double thetac=21)
 {
   TGraph2D * grh=getRadCorrW2("h",1,"shms");
   TGraph2D * grd=getRadCorrW2("d",1,"shms");
-  TGraph2D * grh2=getRadCorrW2temp("h",1,"shms");
-  TGraph2D * grd2=getRadCorrW2temp("d",1,"shms");
+  TGraph2D * grh2=getRadCorrW2("h",1,"shms","v996t2");
+  TGraph2D * grd2=getRadCorrW2("d",1,"shms","v996t2");
 
   Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax;
   xmin=2.7*.9;

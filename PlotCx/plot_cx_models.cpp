@@ -6,6 +6,7 @@
 #include "src/getMomList.cpp"
 #include "src/getCSB.cpp"
 #include "src/getCJ.cpp"
+#include "src/getJAM.cpp"
 #include "src/getKull.cpp"
 #include "src/getKP.cpp"
 #include "jmu/getJmu.cpp"
@@ -65,6 +66,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  TGraph *gm_k=getKP("dis",angle);  
  TGraph *gm_k1=getKP("hybrid",angle);  
  TGraph *gm_k2=getKP("akp17",angle);  
+ TGraph *gm_jam=getJAM(thetac);  
  if(xaxis=="xb") gm->GetXaxis()->SetTitle("Bjorken x");
  if(xaxis=="ep") gm->GetXaxis()->SetTitle("E' (GeV)");
  if(xaxis=="w2") gm->GetXaxis()->SetTitle("W2 (GeV^2)");
@@ -74,8 +76,8 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
 
  gm->SetLineColor(kBlue);
  gm_cj->SetLineColor(kRed);
- gm_k->SetLineColor(kGreen+3);
- gm_k1->SetLineColor(kOrange-6);
+ gm_k1->SetLineColor(kGreen+3);
+ gm_jam->SetLineColor(kOrange-6);
  gm_k2->SetLineColor(kMagenta);
  
   gm->SetLineStyle(2);
@@ -141,7 +143,8 @@ if(target=="r"){
  }
  if(spec=="shms")gm->Draw("la");
  // if(target=="r" && spec=="shms" && xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- if(target=="r" && spec=="shms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r" && spec=="shms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r" && spec=="shms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");}
 
 
   ////////////////////////////////////////
@@ -324,7 +327,9 @@ if(target=="r"){
  //  gm->Draw("same");
 
  // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");}
  if(numPad==2)
    {
      pad2->cd();
@@ -383,7 +388,8 @@ if(target=="r"){
      pad1->cd();
    }
  // if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
- if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ // if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
+ if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_k1->Draw("same");gm_k2->Draw("same");}
  TPaveText *t1=new TPaveText(.15,.15,.25,.2,"NDC");
 
 
@@ -409,6 +415,7 @@ if(target=="r"){
      leg->AddEntry(gm_k1,"KP HYBRID","l");
      leg->AddEntry(gm_k2,"AKP17","l");
      leg->AddEntry(gm_cj,"CJ15","l");
+     leg->AddEntry(gm_jam,"JAM","l");
    }
  if(spec=="shms")leg->AddEntry(grcx1,"Data (E12-10-002)","p");
  if(spec=="hms"){

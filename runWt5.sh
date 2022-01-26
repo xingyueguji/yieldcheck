@@ -1,9 +1,6 @@
 #!/Bin/bash
 #SHMS Carbon
-root -b -q 'mcWt.cpp("c","21","3p3","hms")'
-root -b -q 'mcWt.cpp("c","21","4p0","hms")'
-root -b -q 'mcWt.cpp("c","21","5p1","hms")'
-root -b -q 'mcWt.cpp("c","21","5p7","hms")'
+
 root -b -q 'mcWt.cpp("c","21","2p7","shms")'
 root -b -q 'mcWt.cpp("c","21","3p3","shms")'
 root -b -q 'mcWt.cpp("c","21","4p0","shms")'

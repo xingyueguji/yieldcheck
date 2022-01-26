@@ -57,7 +57,8 @@ TGraph* getP2p(string tgt="h",string angle="25", string mom="3p5",string spec="s
    double stat_err_h=hdd_h->GetBinError(i)/hdd_h->GetBinContent(i);
    double stat_err_d=hdd_d->GetBinError(i)/hdd_d->GetBinContent(i);
    if(what=="stat")cout << delta <<"\t"<< stat_err_h<<"\t"<< stat_err_d<<endl;
-   double total_stat_err=sqrt(pow(stat_err_h,2)+pow(stat_err_d,2));
+   //   double total_stat_err=sqrt(pow(stat_err_h,2)+pow(stat_err_d,2));
+   double total_stat_err=stat_err_h,2;
 
    ep=(1+delta/100)*hsec;
    Double_t sin2 = sin(thetac/2/180*TMath::Pi())*sin(thetac/2/180*TMath::Pi());
@@ -69,7 +70,8 @@ TGraph* getP2p(string tgt="h",string angle="25", string mom="3p5",string spec="s
 
    double hyd_err=herr_h->GetBinContent(i);
    double deut_err=herr_d->GetBinContent(i);
-   double tot_err=sqrt(hyd_err*hyd_err+deut_err*deut_err);
+   //   double tot_err=sqrt(hyd_err*hyd_err+deut_err*deut_err);
+   double tot_err=hyd_err;
 
    cout << what << "\t"<< hyd_err << "\t"<< deut_err<< "\t"<< xb << endl;
    if(w2>4.0)
