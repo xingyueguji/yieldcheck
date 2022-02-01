@@ -39,9 +39,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass53.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass54.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass53.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass54.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -142,7 +142,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
     p2perrBoil=0;
   }
 
-  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
+  boilCorr=boilCorr*wt_corr;
+  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
+  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff*psFact;
 
 
 
@@ -164,7 +166,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass53/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass54/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -243,6 +245,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH1D *hdd7=new TH1D("hdd7","Data lt, ps, trk, boil, trg, cal, cer",nbins,minBin,maxBin);
       TH1D *hAvgTheta=new TH1D("hAvgTheta","Average Theta per Bin",nbins,minBin,maxBin);
       TH1D *hAvgDelta=new TH1D("hAvgDelta","Average Delta per Bin",nbins,minBin,maxBin);
+      TH1D *hBoilCorr=new TH1D("hBoilCorr","Average Boiling Correction",nbins,minBin,maxBin);
       hdd->Sumw2();
       TH1D *heff=new TH1D("heff","Efficiency",nbins,minBin,maxBin);
       TH1D *heffcal=new TH1D("heffcal","Calo. Efficiency",nbins,minBin,maxBin);
@@ -389,7 +392,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hdumFact->Fill(yd,dumscale);
 		  
 		  //
-		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale*wt_corr;
+		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  
 		  hdd->Fill(delta,wt);
@@ -400,6 +403,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hdd6->Fill(delta,wt/calEff/(1.0-piC));
 		  hdd7->Fill(delta,wt*trigEff/calEff/(1.0-piC));
 		  hAvgDelta->Fill(delta,delta*wt);
+		  hBoilCorr->Fill(delta,boilCorr*wt);
 		  hAvgTheta->Fill(delta,hstheta*180./TMath::Pi()*wt);
 		  hxpd->Fill(thd*1000,wt);
 		  hypd->Fill(phd*1000,wt);
@@ -625,6 +629,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       hdd7->Write();
       hAvgTheta->Write();
       hAvgDelta->Write();
+      hBoilCorr->Write();
       hyld->Write();
       heff->Write();
       heffcal->Write();

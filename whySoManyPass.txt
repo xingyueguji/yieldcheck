@@ -36,7 +36,7 @@ pass52: Rerunning.  Should be the same as 51 but without ytar smearing
 pass61:  dummyStudy
 pass62: Arunis dummy file
 pass63: v0.999test
-
+pass64: focal plane and 996t2
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
 pass 9: change to jmu boiling 6.9/7.3 H/D
@@ -73,6 +73,7 @@ pass 36: Final Results beamTheta 0.45
 pass 51: Final Results beamTheta 0.45 (Macks D boiling for first half of run)
 pass 52: Final Results beamTheta 0.45 (Macks D boiling for first half of run) use clt
 pass 53: Final Results beamTheta 0.45 (Macks D boiling for first half of run) matrix fix
+pass 54: fix dummy subtraction (apply boiling after subtraction)
 
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
@@ -135,4 +136,5 @@ pass252: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6% REBINNED
 
 pass300: data:53  MC:pass 52 
 pass301: data:53  MC:pass 53
+pass302: data:54  MC:pass 64
 

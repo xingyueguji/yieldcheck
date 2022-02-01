@@ -1,6 +1,6 @@
 #include "dataYield.cpp"
 
-void runDataYields(char const *angle="39", char const *target="h", char const *pcent="1p3", char const *spec="shms", string scaleDummy="h"){
+void runDataYields(char const *angle="21", char const *target="h", char const *pcent="3p3", char const *spec="shms", string scaleDummy="h"){
 
   FILE *fp;
   if(strncmp(spec,"shms",3)==0)fp = fopen("makeRunList/allShmsRuns.txt","r");
