@@ -22,9 +22,13 @@ void fixRange(TH1F *h){
 
 void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms",   bool rebin=false){
   //  gStyle->SetOptStat(0);
-
+  string kin=tgt+angle+"deg"+mom; 
+  cout << "Kinematic is : "<<kin<<endl;
+  Int_t DRAW=1;
+  bool scale_em=true;
   //  rebin=false;
 
+  /*  I think I was going to 
   int xbins_l =12;
   double start =-10.;
   double xbins[xbins_l];
@@ -34,10 +38,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
   xbins[i]=start+i*3;
   cout << i <<"\t"<< xbins[i] << endl;
   }
-  string kin=tgt+angle+"deg"+mom; 
-  cout << "Kinematic is : "<<kin<<endl;
-  Int_t DRAW=1;
-  bool scale_em=true;
+  */
 
   // histos
   // hm* MC
@@ -45,23 +46,19 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
   // he* Dummy (empty)
   // hs* Data - dummy
   gROOT->ForceStyle();
+
   //*****MC Histograms*****
-  //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
-   TFile *fm=new TFile(Form("mcWtOut/pass64/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
-   if(!fm->IsOpen())return;
- TH1F *hmd=(TH1F*)fm->Get("delWt");
- TH1F *hmy=(TH1F*)fm->Get("yWt");
- TH1F *hmxp=(TH1F*)fm->Get("xpWt");
- TH1F *hmyp=(TH1F*)fm->Get("ypWt");
- TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
- // hmd->Scale(1/1000.);
- // hmy->Scale(1/1000.);
-// hmxp->Scale(1/1000.);
- // hmyp->Scale(1/1000.);
- // hmw2->Scale(1/1000.);
+  TFile *fm=new TFile(Form("mcWtOut/pass64/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+  if(!fm->IsOpen())return;
+  TH1F *hmd=(TH1F*)fm->Get("delWt");
+  TH1F *hmy=(TH1F*)fm->Get("yWt");
+  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
+  TH1F *hmyp=(TH1F*)fm->Get("ypWt");
+  TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
+
  //****Data Histograms***** 
  TFile *fd=new TFile(Form("dataYieldOut/pass54/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
-if(!fd->IsOpen())return;
+ if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
  hdd_stat->SetName("hdd_stat");
@@ -85,6 +82,9 @@ if(!fd->IsOpen())return;
  herr_boil->Divide(hdd);
  hBoilCorr->Divide(hdd);
 
+ double densityCorr=hBoilCorr->GetBinContent(30);
+ cout << " The boiling factor is "<<densityCorr<<endl;
+
  if(rebin)
 {
    hdd->Rebin(3);
@@ -104,6 +104,8 @@ if(!fd->IsOpen())return;
    herr_live->Scale(1/3.);
    herr_boil->Scale(1/3.);
    hBoilCorr->Scale(1/3.);
+
+   densityCorr=hBoilCorr->GetBinContent(10);
  }
  //=============================
  // add point to point errors to statisical
@@ -119,7 +121,6 @@ if(!fd->IsOpen())return;
      cout<< "Stat: "<<statErr<<"Pt2pt: "<<ptErr<<"Total: "<<total<<endl;} 
  }
 
-
  //=============================
  // Charge Normalize data yields
  //=============================
@@ -127,8 +128,7 @@ if(!fd->IsOpen())return;
  if(spec=="shms")charge=getCharge(tgt,angle,mom);
  if(spec=="hms")charge=getHMSCharge(kin);
  cout << "The Charge is: "<<charge<<endl;
- double densityCorr=hBoilCorr->GetBinContent(30);
- cout << " The boiling factor is "<<densityCorr<<endl;
+
  charge=charge*densityCorr;
  hdd->Scale(1./charge);
  hdd_stat->Scale(1./charge);
@@ -275,10 +275,24 @@ if(!fdum->IsOpen())return;
  cout <<"yp data="<<hsyp->Integral()<<endl;
  cout <<"xp data="<<hsxp->Integral()<<endl;
 
+ hsd->Scale(1/densityCorr);
+ hsd_stat->Scale(1/densityCorr); 
+ hsy->Scale(1/densityCorr);
+ hsyp->Scale(1/densityCorr);
+ hsxp->Scale(1/densityCorr); 
+ hsw2->Scale(1/densityCorr); 
+
+ cout<<"After applying boiling correction"<<endl;
+ cout <<"d data="<<hsd->Integral()<<endl;
+ cout <<"y data="<<hsy->Integral()<<endl;
+ cout <<"yp data="<<hsyp->Integral()<<endl;
+ cout <<"xp data="<<hsxp->Integral()<<endl; 
+
+ 
   TH1F *hrd=(TH1F*)hsd->Clone();
   TH1F *hrd_stat=(TH1F*)hsd_stat->Clone();
   hrd_stat->SetName("hrd_stat");
- // TH1F *hrd=(TH1F*)hsw2->Clone();
+
  hrd->SetTitle("Ratio Data/MC");
  hmd->SetTitle("dp/p (%)");
  hmy->SetTitle("Y_{tar} (cm)");
