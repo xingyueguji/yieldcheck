@@ -12,7 +12,7 @@
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0
 
 TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass151", string xaxis="xb"){
-  TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec);
+
   ///////////////////////?/////////////////////////////////////////////////
   bool rebin=true;
   if(spec=="hms" && angle=="21" && (mom=="5p1" || mom=="5p7"))rebin=false;
@@ -29,7 +29,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   //  ofile3 << spec <<"\t"<< angle <<"\t"<< mom <<"\t"<< rebin<<endl;
   //  ofile3.close();
   ///////////////////////?/////////////////////////////////////////////////
-
+  TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec);
   if(rebin){
   hkinErr->Rebin(3);
   hkinErr->Scale(1/3.);
@@ -57,6 +57,11 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   double qh_err=getChargeError(angle.c_str(), "h", mom.c_str(), spec.c_str());
   double qd_err=getChargeError(angle.c_str(), "d", mom.c_str(), spec.c_str());
   double qr_err=sqrt(qh_err*qh_err+qd_err*qd_err);
+  double charge_err;
+  if(target=="h")charge_err=qh_err;
+  if(target=="d")charge_err=qd_err;
+  if(target=="r")charge_err=qr_err;
+  
   // add charge error to pt2pt
   ofile2 << spec_flag << "\t"<< ang << "\t" << qh_err << "\t"<< qd_err <<endl; 
 
@@ -166,7 +171,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	      ratiod=ratiod/shms_delta_corr;
 	      ratioh=ratioh/shms_delta_corr;
 	    }
-	  
+	  /*	  
 	  if(cs==2){ //Error band
 	    errh=hsysh->GetBinContent(i)*ratioh;
 	    errd=hsysd->GetBinContent(i)*ratiod;
@@ -174,9 +179,11 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	      errh=hsyshR->GetBinContent(i)*ratioh;
 	      errd=hsysdR->GetBinContent(i)*ratiod;
 	    }
+
 	  }
 	  if(cs==2)cout << errh<<"\t"<<errd<<endl;
-	  
+	  */	  
+
 	  if(cs==1){   
 	    errh=sqrt(errh*errh+qh_err*qh_err);
 	    errd=sqrt(errd*errd+qd_err*qd_err);
@@ -212,42 +219,46 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		  if(target=="d")cx.push_back(0.);
 		  if(target=="r")cx.push_back(sys_y);
 		  
-		  if(target=="h")cxe.push_back(errh*modelh); //need to fix
-		  if(target=="d")cxe.push_back(errd*modeld); //need to fix
-		  //if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.*modeld/modelh/2);
-		  if(target=="r"){// correct for D/H
-		    double lte=abs(hlte_d->GetBinContent(30)-hlte_h->GetBinContent(30));
-		    double boil_err=sqrt(pow(hboil_d->GetBinContent(30),2)+pow(hboil_h->GetBinContent(30),2) );
-		    double val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, qr_err, boil_err);  
-		    //add livetime error to band
-		    //		val=0;
-		    val=sqrt(val*val+lte*lte);
-		    cout << "Livetime error is " <<lte<<"     And the total global error is :"<<val<<endl;
-		    //		cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.);
-		    cxe.push_back(val*cxd/cxh/2);
-		    //		cxe.push_back(val);
+		  double lte, boil_err, val;
+		  if(target=="h"){
+		    lte=abs(hlte_h->GetBinContent(30));
+		    boil_err=hboil_h->GetBinContent(30);
 		  }
-		  
+		  if(target=="d"){
+		    lte=abs(hlte_d->GetBinContent(30));
+		    boil_err=hboil_d->GetBinContent(30);
+		  }
+		  if(target=="r"){
+		    lte=abs(hlte_d->GetBinContent(30)-hlte_h->GetBinContent(30));
+		    boil_err=sqrt(pow(hboil_d->GetBinContent(30),2)+pow(hboil_h->GetBinContent(30),2) );
+		  }		  
+	  
+		  val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, charge_err, boil_err);  
+		  //add livetime error to band
+		  val=sqrt(val*val+lte*lte);
+		  cout << "Livetime error is " <<lte<<"     And the total global error is :"<<val<<endl;
+		  if(target=="h")cxe.push_back(val*cxh);
+		  if(target=="d")cxe.push_back(val*cxd);
+		  if(target=="r")cxe.push_back(val*cxd/cxh/2);		  
+	  
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
-	    }	 
+		}
+
 	      if(cs==1 || cs==3)//cross section
-	    {
-	      if(target=="h")cx.push_back(cxh);
-	      if(target=="d")cx.push_back(cxd);
-	      if(target=="r")cx.push_back(cxd/cxh/2);
-	      
-	      if(target=="h")cxe.push_back(errh*modelh);
-	      if(target=="d")cxe.push_back(errd*modeld);
-	      //	     if(target=="r")cxe.push_back(sqrt(pow(errd*modeld,2)+pow(errh*modelh,2))/2.);
-	      if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
-	      //	     if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*cxd/cxh/2.*modeld/modelh/2);
-	      if(deltah==-0.5){for(int k=0;k<20;k++)cout << deltah <<"\t"<< errh <<"\t"<< modelh <<"\t"<<ep<<endl;}
-	      if(xaxis=="xb")eprime.push_back(xb);
-	      if(xaxis=="w2")eprime.push_back(w2);
-	      if(xaxis=="ep")eprime.push_back(ep);
-	    }
+		{
+		  if(target=="h")cx.push_back(cxh);
+		  if(target=="d")cx.push_back(cxd);
+		  if(target=="r")cx.push_back(cxd/cxh/2);
+
+		  if(target=="h")cxe.push_back(errh*modelh);
+		  if(target=="d")cxe.push_back(errd*modeld);
+		  if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
+		  if(xaxis=="xb")eprime.push_back(xb);
+		  if(xaxis=="w2")eprime.push_back(w2);
+		  if(xaxis=="ep")eprime.push_back(ep);
+		}
 	      if(cs==0)//data/model
 		{
 		  if(target=="h")cx.push_back(ratioh);
@@ -256,7 +267,6 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		  if(target=="h")cxe.push_back(errh);
 		  if(target=="d")cxe.push_back(errd);
 		  if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*ratiod/ratioh);
-	      //	     if(target=="r")cxe.push_back(sqrt(pow(errd*modeld,2)+pow(errh*modelh,2))*cxd/cxh/2.;)
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
