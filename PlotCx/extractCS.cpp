@@ -52,13 +52,13 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   if(angle=="39")ang=39;
   //////////////////////////////
   ////   Just for printing charge error
-  ofstream ofile2;
-  ofile2.open("qError.txt",ios::app | ios::out );
+  //  ofstream ofile2;
+  //  ofile2.open("qError.txt",ios::app | ios::out );
   double qh_err=getChargeError(angle.c_str(), "h", mom.c_str(), spec.c_str());
   double qd_err=getChargeError(angle.c_str(), "d", mom.c_str(), spec.c_str());
   double qr_err=sqrt(qh_err*qh_err+qd_err*qd_err);
   // add charge error to pt2pt
-  ofile2 << spec_flag << "\t"<< ang << "\t" << qh_err << "\t"<< qd_err <<endl; 
+  //  ofile2 << spec_flag << "\t"<< ang << "\t" << qh_err << "\t"<< qd_err <<endl; 
 
   TGraph *g_rad;
   if(angle=="21")g_rad=getRadError(21, target);
@@ -272,7 +272,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
       cout<<cxe.at(i)<<endl;
     }
   ofile.close();
-  ofile2.close();
+  //  ofile2.close();
   TGraphErrors *gcx=new TGraphErrors(pts,&eprime[0],&cx[0],0,&cxe[0]);
   return gcx;
 }
