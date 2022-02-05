@@ -158,7 +158,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
       deltah=hrdh->GetBinCenter(i);
       ratioh=hrdh->GetBinContent(i);
       errh=hrdh->GetBinError(i); 
-      if( (deltad>-10&&deltad<22&&spec=="shms") || spec=="hms")
+      if( (deltad>-10&&deltad<22&&spec=="shms") || spec=="hms") //This is how I handle rebinned data
 	{
 	  //Debs delta correction for SHMS  
 	  if(spec=="shms")
@@ -184,9 +184,13 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	  if(cs==2)cout << errh<<"\t"<<errd<<endl;
 	  */	  
 
+
+	  // I need to add the charge error and radiative dummy area (ELOG 522)
 	  if(cs==1){   
-	    errh=sqrt(errh*errh+qh_err*qh_err);
-	    errd=sqrt(errd*errd+qd_err*qd_err);
+	    //error is .15% for d/h and will get added from errd
+	    if(target=="r"){errh=sqrt(errh*errh+qh_err*qh_err);}
+	    else {errh=sqrt(errh*errh+qh_err*qh_err+0.0030*0.0030);}
+	    errd=sqrt(errd*errd+qd_err*qd_err+0.0015*0.0015);
 	  }
 	  
 	  ep=(1+deltah/100)*hsec;
@@ -214,29 +218,29 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	      }
 	      if(cs==2 && cxd/cxh/2<1.15)//error band
 		{
-		  if(xb<0.4)ofile << kin << "\t" << ep << "\t" << q2 << endl;
+		  //		  if(xb<0.4)ofile << kin << "\t" << ep << "\t" << q2 << endl;
 		  if(target=="h")cx.push_back(0.);
 		  if(target=="d")cx.push_back(0.);
 		  if(target=="r")cx.push_back(sys_y);
 		  
 		  double lte, boil_err, val;
+		  int getBin=30;
+		  if(rebin)getBin=10;
 		  if(target=="h"){
-		    lte=abs(hlte_h->GetBinContent(30));
-		    boil_err=hboil_h->GetBinContent(30);
+		    lte=abs(hlte_h->GetBinContent(getBin));
+		    boil_err=hboil_h->GetBinContent(getBin);
 		  }
 		  if(target=="d"){
-		    lte=abs(hlte_d->GetBinContent(30));
-		    boil_err=hboil_d->GetBinContent(30);
+		    lte=abs(hlte_d->GetBinContent(getBin));
+		    boil_err=hboil_d->GetBinContent(getBin);
 		  }
 		  if(target=="r"){
-		    lte=abs(hlte_d->GetBinContent(30)-hlte_h->GetBinContent(30));
-		    boil_err=sqrt(pow(hboil_d->GetBinContent(30),2)+pow(hboil_h->GetBinContent(30),2) );
+		    lte=abs(hlte_d->GetBinContent(getBin)-hlte_h->GetBinContent(getBin));
+		    boil_err=sqrt(pow(hboil_d->GetBinContent(getBin),2)+pow(hboil_h->GetBinContent(getBin),2) );
 		  }		  
 	  
 		  val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, charge_err, boil_err);  
-		  //add livetime error to band
-		  val=sqrt(val*val+lte*lte);
-		  cout << "Livetime error is " <<lte<<"     And the total global error is :"<<val<<endl;
+
 		  if(target=="h")cxe.push_back(val*cxh);
 		  if(target=="d")cxe.push_back(val*cxd);
 		  if(target=="r")cxe.push_back(val*cxd/cxh/2);		  

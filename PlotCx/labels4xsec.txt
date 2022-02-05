@@ -1,0 +1,3 @@
+  Ebeam      E'       Theta_c    Q2       W2         nu        epsilon flux          xb        xsec      staterr   pt2pt     global    delta     data/MC   data/MC err
+
+spec_flag  kinematic   xb        pion      density   cerenkv   boil p2p  Kine      CSB       Acceptc   Raditive  Livetime  Charge    Boil p2p  result    

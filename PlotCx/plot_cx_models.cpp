@@ -85,6 +85,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_k->SetLineStyle(3);
  gm_k1->SetLineStyle(4);
  gm_k2->SetLineStyle(6);
+ gm_jam->SetLineStyle(3);
  int lw=2;
  if (numPad==2)lw=1;
 
@@ -93,6 +94,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_k->SetLineWidth(lw);
  gm_k1->SetLineWidth(lw);
  gm_k2->SetLineWidth(lw);
+ gm_jam->SetLineWidth(lw);
 
 
  if(target=="h"){

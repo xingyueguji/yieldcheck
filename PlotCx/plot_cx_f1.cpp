@@ -89,6 +89,8 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_k->SetLineStyle(3);
  gm_k1->SetLineStyle(4);
  gm_k2->SetLineStyle(6);
+ gm_jam->SetLineStyle(3);
+
  int lw=2;
  if (numPad==2)lw=1;
 
@@ -97,6 +99,7 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  gm_k->SetLineWidth(lw);
  gm_k1->SetLineWidth(lw);
  gm_k2->SetLineWidth(lw);
+ gm_jam->SetLineWidth(lw);
 
 
  if(target=="h"){
@@ -206,7 +209,7 @@ if(target=="r"){
   TGraphErrors *gr4=extractCS(spec,target,angle,pset[3],0,pass,xaxis);
   TGraphErrors *gr5;
   if(spec=="hms")gr5=extractCS(spec,target,angle,pset[4],0,pass,xaxis);
-
+  /*
   ///////////////////////////////////////////////////////
   string kin=spec+"_"+target+angle+"deg";
   xsecTable(grcx1a, grcx1, grsys1, gr1, thetac, kin+pset[0], target);
@@ -214,7 +217,8 @@ if(target=="r"){
   xsecTable(grcx3a, grcx3, grsys3, gr3, thetac,  kin+pset[2], target);
   xsecTable(grcx4a, grcx4, grsys4, gr4, thetac,  kin+pset[3], target);
   if(spec=="hms")xsecTable(grcx5a, grcx5, grsys5, gr5, thetac, kin+pset[4], target);
-  ////////////////////////////////////////////////////////
+  */ 
+ ////////////////////////////////////////////////////////
   cout << "I got out of the table routine"<<endl;
   TGraphErrors *jmu=getJmu(target,angle,grd,grh,1);
 
