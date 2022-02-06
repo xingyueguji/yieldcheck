@@ -340,6 +340,7 @@ if(target=="r"){
  // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
  // if(target=="r"&&spec=="hms"&&xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
  if(target=="r" && spec=="hms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");}
+ if(target=="r" && spec=="shms" && xaxis=="xb"){gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");gm_jam->Draw("same");gm->Draw("same");}  //just added
  if(numPad==2)
    {
      pad2->cd();
