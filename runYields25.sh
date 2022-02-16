@@ -6,7 +6,7 @@ root -b -q 'runDataYields.cpp("25","h","all")';
 root -b -q 'runDataYields.cpp("25","d","all")';
 root -b -q 'runDataYields.cpp("25","c","all")';
 
-cd dataYieldOut/pass54
+cd dataYieldOut/pass55
 
 hadd -f shms_dataYield_al25deg4p4_h.root shms_al25deg4p4_h*
 hadd -f shms_dataYield_al25deg3p5_h.root shms_al25deg3p5_h*

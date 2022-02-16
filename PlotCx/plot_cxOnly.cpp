@@ -9,7 +9,7 @@
 #include "src/getKP.cpp"
 #include "jmu/getJmu.cpp"
 
-void plot_cx(string target="d", string angle="39", string spec="shms", string pass="pass105", float xbmin=0.0, float xbmax=1.0, float cxmin=0.0, float cxmax = 50.0, float ratiomin = 0.7, float ratiomax =1.3, string xaxis = "xb" ){
+void plot_cx(string target="h", string angle="21", string spec="shms", string pass="pass304", float xbmin=0.0, float xbmax=1.0, float cxmin=0.0, float cxmax = 50.0, float ratiomin = 0.7, float ratiomax =1.3, string xaxis = "xb" ){
 
  Float_t delta, ratio, err, ep, model_k, modeld, modelh, xmin, xmax;
  string pset[5];

@@ -30,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"){
+void mcWt(string tgt="h",string angle="21", string mom="5p7", string spec="hms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -47,7 +47,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   Double_t charge=0;
   ofstream oFile;
   ofstream outFile;
-  outFile.open(Form("pass64_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+  outFile.open(Form("pass65_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
 
 
   if(spec=="shms")
@@ -174,6 +174,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
   Float_t zrec, ytarrec, delrec, yptarrec, xptarrec, xtarini, xstop, ystop, fail_id;
   TString fmc = "mc/casey/"+spec+"_mc_"+kin+".root";
+  //  fmc="/u/group/shms/wmhenry/mc-single-arm/worksim/"+spec+"_mc_"+kin+".root";
   if(tgt=="alu"||tgt=="ald")fmc="mc/aruni/"+spec+"_mc_"+kin+".root";
   //  if(tgt=="alu")fmc="/w/hallc-scifs17exp/xem2/aruni/mc-reweight/output/mc-ntuples/mc145.root";
   //  if(tgt=="ald")fmc="/w/hallc-scifs17exp/xem2/aruni/mc-reweight/output/mc-ntuples/mc146.root";
@@ -226,7 +227,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass64/%s_mcWt%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("mcWtOut/pass65/%s_mcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
@@ -297,6 +298,9 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   TH2F *mc_xpVyp=new TH2F("mc_xpVyp","xp_fp vs yp_fp; yp_fp (rad); xp_fp (rad)",100,-0.06,0.06,100,-0.1,0.1);
   TH2F *mc_xVxp=new TH2F("mc_xVxp","x_fp vs x_fp; xp_fp (rad); x_fp (cm)",100,-0.1,0.1,100,-40.,40.);
   TH2F *mc_ypVy=new TH2F("mc_ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
+
+  TH2F *mc_yptarVytar=new TH2F("mc_yptarVytar","yp_tar vs y_tar; y_tar (cm); yp_tar (rad)",100,-6.,6.,100,-0.05,0.05);
+
 
   sin2 = sin(thetacrad/2.)*sin(thetacrad/2.);
   nu = ebeam - hsec;
@@ -405,7 +409,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
       //      if(mom=="5p7" && spec=="hms" && tgt=="h") pi_thsh_cut = w2>1.2;
       //      if(mom=="5p1" && spec=="shms" && tgt=="h") pi_thsh_cut = w2>1.2;
       if(tgt=="h") pi_thsh_cut = w2>1.2;
-      if( (fail_id==0||fail_id==33) && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
+      if( fail_id==0 && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
 	{
 	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec)<yCut)
 	  //	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec-1.5)<0.5)
@@ -432,6 +436,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
 	   mc_xpVyp->Fill(dydz,dxdz,wt);
 	   mc_xVxp->Fill(dxdz,xfoc,wt);
 	   mc_ypVy->Fill(yfoc,dydz,wt);
+	   mc_yptarVytar->Fill(ytarrec,yptarrec,wt);
 
 	   totalWt+=wt;
 	   nacc++;
@@ -533,6 +538,7 @@ void mcWt(string tgt="d",string angle="21", string mom="5p1", string spec="shms"
   mc_xpVyp->Write();
   mc_xVxp->Write();
   mc_ypVy->Write();
+  mc_yptarVytar->Write();
   hp->Write();
   tree->Write();
   h100->Write();

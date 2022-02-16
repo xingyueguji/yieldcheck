@@ -22,7 +22,7 @@ using namespace std;
 void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double_t betaMax=1.5, 
 	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
   bool use_saturation_correction=true;
-  bool use_delta_correction=true;
+  bool use_delta_correction=false;
   Double_t target=readReport(run,"target");
   bool use_w2_cut = (target==1.01) || (target>25. && scaleDummy=="h") ;                                                               
 
@@ -39,9 +39,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass54.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass55.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass54.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass55.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -166,7 +166,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass54/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass55/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -281,7 +281,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH2F *xpVyp=new TH2F("xpVyp","xp_fp vs yp_fp; yp_fp (rad); xp_fp (rad)",100,-0.06,0.06,100,-0.1,0.1);
       TH2F *xVxp=new TH2F("xVxp","x_fp vs x_fp; xp_fp (rad); x_fp (cm)",100,-0.1,0.1,100,-40.,40.);
       TH2F *ypVy=new TH2F("ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
-
+      TH2F *yptarVytar=new TH2F("yptarVytar","yp_tar vs y_tar; y_tar (cm); yp_tar (rad)",100,-6,6,100,-0.05,0.05);
       heff->Sumw2();
       TFile *f=new TFile(froot);
       f->Print();
@@ -424,6 +424,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  xpVyp->Fill(ypfp,xpfp,wt);
 		  xVxp->Fill(xpfp,xfp,wt);
 		  ypVy->Fill(yfp,ypfp,wt);
+		  yptarVytar->Fill(yd,phd,wt);
 		  //wt=(1.0-piC)/cerEff/(boilCorr)*scale;
 		  // errors should be fractional (%)
 
@@ -663,6 +664,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       xpVyp->Write();
       xVxp->Write();
       ypVy->Write();
+      yptarVytar->Write();
       oFile->Close();
       delete oFile;
       

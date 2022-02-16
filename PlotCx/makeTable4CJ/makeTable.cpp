@@ -31,14 +31,16 @@ void makeTable(){
 
   double spec, ang, xb, pion, density, cer, boil, kin, csb, acc, rad, tot, live, qerr, boilp2p;
   vector <double> spec_v, ang_v, xb_v, pion_v, density_v, cer_v, boil_v, kin_v, csb_v, acc_v, rad_v, tot_v, live_v, qerr_v, stat_v, boilp2p_v;
-
+  char label[10];
   while (1) { 
-    ncols = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",&spec,&ang,&xb,&pion,&density,&cer,&boil,&kin,&csb,&acc,&rad,&live,&qerr,&boilp2p, &tot);
+
+    cout << "In while loop 1"<<endl;
+    ncols = fscanf(fp,"%lf %s %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",&spec,label,&xb,&pion,&density,&cer,&boil,&kin,&csb,&acc,&rad,&live,&qerr,&boilp2p, &tot);
     if (ncols < 0) break;
     //    if(abs(angle-ang) < .5 && arm == spec ){
       //      cout << "found a point"<<endl;
     spec_v.push_back(spec);
-    ang_v.push_back(ang);
+    //    ang_v.push_back(ang);
     xb_v.push_back(xb);
     pion_v.push_back(pion);
     density_v.push_back(density);
@@ -60,6 +62,7 @@ void makeTable(){
   double track=sqrt(2*pow(.002,2));
   double trigger=sqrt(2*pow(.0003,2));
   while (1) { 
+    cout << "In while loop 2"<<endl;
     ncols = fscanf(fp2,"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &ebeam, &ep, &thetac, &q2, &w2, &nu, &eps, &flux, &xb2, &xsec, &stat, &perr, &gerr, &delta, &rat, &raterr);
     if (ncols < 0) break;
     if(gerr>0)

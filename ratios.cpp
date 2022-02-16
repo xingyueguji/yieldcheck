@@ -20,13 +20,13 @@ void fixRange(TH1F *h){
   return;
 }
 
-void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms",   bool rebin=false){
+void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms",   bool rebin=false){
   //  gStyle->SetOptStat(0);
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   bool scale_em=true;
-  //  rebin=false;
+  rebin=false;
 
   /*  I think I was going to 
   int xbins_l =12;
@@ -48,7 +48,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
   gROOT->ForceStyle();
 
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/pass64/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+  TFile *fm=new TFile(Form("mcWtOut/pass65/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
   if(!fm->IsOpen())return;
   TH1F *hmd=(TH1F*)fm->Get("delWt");
   TH1F *hmy=(TH1F*)fm->Get("yWt");
@@ -57,7 +57,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
   TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
 
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass54/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass55/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
  if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
@@ -129,7 +129,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
  if(spec=="hms")charge=getHMSCharge(kin);
  cout << "The Charge is: "<<charge<<endl;
 
- charge=charge*densityCorr;
+ //charge=charge*densityCorr;   //this was to remove the density correction
  hdd->Scale(1./charge);
  hdd_stat->Scale(1./charge);
  hdy->Scale(1./charge);
@@ -184,7 +184,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p1",string spec="shms
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass54/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass55/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
      hed=(TH1F*)fdum->Get("hdd");
@@ -475,7 +475,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass302/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass306/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -498,7 +498,7 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass302/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass306/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdd_stat->Write("hdd_stt");
