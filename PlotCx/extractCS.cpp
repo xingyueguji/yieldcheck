@@ -171,25 +171,17 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	      ratiod=ratiod/shms_delta_corr;
 	      ratioh=ratioh/shms_delta_corr;
 	    }
-	  /*	  
-	  if(cs==2){ //Error band
-	    errh=hsysh->GetBinContent(i)*ratioh;
-	    errd=hsysd->GetBinContent(i)*ratiod;
-	    if(target=="r"){
-	      errh=hsyshR->GetBinContent(i)*ratioh;
-	      errd=hsysdR->GetBinContent(i)*ratiod;
-	    }
-
-	  }
-	  if(cs==2)cout << errh<<"\t"<<errd<<endl;
-	  */	  
-
-
+	  
 	  // I need to add the charge error and radiative dummy area (ELOG 522)
+	  //error is .15% for d/h and d. .3% for h 
+	  //Will get added to errd for d/h
 	  if(cs==1){   
-	    //error is .15% for d/h and will get added from errd
-	    if(target=="r"){errh=sqrt(errh*errh+qh_err*qh_err);}
-	    else {errh=sqrt(errh*errh+qh_err*qh_err+0.0030*0.0030);}
+	    if(target=="r"){
+	      errh=sqrt(errh*errh+qh_err*qh_err);
+	    }
+	    else{
+	      errh=sqrt(errh*errh+qh_err*qh_err+0.0030*0.0030);
+	    }
 	    errd=sqrt(errd*errd+qd_err*qd_err+0.0015*0.0015);
 	  }
 	  

@@ -403,7 +403,6 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hdd6->Fill(delta,wt/calEff/(1.0-piC));
 		  hdd7->Fill(delta,wt*trigEff/calEff/(1.0-piC));
 		  hAvgDelta->Fill(delta,delta*wt);
-		  hBoilCorr->Fill(delta,boilCorr*wt);
 		  hAvgTheta->Fill(delta,hstheta*180./TMath::Pi()*wt);
 		  hxpd->Fill(thd*1000,wt);
 		  hypd->Fill(phd*1000,wt);
@@ -457,6 +456,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  herr_live->Fill(delta, errLive*wt);
 		  herr_track->Fill(delta, errTrack*wt);
 		  herr_trig->Fill(delta, errTrig*wt);
+		  hBoilCorr->Fill(delta,boilCorr*wt);
 
 		  if(iEvent%10000==0)cout<<"Hello, total pt2pt systematic is: "<<terr_pt2pt<<endl;
 		  if(iEvent%10000==0)cout<<"Hello, total global systematic is: "<<terr_glob<<endl;
