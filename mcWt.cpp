@@ -30,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="h",string angle="21", string mom="5p7", string spec="hms"){
+void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -409,7 +409,7 @@ void mcWt(string tgt="h",string angle="21", string mom="5p7", string spec="hms")
       //      if(mom=="5p7" && spec=="hms" && tgt=="h") pi_thsh_cut = w2>1.2;
       //      if(mom=="5p1" && spec=="shms" && tgt=="h") pi_thsh_cut = w2>1.2;
       if(tgt=="h") pi_thsh_cut = w2>1.2;
-      if( fail_id==0 && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
+      if(fail_id==0 && delrec<delCutHi && delrec >delCutLo && pi_thsh_cut)// && coll && fid)
 	{
 	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec)<yCut)
 	  //	  if(abs(xptarrec)<xpCut && abs(yptarrec)<ypCut && abs(ytarrec-1.5)<0.5)

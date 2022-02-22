@@ -17,19 +17,19 @@ void fixRange(TH1F *h){
   return;
 }
 
-void compareMC(string tgt="h",string angle="21", string mom="3p3",string spec="hms"){
+void compareMC(string tgt="h",string angle="29", string mom="3p0",string spec="shms"){
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   gROOT->ForceStyle();
-   TFile *fm=new TFile(Form("../mcWtOut/pass30/%s_mcWt%s_60cm.root",spec.c_str(),kin.c_str()));
+  TFile *fm=new TFile(Form("../mcWtOut/pass65/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
  TH1F *hmyp=(TH1F*)fm->Get("ypWt");
  TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
 
-   TFile *fm2=new TFile(Form("../mcWtOut/pass30/%s_mcWt%s_10cm.root",spec.c_str(),kin.c_str()));
+   TFile *fm2=new TFile(Form("../mcWtOut/pass64/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
  TH1F *hmd2=(TH1F*)fm2->Get("delWt");
  TH1F *hmy2=(TH1F*)fm2->Get("yWt");
  TH1F *hmxp2=(TH1F*)fm2->Get("xpWt");
@@ -90,7 +90,7 @@ void compareMC(string tgt="h",string angle="21", string mom="3p3",string spec="h
  hmyp2->SetMarkerColor(kBlue);
  hmw22->SetMarkerColor(kBlue);
 
- hrd->GetYaxis()->SetRangeUser(0.9,1.2); 
+ hrd->GetYaxis()->SetRangeUser(0.95,1.05); 
  hmd->GetXaxis()->SetRangeUser(-11,23); 
  hmd->GetXaxis()->SetRangeUser(-11,23); 
  hmxp->GetXaxis()->SetRangeUser(-80,80); 
@@ -106,11 +106,12 @@ void compareMC(string tgt="h",string angle="21", string mom="3p3",string spec="h
  TLegend *leg=new TLegend(.1,.6,.9,.9);
  leg->AddEntry(hmd,"recon_cosy_refit_1.576_60cm","lfp");
  leg->AddEntry(hmd2,"recon_cosy_refit_1.576","lfp");
- hrd->GetXaxis()->SetRangeUser(-10,10);
- hmd->GetXaxis()->SetRangeUser(-10,10);
+ // hrd->GetXaxis()->SetRangeUser(-10,10);
+ // hmd->GetXaxis()->SetRangeUser(-10,10);
      c1->cd(6);
      hrd->Draw();
-     leg->Draw("same");
+     hrd->Fit("pol0");
+     //     leg->Draw("same");
      c1->cd(1);
      hmy->Draw("HIST");
      fixRange(hmy);
