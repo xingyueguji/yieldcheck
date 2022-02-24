@@ -39,6 +39,7 @@ void makeTable(){
     if (ncols < 0) break;
     //    if(abs(angle-ang) < .5 && arm == spec ){
       //      cout << "found a point"<<endl;
+    if(label[0]=='r'){
     spec_v.push_back(spec);
     //    ang_v.push_back(ang);
     xb_v.push_back(xb);
@@ -55,7 +56,7 @@ void makeTable(){
     boilp2p_v.push_back(boilp2p);
     tot_v.push_back(tot);
     }
- 
+  }
   double ebeam, ep, thetac, q2, w2, nu, eps, flux, xb2, xsec, perr, gerr, delta, rat, raterr, stat;
   vector <double> ebeam_v, ep_v, thetac_v, q2_v, w2_v, nu_v, eps_v, flux_v, xb2_v, xsec_v, perr_v, gerr_v, delta_v, rat_v, raterr_v;
   vector <double> track_v, trigger_v;

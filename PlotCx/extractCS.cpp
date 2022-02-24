@@ -22,7 +22,6 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   if(spec=="shms" && angle=="33" && (mom=="2p6" || mom=="3p2"))rebin=false;
   if(spec=="shms" && angle=="39" && (mom=="2p0" || mom=="2p5"))rebin=false;
 
-
   //  rebin=false;
   //  ofstream ofile3;
   //  ofile3.open("trash.txt",ios::app | ios::out );
@@ -142,8 +141,13 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   hboil_h->SetDirectory(0);
   frh->Close();
 //*******************************************************************************************
-
-
+  if(rebin){
+  hlte_h->Rebin(3);
+  hlte_h->Scale(1/3.);
+  hlte_d->Rebin(3);
+  hlte_d->Scale(1/3.);
+  }
+//*******************************************************************************************
   const Int_t nbins=hrdd->GetNbinsX();
   //go bin by bin and wt ratios
   for (Int_t i=1; i<=nbins; i++)
@@ -230,7 +234,11 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		    lte=abs(hlte_d->GetBinContent(getBin)-hlte_h->GetBinContent(getBin));
 		    boil_err=sqrt(pow(hboil_d->GetBinContent(getBin),2)+pow(hboil_h->GetBinContent(getBin),2) );
 		  }		  
-	  
+
+		  cout << "D/H Live time error is " << lte << endl;
+		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
+		  cout << "LD2 Live time error is " << hlte_d->GetBinContent(getBin) << endl;
+		  
 		  val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, charge_err, boil_err);  
 
 		  if(target=="h")cxe.push_back(val*cxh);

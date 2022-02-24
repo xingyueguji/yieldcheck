@@ -46,7 +46,7 @@ void compare(){
     spec_v.push_back(spec);
     ebeam_v.push_back(ebeam);
     ep_v.push_back(ep);
-    xb_v.push_back(ep);
+    xb_v.push_back(xb);
     theta_v.push_back(theta);
     q2_v.push_back(q2);
     w2_v.push_back(w2);
@@ -79,7 +79,7 @@ void compare(){
     spec2_v.push_back(spec2);
     ebeam2_v.push_back(ebeam2);
     ep2_v.push_back(ep2);
-    xb2_v.push_back(ep2);
+    xb2_v.push_back(xb2);
     theta2_v.push_back(theta2);
     q22_v.push_back(q22);
     w22_v.push_back(w22);
@@ -158,9 +158,9 @@ c6 122
     g5->SetMarkerColor(kOrange+3);
     g6->SetMarkerColor(kViolet);
 
-    g->GetYaxis()->SetRangeUser(-5,5);
+    g->GetYaxis()->SetRangeUser(-15,15);
     TAxis* ax=g->GetXaxis();
-    ax->SetLimits(0,6);
+    ax->SetLimits(0,1);
 
     g->Draw("ap");
 
