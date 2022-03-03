@@ -36,7 +36,7 @@ void dummyRatios(string tgt="alu",string angle="21", string mom="2p7",string spe
   gROOT->ForceStyle();
   //*****MC Histograms*****
   //TFile *fm=new TFile(Form("mcWtOut/pass27/mcWt%s.root",kin.c_str()));
-   TFile *fm=new TFile(Form("mcWtOut/pass62/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+   TFile *fm=new TFile(Form("mcWtOut/pass65/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
    if(!fm->IsOpen())return;
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
@@ -49,7 +49,7 @@ void dummyRatios(string tgt="alu",string angle="21", string mom="2p7",string spe
  // hmyp->Scale(1/1000.);
  // hmw2->Scale(1/1000.);
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass61/%s_dataYield_%s_no.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass55/%s_dataYield_%s_no.root",spec.c_str(),kin.c_str()));
 
 if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
@@ -193,7 +193,7 @@ if(!fd->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass161/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass306/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -216,7 +216,7 @@ if(!fd->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass161/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass306/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdy->Write("hdy");
