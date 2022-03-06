@@ -138,19 +138,12 @@ c4 121
 c5 119
 c6 122
     */
-  int start=0;
-  TGraph *g=new TGraph(c1,&xb_v[start],&xsec3_v[start]);
-  start=start+c1;
-  TGraph *g2=new TGraph(c2,&xb_v[start],&xsec3_v[start]);
-  start=start+c2;
-  TGraph *g3=new TGraph(c3,&xb_v[start],&xsec3_v[start]);
-  start=start+c3;
-  TGraph *g4=new TGraph(c4,&xb_v[start],&xsec3_v[start]);
-  start=start+c4;
-  TGraph *g5=new TGraph(c5,&xb_v[start],&xsec3_v[start]);
-  start=start+c5;
-  TGraph *g6=new TGraph(c6,&xb_v[start],&xsec3_v[start]);
-
+    TGraph *g=new TGraph(69,&xb_v[0],&xsec3_v[0]);
+    TGraph *g2=new TGraph(123,&xb_v[69],&xsec3_v[69]);
+    TGraph *g3=new TGraph(122,&xb_v[192],&xsec3_v[192]);
+    TGraph *g4=new TGraph(121,&xb_v[314],&xsec3_v[314]);
+    TGraph *g5=new TGraph(119,&xb_v[435],&xsec3_v[435]);
+    TGraph *g6=new TGraph(122,&xb_v[554],&xsec3_v[554]);
 
     g->SetMarkerStyle(33);
     g2->SetMarkerStyle(33);

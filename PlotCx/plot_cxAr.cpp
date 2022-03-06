@@ -11,7 +11,10 @@
 #include "jmu/getJmu.cpp"
 
 void plot_cx(string target="d", string angle="39", string spec="shms", string pass="pass105", float xbmin=0.0, float xbmax=1.0, float cxmin=0.0, float cxmax = 50.0, float ratiomin = 0.7, float ratiomax =1.3, string xaxis = "xb", int numPad=2 ){
-
+  gStyle->SetTitleY(1.);
+  gStyle->SetTitleH(.1);
+  gStyle->SetTitleX(.2);
+  gStyle->SetTitleW(.6);
  Float_t delta, ratio, err, ep, model_k, modeld, modelh, xmin, xmax;
  string pset[5];
  float psetf[5];
@@ -121,8 +124,8 @@ if(target=="r"){
  // TCanvas *c1=new TCanvas();
  TPad *pad1, *pad2;
  if(numPad==2){
-   pad1 = new TPad("pad1","pad1",0,0.4,1,1);
-   pad2 = new TPad("pad2","pad2",0,0.02,1,0.38);
+   pad1 = new TPad("pad1","pad1",0,0.52,1,1);
+   pad2 = new TPad("pad2","pad2",0,0.02,1,0.5);
    //  gStyle->SetGridStyle(1);
    // pad1->SetGrid();
    // pad2->SetGrid();
@@ -162,13 +165,7 @@ gm->Draw("la");
   mrthn->SetMarkerColor(kMagenta+2);
   //  if(target=="r"&& angle=="21")mrthn->Draw("sp");
   /////////////////////////////////////////////////////////////////////
-  cout << "Hey Hey Hey"<<endl;
-  cout << "Hey Hey Hey"<<endl;
-  cout << "Hey Hey Hey"<<endl;
-  cout << "Hey Hey Hey"<<endl;
-  cout << "Hey Hey Hey"<<endl;
   cout << spec <<"\t"<< target <<"\t"<< angle <<"\t"<< pset[0]<<"\t"<<1<<"\t"<<pass<<"\t"<<xaxis<<endl;
-  cout << "Hey Hey Hey"<<endl;
 
   TGraphErrors *grcx1=extractCS(spec,target,angle,pset[0],1,pass,xaxis);
   grcx1->SetName("grcx1");
@@ -348,7 +345,7 @@ gm->Draw("la");
      if(xaxis=="w2") gr1->GetXaxis()->SetTitle("W2 (GeV^2)");
      gr1->GetXaxis()->SetTitleSize(.06);
      gr1->GetXaxis()->CenterTitle();
-     gr1->SetTitle("Data/F1F221 v0.995");
+     gr1->SetTitle("Data/F1F221 v0.996t2");
      gr1->GetYaxis()->SetRangeUser(ratiomin,ratiomax);
      //gr1->GetXaxis()->SetRangeUser(xbmin,xbmax);
      if(xaxis=="xb") gr1->GetXaxis()->SetLimits(xbmin,xbmax);
@@ -390,16 +387,17 @@ gm->Draw("la");
    }
  // if(target=="r"&&spec=="shms"&&xaxis=="xb"){gm_k->Draw("same");gm_cj->Draw("same");gm_k1->Draw("same");gm_k2->Draw("same");}
 
- TPaveText *t1=new TPaveText(.15,.15,.25,.2,"NDC");
+ TPaveText *t1=new TPaveText(.3,.8,.7,.9,"NDC");
 
 
 
  t1->AddText(pass.c_str());
-
-
+ // if(target=="r")t1->AddText("D/H ratio");
+ // if(target=="d")t1->AddText("Duet. xsec");
+ // t1->AddText(Form("%sdeg",angle.c_str()));
  // t1->AddText("Casey's pass4");
  
- // t1->Draw();
+ t1->Draw();
 
  TLegend *leg;
  if(xaxis!="w2")
@@ -431,7 +429,8 @@ gm->Draw("la");
 
  // leg->AddEntry(jmu,"JMU","p");
  leg->SetName(Form("leg_%s",spec.c_str()));
- if(target=="r") leg->Draw();
+ // if(target=="r") leg->Draw();
  /// c1->SaveAs(Form("cs_%s%sdeg.pdf",target.c_str(),angle.c_str()));
+ t1->Draw();
   return;
 }

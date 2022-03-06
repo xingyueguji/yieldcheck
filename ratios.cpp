@@ -26,7 +26,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms"
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   bool scale_em=true;
-  rebin=false;
+  //  rebin=false;
 
   /*  I think I was going to 
   int xbins_l =12;
@@ -57,7 +57,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms"
   TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
 
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass55/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass56/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
  if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
@@ -184,7 +184,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms"
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass55/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass56/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
      hed=(TH1F*)fdum->Get("hdd");
@@ -475,7 +475,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass306/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass309/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -498,7 +498,7 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass306/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass309/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdd_stat->Write("hdd_stt");

@@ -320,12 +320,12 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
       wt=0;
       if(i%250000==0)cout<<i<<endl;
       trm->GetEntry(i);
-      //      if(fail_id==0 ){
+      if(fail_id==0 ){//I forget why i need this condition
       //	cout << "Event:\t"<<i<<"\t";
       //	cout << "Before ytarrec:\t"<<ytarrec;
 	//      ytarrec=ytarrec + gRandom->Gaus(0,.4);
 	//	cout << "/tAfter ytarrec:\t"<<ytarrec<<endl;
-      //      }
+      }
 
       //Calculate E' and apply offset
       hsev=hsec*(1. + delini/100.);

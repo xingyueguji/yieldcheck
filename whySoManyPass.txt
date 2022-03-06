@@ -77,6 +77,7 @@ pass 52: Final Results beamTheta 0.45 (Macks D boiling for first half of run) us
 pass 53: Final Results beamTheta 0.45 (Macks D boiling for first half of run) matrix fix
 pass 54: fix dummy subtraction (apply boiling after subtraction)
 pass 55: remove HMS delta correction, copied shms from pass54
+pass 56: remove HMS delta correction, copied shms from pass54
 
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
@@ -123,20 +124,10 @@ pass134: data:pass46  MC:pass33  delta_corr off
 pass135: data:pass47  MC:pass33  new cerenkov, pass 3d*
 pass136: data:pass48  MC:pass36  +0.45mr
 pass137: data:pass49  MC:pass37  -0.45mr
-
-
 pass150: data:pass50  MC:pass50  
-
-
-
-
 pass151a: data:pass36  MC:pass36 final results
-
-
-ARUNI USE THIS ONE
 pass151: data:pass51  MC:pass36 final results  daveMacks boiling + 0.6%
 pass252: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6% REBINNED
-
 pass300: data:53  MC:pass 52 
 pass301: data:53  MC:pass 53
 pass302: data:54  MC:pass 64
@@ -144,5 +135,8 @@ pass303: data:54  MC:pass 64
 pass304: data:54  MC:pass 65   stop_id=0  After mc-single-fix Feb 7th, 2021
 pass305: data:54  MC:pass 66   stop id = 0 or 33 
 pass306: data:55  MC:pass 65   stop_id=0 no delta corr
+pass307: data:55  MC:pass 65   stop_id=0 no delta corr Rebinned
+pass308: data:56  MC:pass 65   revert to old boiling
+pass309: data:56  MC:pass 65   revert to old boiling Rebinend
 
 
