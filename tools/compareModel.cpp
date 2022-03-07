@@ -4,14 +4,14 @@
 //double getCxsec(double angle=21.1, double x=5., string target="h", Int_t choice=1, string spec="shms"){
 //TGraph2D* getRadCorrW2(string target="c", Int_t choice=1, string spec="shms"){
 
-TGraph* plotModel(string target="d", int version=1, double thetac=21)
+TGraph* compareModel(string target="d", double thetac=21)
 {
   TGraph2D * grh=getRadCorrW2("h",1,"shms","v0.995");
   TGraph2D * grd=getRadCorrW2("d",1,"shms","v0.995");
   TGraph2D * grh2=getRadCorrW2("h",1,"shms","v996t2");
   TGraph2D * grd2=getRadCorrW2("d",1,"shms","v996t2");
 
-  Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax;
+  Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax, modelh2, modeld2;
   xmin=2.7*.9;
   xmax=5.1*1.22;
   vector <float> mx;
@@ -30,15 +30,16 @@ TGraph* plotModel(string target="d", int version=1, double thetac=21)
 
      modelh=grh->Interpolate(w2,thetac);
      modeld=grd->Interpolate(w2,thetac);
-     if(version!=1)
-       {
-     modelh=grh2->Interpolate(w2,thetac);
-     modeld=grd2->Interpolate(w2,thetac);
-       }
+     modelh2=grh2->Interpolate(w2,thetac);
+     modeld2=grd2->Interpolate(w2,thetac);
+     
+     modelh=modelh/modelh2;
+     modeld=modeld/modeld2;
 
-     mx.push_back(xb);
-     if(modelh!=0 && modeld!=0)
+
+     if(modelh!=0 && modeld!=0 && w2 > 1.2)
        {
+     mx.push_back(xb);
      if(target=="h")my.push_back(modelh);
      if(target=="d")my.push_back(modeld);
      if(target=="r")my.push_back(modeld/modelh);
@@ -48,5 +49,9 @@ TGraph* plotModel(string target="d", int version=1, double thetac=21)
  TGraph *gm=new TGraph(pts,&mx[0],&my[0]);
  gm->SetMarkerStyle(20);
  gm->SetMarkerSize(.5);
+ gm->GetXaxis()->SetTitle("x_b");
+ gm->GetYaxis()->SetTitle("v0.995 / v0.996t2");
+ if(target=="h")gm->SetMarkerColor(kRed);
+ if(target=="d")gm->SetMarkerColor(kBlue);
  return gm;
 }
