@@ -29,8 +29,8 @@ void comp(){
   int c4=0;
   int c5=0;
   int c6=0;
-  FILE *fp1 = fopen("pass303/xsec_R_Table.txt","r");  
-  FILE *fp2 = fopen("pass251/xsec_R_Table.txt","r");  
+  FILE *fp1 = fopen("pass303nodelta/xsec_D_Table.txt","r");  
+  FILE *fp2 = fopen("pass303new/xsec_D_Table.txt","r");  
   //  FILE *fout = fopen("f2_data.txt");  
   Int_t ncols; 
 
