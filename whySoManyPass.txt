@@ -17,9 +17,7 @@ pass32: Trying different offsets
 pass33: 50M; f1f221v0.995
 pass34: flip sign in HMS theta calc
 pass35: 50M; f1f221v0.995 0.35mr offset
-************************
 pass36: beamTheta=0.45     Best Pass
-***********************
 pass37: beamTheta=-0.45
 ****** Kinematic Uncertainities ********
 pass38: beamTheta=0.45 +.25mr
@@ -28,17 +26,19 @@ pass40: beamTheta=0.45 Ebeam +0.1%
 pass41: beamTheta=0.45 Ebeam -0.1%
 pass42: beamTheta=0.45 E' +0.1%
 pass43: beamTheta=0.45 E' -0.1%
+****************************************
 pass44: Trying stop_id==33
 pass37: dummy
 pass50: final Results (beam theta=0)
 pass51: final Results (beam theta=0.45) 
 pass52: Rerunning.  Should be the same as 51 but without ytar smearing
-pass61:  dummyStudy
+pass61: dummyStudy
 pass62: Arunis dummy file
 pass63: v0.999test
 pass64: focal plane and 996t2
 pass65: HMS stop_id check  stop_id=0
 pass66: HMS stop_id check  stop_id=0 or 36
+
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
 pass 9: change to jmu boiling 6.9/7.3 H/D
@@ -77,7 +77,7 @@ pass 52: Final Results beamTheta 0.45 (Macks D boiling for first half of run) us
 pass 53: Final Results beamTheta 0.45 (Macks D boiling for first half of run) matrix fix
 pass 54: fix dummy subtraction (apply boiling after subtraction)
 pass 55: remove HMS delta correction, copied shms from pass54
-pass 56: remove HMS delta correction, copied shms from pass54
+pass 56: No more Mack boiling after response from Silviu
 
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
@@ -115,7 +115,7 @@ pass125: data:pass41  MC:pass 33 best
 pass126: data:pass41  MC:pass 34 flip signs in mcWt
 pass127: data:pass41  MC:pass 99  I think?? 
 pass128: data:pass31  MC:pass 33 removing scale fact for casey 
-pass129: data:pass42  MC:pass33
+pass129: data:pass42  MC:pass33 
 pass130: data:pass43  MC:pass33
 pass131: data:pass43  MC:pass35  
 pass132: data:pass44  MC:pass35  ???? maybe errors
@@ -127,16 +127,20 @@ pass137: data:pass49  MC:pass37  -0.45mr
 pass150: data:pass50  MC:pass50  
 pass151a: data:pass36  MC:pass36 final results
 pass151: data:pass51  MC:pass36 final results  daveMacks boiling + 0.6%
-pass252: data:pass51  MC:pass51 final results  daveMacks boiling + 0.6% REBINNED
-pass300: data:53  MC:pass 52 
-pass301: data:53  MC:pass 53
-pass302: data:54  MC:pass 64
-pass303: data:54  MC:pass 64
-pass304: data:54  MC:pass 65   stop_id=0  After mc-single-fix Feb 7th, 2021
-pass305: data:54  MC:pass 66   stop id = 0 or 33 
-pass306: data:55  MC:pass 65   stop_id=0 no delta corr
-pass307: data:55  MC:pass 65   stop_id=0 no delta corr Rebinned
-pass308: data:56  MC:pass 65   revert to old boiling
-pass309: data:56  MC:pass 65   revert to old boiling Rebinend
+
+pass251: data:pass51  MC:pass51    daveMacks boiling + 0.6% 
+pass252: data:pass51  MC:pass51    daveMacks boiling + 0.6% REBINNED
+pass300: data:pass53  MC:pass52    Matrix Fix, Removed smearing
+pass301: data:pass53  MC:pass53    MC=53???
+pass302: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
+pass303: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
+
+
+pass304: data:pass54  MC:pass65    stop_id=0  After mc-single-fix Feb 7th, 2021
+pass305: data:pass54  MC:pass66    stop id = 0 or 33 
+pass306: data:pass55  MC:pass65    stop_id=0 no delta corr
+pass307: data:pass55  MC:pass65    stop_id=0 no delta corr Rebinned
+pass308: data:pass56  MC:pass65    revert to old boiling
+pass309: data:pass56  MC:pass65    revert to old boiling Rebinend
 
 

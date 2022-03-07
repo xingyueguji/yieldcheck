@@ -22,7 +22,7 @@ void compareMC(string tgt="h",string angle="29", string mom="3p0",string spec="s
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   gROOT->ForceStyle();
-  TFile *fm=new TFile(Form("../mcWtOut/pass65/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+  TFile *fm=new TFile(Form("../mcWtOut/pass51/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
  TH1F *hmd=(TH1F*)fm->Get("delWt");
  TH1F *hmy=(TH1F*)fm->Get("yWt");
  TH1F *hmxp=(TH1F*)fm->Get("xpWt");
