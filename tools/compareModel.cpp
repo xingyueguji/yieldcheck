@@ -4,14 +4,17 @@
 //double getCxsec(double angle=21.1, double x=5., string target="h", Int_t choice=1, string spec="shms"){
 //TGraph2D* getRadCorrW2(string target="c", Int_t choice=1, string spec="shms"){
 
-TGraph* compareModel(string target="d", double thetac=21)
+TGraph* compareModel(string target="d", double thetac=21, string spec="shms")
 {
-  TGraph2D * grh=getRadCorrW2("h",1,"shms","v0.995");
-  TGraph2D * grd=getRadCorrW2("d",1,"shms","v0.995");
-  TGraph2D * grh2=getRadCorrW2("h",1,"shms","v996t2");
-  TGraph2D * grd2=getRadCorrW2("d",1,"shms","v996t2");
+  TGraph2D * grh=getRadCorrW2("h",1,spec.c_str(),"v0.995");
+  TGraph2D * grd=getRadCorrW2("d",1,spec.c_str(),"v0.995");
+  TGraph2D * grh2=getRadCorrW2("h",1,spec.c_str(),"v996t2");
+  TGraph2D * grd2=getRadCorrW2("d",1,spec.c_str(),"v996t2");
 
   Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax, modelh2, modeld2;
+  //  xmin=3.3*.9;
+  //  xmax=5.7*1.1;
+
   xmin=2.7*.9;
   xmax=5.1*1.22;
   vector <float> mx;
@@ -33,17 +36,23 @@ TGraph* compareModel(string target="d", double thetac=21)
      modelh2=grh2->Interpolate(w2,thetac);
      modeld2=grd2->Interpolate(w2,thetac);
      
-     modelh=modelh/modelh2;
-     modeld=modeld/modeld2;
+     double val1,val2,val3,doh1,doh2;
+     val1=-(modelh-modelh2)/modelh2*100.;
+     val2=-(modeld-modeld2)/modeld2*100.;
+     doh1=modeld/modelh;
+     doh2=modeld2/modelh2;
+     val3=-(doh1-doh2)/doh2*100.;
+     //     modelh=modelh/modelh2;
+     //     modeld=modeld/modeld2;
 
-
+     if(modelh2!=0 && modeld2!=0){
      if(modelh!=0 && modeld!=0 && w2 > 1.2)
        {
      mx.push_back(xb);
-     if(target=="h")my.push_back(modelh);
-     if(target=="d")my.push_back(modeld);
-     if(target=="r")my.push_back(modeld/modelh);
-       }
+     if(target=="h")my.push_back(val1);
+     if(target=="d")my.push_back(val2);
+     if(target=="r")my.push_back(val3);
+       }}
    }
  Int_t pts=mx.size();
  TGraph *gm=new TGraph(pts,&mx[0],&my[0]);

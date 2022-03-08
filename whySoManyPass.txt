@@ -38,6 +38,7 @@ pass63: v0.999test
 pass64: focal plane and 996t2
 pass65: HMS stop_id check  stop_id=0
 pass66: HMS stop_id check  stop_id=0 or 36
+pass67: like pass65 but v0.995
 
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
@@ -132,12 +133,13 @@ pass251: data:pass51  MC:pass51    daveMacks boiling + 0.6%
 pass252: data:pass51  MC:pass51    daveMacks boiling + 0.6% REBINNED
 pass300: data:pass53  MC:pass52    Matrix Fix, Removed smearing
 pass301: data:pass53  MC:pass53    MC=53???
-pass302: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
-pass303: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
 
+******* Pass 302 - 305 Double counting boiling correction ************* Feb 1st to 16th
+*pass302: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
+*pass303: data:pass54  MC:pass64    Fix dummy subtraction; v.0996t; fp comparisons
+*pass304: data:pass54  MC:pass65    stop_id=0  After mc-single-fix Feb 7th, 2021
+*pass305: data:pass54  MC:pass66    stop id = 0 or 33 
 
-pass304: data:pass54  MC:pass65    stop_id=0  After mc-single-fix Feb 7th, 2021
-pass305: data:pass54  MC:pass66    stop id = 0 or 33 
 pass306: data:pass55  MC:pass65    stop_id=0 no delta corr
 pass307: data:pass55  MC:pass65    stop_id=0 no delta corr Rebinned
 pass308: data:pass56  MC:pass65    revert to old boiling

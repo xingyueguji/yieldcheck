@@ -39,9 +39,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass56.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass57.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass56.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass57.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -108,7 +108,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t d_boil_err =0.0082;
   Double_t wt_corr = 1.000;
   if( (spec=="hms" && run >= 1879 && target==2.01) || (spec=="shms" && run >= 2808 && target==2.01) ){
-    wt_corr=1.006;
+    wt_corr=1/1.006;
     cout << "Correcting density because Deut temp = 22.4 K "<<endl;
     cout << "Yields will go up to match MC where rho = 22.0 K "<<endl;
   }
@@ -169,7 +169,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass56/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass57/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -285,6 +285,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH2F *xVxp=new TH2F("xVxp","x_fp vs x_fp; xp_fp (rad); x_fp (cm)",100,-0.1,0.1,100,-40.,40.);
       TH2F *ypVy=new TH2F("ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
       TH2F *yptarVytar=new TH2F("yptarVytar","yp_tar vs y_tar; y_tar (cm); yp_tar (rad)",100,-6,6,100,-0.05,0.05);
+      TH2F *yield4acc=new TH2F("yield4acc","yield; theta; delta",33,-10,22,50,23,27);
       heff->Sumw2();
       TFile *f=new TFile(froot);
       f->Print();
@@ -397,7 +398,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  //
 		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
-		  
+		  yield4acc->Fill(delta,hstheta*180./TMath::Pi(),wt);
 		  hdd->Fill(delta,wt);
 		  hdd2->Fill(delta,wt);
 		  hdd3->Fill(delta,wt);
@@ -624,6 +625,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       tree->Write();
       tree2->Write();
       hdumFact->Write();
+      yield4acc->Write();
       hdd->Write();
       hdd2->Write();
       hdd3->Write();

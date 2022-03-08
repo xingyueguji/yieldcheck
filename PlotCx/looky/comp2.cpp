@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include "../../tools/compareModel.cpp"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ void maxmin(vector <double> w2, vector <double> xsec, vector <double> v, TString
 
 }
 
-void comp(){
+void comp2(){
   int c1=0;
   int c2=0;
   int c3=0;
@@ -151,7 +152,7 @@ void comp(){
   TGraph *g5=new TGraph(c5,&xb_v[start],&xsec3_v[start]);
   start=start+c5;
   TGraph *g6=new TGraph(c6,&xb_v[start],&xsec3_v[start]);
-  
+  auto g7=compareModel();
   g->SetMarkerStyle(33);
     g2->SetMarkerStyle(33);
     g3->SetMarkerStyle(33);
@@ -165,30 +166,23 @@ void comp(){
     g5->SetMarkerColor(kOrange+3);
     g6->SetMarkerColor(kViolet);
 
-    g->GetYaxis()->SetRangeUser(-1,2.5);
-    g->GetYaxis()->SetTitle("(new-old)/new (%)");
-    g->GetXaxis()->SetTitle("x_B");
-    g2->GetYaxis()->SetRangeUser(-10,10);
+    g2->GetYaxis()->SetRangeUser(-1,2.5);
+    g2->GetYaxis()->SetTitle("(new-old)/new (%)");
+    g2->GetXaxis()->SetTitle("x_B");
+    g2->GetYaxis()->SetRangeUser(-1,2.5);
     TAxis* ax=g->GetXaxis();
     ax->SetLimits(0,1);
     gStyle->SetTitleX(.1);
     gStyle->SetTitleW(.8);
-    g->SetTitle("% change in LD2 xsec. when using v996t2 vs v0.995");
-    g->Draw("ap");
+    g2->SetTitle("% change in LD2 xsec. when using v996t2 vs v0.995");
+    g7->SetLineColor(kBlue);
 
-    g2->Draw("sp");
-    g3->Draw("sp");
-    g4->Draw("sp");
-    g5->Draw("sp");
-    g6->Draw("sp");
+    g2->Draw("ap");
+    g7->Draw("lp");
 
     TLegend *leg=new TLegend(.12,.6,.33,.88);
-    leg->AddEntry(g,"HMS 21deg","p");
     leg->AddEntry(g2,"SHMS 21deg","p");
-    leg->AddEntry(g3,"SHMS 25deg","p");
-    leg->AddEntry(g4,"SHMS 29deg","p");
-    leg->AddEntry(g5,"SHMS 33deg","p");
-    leg->AddEntry(g6,"SHMS 39deg","p");
+    leg->AddEntry(g7,"v0.995/v0.996t2","p");
     leg->Draw();
 
     //    g2->Draw("ap");
