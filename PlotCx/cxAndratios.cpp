@@ -2,7 +2,7 @@
 #include "plot_cxAr.cpp"
 //#include "plot_cx_raffaella.cpp"
 
-void cxAndratios(double angle=20){
+void cxAndratios(double angle=21){
   //  gROOT->ForceStyle();
   //  gStyle->SetGridStyle(3);
   //  gStyle->SetTitleX(.5);

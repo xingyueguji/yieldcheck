@@ -34,8 +34,15 @@ void plot_cx(string target="d", string angle="39", string spec="shms", string pa
  double wmin,wmax;
 
  Double_t thetac=getAngle(angle,spec);
- TGraph2D *grd=getRadCorrW2("d",1,spec);  
- TGraph2D *grh=getRadCorrW2("h",1,spec);  
+  string version="v996t2";
+  if(pass=="pass310")version="v0.995";
+  if(pass=="pass311")version="v0.990";
+  cout << "Going to use version "<<version<<" for "<<pass<<endl;
+  TGraph2D *grh=getRadCorrW2("h",1,spec,version);  
+  grh->SetName("grh");
+  TGraph2D *grd=getRadCorrW2("d",1,spec,version);  
+  grd->SetName("grd");
+
   for (Int_t i=0;i<1000;i++)
    {
      ep=xmin+i/1000.*(xmax-xmin);

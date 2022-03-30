@@ -12,7 +12,7 @@
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0
 
 TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass151", string xaxis="xb"){
-
+  cout << "*****************  extracting .... **************************"<<endl;
   ///////////////////////?/////////////////////////////////////////////////
   bool rebin=true;
   if(spec=="hms" && angle=="21" && (mom=="5p1" || mom=="5p7"))rebin=false;
@@ -90,10 +90,19 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   //  Double_t thetac=getAngle(angle,spec);
   Double_t thetac=getAngle(angle,"shms");
 
-  TGraph2D *grh=getRadCorrW2("h",1,spec);  
-  TGraph2D *grd=getRadCorrW2("d",1,spec);  
+  string version="v996t2";
+  if(pass=="pass310")version="v0.995";
+  if(pass=="pass311")version="v0.990";
+  cout << "Going to use version "<<version<<" for "<<pass<<endl;
 
-
+  TGraph2D *grh=getRadCorrW2("h",1,spec,version);  
+  grh->GetName();
+  grh->SetName("grh");
+  grh->GetName();
+  TGraph2D *grd=getRadCorrW2("d",1,spec,version);  
+  grd->GetName();
+  grd->SetName("grd");
+  grd->GetName();
   cout << "The central momentum is "<<hsec<<endl;
   if(spec=="hms"&&hsec<5.5){
     double offset = -0.000276*pow(hsec,3) + 0.002585*pow(hsec,2) - 0.008697*hsec+1.0064;
@@ -235,9 +244,9 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		    boil_err=sqrt(pow(hboil_d->GetBinContent(getBin),2)+pow(hboil_h->GetBinContent(getBin),2) );
 		  }		  
 
-		  cout << "D/H Live time error is " << lte << endl;
-		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
-		  cout << "LD2 Live time error is " << hlte_d->GetBinContent(getBin) << endl;
+		  //		  cout << "D/H Live time error is " << lte << endl;
+		  //		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
+		  //		  cout << "LD2 Live time error is " << hlte_d->GetBinContent(getBin) << endl;
 		  
 		  val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, charge_err, boil_err);  
 
@@ -259,7 +268,8 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		  if(target=="h")cxe.push_back(errh*modelh);
 		  if(target=="d")cxe.push_back(errd*modeld);
 		  if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
-		  if(xaxis=="xb")eprime.push_back(xb);
+		  //		  if(xaxis=="xb")eprime.push_back(xb);
+		  if(xaxis=="xb")eprime.push_back(deltah);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
 		}
@@ -281,9 +291,9 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   int pts=eprime.size();
   for(int i=0;i<pts;i++)
     {
-      cout<<eprime.at(i)<<"\t";
-      cout<<cx.at(i)<<"\t +/-";
-      cout<<cxe.at(i)<<endl;
+      //      cout<<eprime.at(i)<<"\t";
+      //      cout<<cx.at(i)<<"\t +/-";
+      //      cout<<cxe.at(i)<<endl;
     }
   ofile.close();
   //  ofile2.close();

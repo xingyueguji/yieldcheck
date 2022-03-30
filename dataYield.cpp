@@ -39,9 +39,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass57.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass58.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass57.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass58.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -169,7 +169,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass57/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass59/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -187,8 +187,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   double xpCut, ypCut, yCut;
   if(spec=="shms"){
     arm="P";
-    xpCut= 0.10;
-    ypCut= 0.10;
+    xpCut= 0.030;
+    ypCut= 0.030;
     yCut= 10.;
   }    
   if(spec=="hms"){
@@ -285,7 +285,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH2F *xVxp=new TH2F("xVxp","x_fp vs x_fp; xp_fp (rad); x_fp (cm)",100,-0.1,0.1,100,-40.,40.);
       TH2F *ypVy=new TH2F("ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
       TH2F *yptarVytar=new TH2F("yptarVytar","yp_tar vs y_tar; y_tar (cm); yp_tar (rad)",100,-6,6,100,-0.05,0.05);
-      TH2F *yield4acc=new TH2F("yield4acc","yield; theta; delta",33,-10,22,50,23,27);
+      TH2F *yield4acc=new TH2F("yield4acc","yield; theta; delta",30,-65,65,30,-15,25);
+
       heff->Sumw2();
       TFile *f=new TFile(froot);
       f->Print();
@@ -398,7 +399,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  //
 		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
-		  yield4acc->Fill(delta,hstheta*180./TMath::Pi(),wt);
+		  //		  yield4acc->Fill(1000*phd, delta);
+		  yield4acc->Fill(1000*(hstheta-thetacrad), delta, wt);
 		  hdd->Fill(delta,wt);
 		  hdd2->Fill(delta,wt);
 		  hdd3->Fill(delta,wt);

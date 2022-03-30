@@ -6,11 +6,18 @@
 
 TGraph* compareModel(string target="d", double thetac=21, string spec="shms")
 {
-  TGraph2D * grh=getRadCorrW2("h",1,spec.c_str(),"v0.995");
-  TGraph2D * grd=getRadCorrW2("d",1,spec.c_str(),"v0.995");
-  TGraph2D * grh2=getRadCorrW2("h",1,spec.c_str(),"v996t2");
-  TGraph2D * grd2=getRadCorrW2("d",1,spec.c_str(),"v996t2");
-
+  //  TGraph2D * grh=getRadCorrW2("h",3,"shms","v996t2");
+  //  TGraph2D * grd=getRadCorrW2("d",3,"shms","v996t2");
+  //  TGraph2D * grh2=getRadCorrW2("h",3,"hms","v996t2");
+  //  TGraph2D * grd2=getRadCorrW2("d",3,"hms","v996t2");
+  TGraph2D * grh=getRadCorrW2("h",3,spec.c_str(),"v996t2");
+  grh->SetName("grh");
+  TGraph2D * grd=getRadCorrW2("d",3,spec.c_str(),"v996t2");
+  grd->SetName("grd");
+  TGraph2D * grh2=getRadCorrW2("h",3,spec.c_str(),"v0.990");
+  grh2->SetName("grh2");
+  TGraph2D * grd2=getRadCorrW2("d",3,spec.c_str(),"v0.990");
+  grd2->SetName("grd2");
   Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax, modelh2, modeld2;
   //  xmin=3.3*.9;
   //  xmax=5.7*1.1;
@@ -21,7 +28,7 @@ TGraph* compareModel(string target="d", double thetac=21, string spec="shms")
   vector <float> my;   
   for (Int_t i=0;i<1000;i++)
    {
-     cout <<i<<endl;
+     //     cout <<i<<endl;
      ep=xmin+i/1000.*(xmax-xmin);
      Double_t ebeam=10.602;
      Double_t sin2 = sin(thetac/2/180*TMath::Pi())*sin(thetac/2/180*TMath::Pi());
@@ -37,11 +44,11 @@ TGraph* compareModel(string target="d", double thetac=21, string spec="shms")
      modeld2=grd2->Interpolate(w2,thetac);
      
      double val1,val2,val3,doh1,doh2;
-     val1=-(modelh-modelh2)/modelh2*100.;
-     val2=-(modeld-modeld2)/modeld2*100.;
+     val1=(modelh2-modelh)/modelh2*100.;
+     val2=(modeld2-modeld)/modeld2*100.;
      doh1=modeld/modelh;
      doh2=modeld2/modelh2;
-     val3=-(doh1-doh2)/doh2*100.;
+     val3=(doh2-doh1)/doh2*100.;
      //     modelh=modelh/modelh2;
      //     modeld=modeld/modeld2;
 
@@ -59,7 +66,7 @@ TGraph* compareModel(string target="d", double thetac=21, string spec="shms")
  gm->SetMarkerStyle(20);
  gm->SetMarkerSize(.5);
  gm->GetXaxis()->SetTitle("x_b");
- gm->GetYaxis()->SetTitle("v0.995 / v0.996t2");
+ gm->GetYaxis()->SetTitle("(v0.996t2-v0.995)/v0.996t2");
  if(target=="h")gm->SetMarkerColor(kRed);
  if(target=="d")gm->SetMarkerColor(kBlue);
  return gm;

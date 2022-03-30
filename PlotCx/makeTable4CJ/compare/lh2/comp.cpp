@@ -29,8 +29,9 @@ void comp(){
   int c4=0;
   int c5=0;
   int c6=0;
-  FILE *fp2 = fopen("pass251/xsec_D_Table.txt","r");  
-  FILE *fp1 = fopen("xsec_D_Table.txt","r");  
+  string name2="D/H";
+  FILE *fp2 = fopen("../pass308/xsec_R_Table.txt","r");  
+  FILE *fp1 = fopen("../pass311/xsec_R_Table.txt","r");  
   //  FILE *fout = fopen("f2_data.txt");  
   Int_t ncols; 
 
@@ -124,7 +125,9 @@ void comp(){
       if(abs(thetac_v.at(i)-39.0) < 1.)c6++;
     double diff=(xsec_v.at(i)-xsec2_v.at(i))/xsec_v.at(i)*100.;
     //    cout << diff << endl;
+    //    diff=thetac_v.at(i);
     xsec3_v.push_back(diff);
+
 
   }
       
@@ -138,17 +141,19 @@ void comp(){
  
   cout << "There were "<<size1<<" points in the new text file"<<endl;
   cout << "There were "<<size2<<" points in the old text file"<<endl;
+  size2=xsec3_v.size();
+  cout << "There were "<<size2<<" points in the vector"<<endl;
   int start=0;
   TGraph *g=new TGraph(c1,&xb_v[start],&xsec3_v[start]);
-  start=start+c2;
+  start=start+c1;
   TGraph *g2=new TGraph(c2,&xb_v[start],&xsec3_v[start]);
-  start=start+c3;
+  start=start+c2;
   TGraph *g3=new TGraph(c3,&xb_v[start],&xsec3_v[start]);
-  start=start+c4;
+  start=start+c3;
   TGraph *g4=new TGraph(c4,&xb_v[start],&xsec3_v[start]);
-  start=start+c5;
+  start=start+c4;
   TGraph *g5=new TGraph(c5,&xb_v[start],&xsec3_v[start]);
-  start=start+c6;
+  start=start+c5;
   TGraph *g6=new TGraph(c6,&xb_v[start],&xsec3_v[start]);
   
   g->SetMarkerStyle(33);
@@ -164,9 +169,10 @@ void comp(){
     g5->SetMarkerColor(kOrange+3);
     g6->SetMarkerColor(kViolet);
 
-    g->GetYaxis()->SetRangeUser(-45,45);
+    g->GetYaxis()->SetRangeUser(-10,10);
     TAxis* ax=g->GetXaxis();
     ax->SetLimits(0,1);
+    g->SetTitle(name2.c_str());
 
     g->Draw("ap");
 

@@ -1,0 +1,44 @@
+root [134] yield
+(double) 5865.4429
+root [135] nbins
+(double) 30.000000
+root [136] lumi
+(double) 1.8741791e+08
+root [137] accp
+(double) 0.72059453
+root [138] de
+(double) 0.044000000
+root [139] dxp
+(double) 0.12000000
+root [140] dyp
+(double) 0.13000000
+root [141] omega_gen
+(double) 0.00052188084
+root [142] omega_eff
+(double) 0.00035936566
+root [143] omega_gen2
+(double) 0.00052455312
+root [144] omega_eff2
+(double) 0.00037799424
+root [145] yield*nbins/(lumi*accp*de*dxp*dyp)
+(double) 1.8982034
+root [146] yield/(lumi*de*omega_gen*accp)
+(double) 1.8913623
+root [147]  yield/(lumi*de*omega_eff)
+(double) 1.9792492
+root [148] yield/(lumi*de*omega_gen2*accp)
+(double) 1.8817270
+root [149]  yield/(lumi*de*omega_eff2)
+(double) 1.8817064
+
+
+
+
+
+
+h1411->Draw("psxptari:psyptari>>h2(100,-.065,.065,100,-.065,.065)","abs((acos(cos(0.36713001 + psyptari)*cos(psxptari))-0.36713001)*1000.+2.166666667)<2.16666667&&abs(psdeltai-4.333333)<(2./3)")
+h1411->Draw("psxptari:psyptari>>h2(100,-.065,.065,100,-.065,.065)","abs((acos(cos(0.36713001 + psyptari)*cos(psxptari))-0.36713001)*1000.+2.166666667)<2.16666667&&abs(psdeltai-4.333333)<(2./3)&&stop_id==0")
+40384*30/50000000.*.0156
+56042*30/50000000.*.0156
+omega_gen2=0.00052455312
+double omega_eff2=0.00037799424

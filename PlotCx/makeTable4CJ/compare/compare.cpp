@@ -24,8 +24,8 @@ void maxmin(vector <double> w2, vector <double> xsec, vector <double> v, TString
 
 void compare(){
 
-  FILE *fp = fopen("f2_data.txt","r");  
-  FILE *fp2 = fopen("f2_data_old.txt","r");  
+  FILE *fp = fopen("../f2_data.txt","r");  
+  FILE *fp2 = fopen("f2_data_308all.txt","r");  
   //  FILE *fout = fopen("f2_data.txt");  
   Int_t ncols; 
   //      spec     ebeam        ep    thetac        xb        q2        w2      xsec      perr      stat      gerr   density       cer       kin       csb       acc       rad      live      pion

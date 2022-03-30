@@ -4,12 +4,14 @@
 //double getCxsec(double angle=21.1, double x=5., string target="h", Int_t choice=1, string spec="shms"){
 //TGraph2D* getRadCorrW2(string target="c", Int_t choice=1, string spec="shms"){
 
-TGraph* plotModel(string target="d", int version=1, double thetac=21)
+TGraph* plotModel(string target="d", int version=0, double thetac=21)
 {
-  TGraph2D * grh=getRadCorrW2("h",1,"shms","v0.995");
-  TGraph2D * grd=getRadCorrW2("d",1,"shms","v0.995");
-  TGraph2D * grh2=getRadCorrW2("h",1,"shms","v996t2");
-  TGraph2D * grd2=getRadCorrW2("d",1,"shms","v996t2");
+  //  TGraph2D * grh=getRadCorrW2("h",1,"shms","v0.995");
+  //  TGraph2D * grd=getRadCorrW2("d",1,"shms","v0.995");
+  TGraph2D * grh=getRadCorrW2("h",1,"shms","v996t2");
+  TGraph2D * grd=getRadCorrW2("d",1,"shms","v996t2");
+  TGraph2D * grh2=getRadCorrW2("h",3,"shms","v996t2");
+  TGraph2D * grd2=getRadCorrW2("d",3,"shms","v996t2");
 
   Float_t delta, ratio, err, ep, modeld, modelh, xmin, xmax;
   xmin=2.7*.9;

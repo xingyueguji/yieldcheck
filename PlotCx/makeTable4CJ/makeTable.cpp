@@ -4,14 +4,15 @@
 
 using namespace std;
 
-void maxmin(vector <double> w2, vector <double> xsec, vector <double> v, TString name)
+void maxmin(vector <double> gerr, vector <double> w2, vector <double> xsec, vector <double> v, TString name)
 {
   double max,min;
   max=0.;
   min=100;
   int size=v.size();
   for (int i=0;i<size;i++){
-    if(xsec.at(i)<1.15 && w2.at(i)>4){
+    //    if(xsec.at(i)<1.15 && w2.at(i)>4){
+    if(xsec.at(i)<1.1 && gerr.at(i)>0){
       double val=v.at(i);
       if(val>max)max=val;
       if(val<min)min=val;
@@ -201,23 +202,23 @@ void makeTable(){
       outFile<<endl;
 
     }
-    maxmin(w2_v, xsec_v,perr_v, "p2p err");
-    maxmin(w2_v, xsec_v,stat_v, "stat err");
-    maxmin(w2_v, xsec_v,qerr_v, "qerr err");
-    maxmin(w2_v, xsec_v,boilp2p_v, "boilp2p err");
-    maxmin(w2_v, xsec_v,track_v, "track err");
-    maxmin(w2_v, xsec_v,trigger_v, "trigger err");
+    maxmin(gerr_v, w2_v, xsec_v,perr_v, "p2p err");
+    maxmin(gerr_v, w2_v, xsec_v,stat_v, "stat err");
+    maxmin(gerr_v, w2_v, xsec_v,qerr_v, "qerr err");
+    maxmin(gerr_v, w2_v, xsec_v,boilp2p_v, "boilp2p err");
+    maxmin(gerr_v, w2_v, xsec_v,track_v, "track err");
+    maxmin(gerr_v, w2_v, xsec_v,trigger_v, "trigger err");
 
-    maxmin(w2_v, xsec_v,gerr_v, "global err");
-    maxmin(w2_v, xsec_v,density_v, "density err");
-    maxmin(w2_v, xsec_v,cer_v, "cerenkov err");
-    maxmin(w2_v, xsec_v,boil_v, "boiling err");
-    maxmin(w2_v, xsec_v,csb_v, "csb err");
-    maxmin(w2_v, xsec_v,kin_v, "kinematic err");
-    maxmin(w2_v, xsec_v,acc_v, "acceptance err");
-    maxmin(w2_v, xsec_v,rad_v, "radiative err");
-    maxmin(w2_v, xsec_v,live_v, "livetime err");
-    maxmin(w2_v, xsec_v,pion_v, "Pion Cont err");
+    maxmin(gerr_v, w2_v, xsec_v,gerr_v, "global err");
+    maxmin(gerr_v, w2_v, xsec_v,density_v, "density err");
+    maxmin(gerr_v, w2_v, xsec_v,cer_v, "cerenkov err");
+    maxmin(gerr_v, w2_v, xsec_v,boil_v, "boiling err");
+    maxmin(gerr_v, w2_v, xsec_v,csb_v, "csb err");
+    maxmin(gerr_v, w2_v, xsec_v,kin_v, "kinematic err");
+    maxmin(gerr_v, w2_v, xsec_v,acc_v, "acceptance err");
+    maxmin(gerr_v, w2_v, xsec_v,rad_v, "radiative err");
+    maxmin(gerr_v, w2_v, xsec_v,live_v, "livetime err");
+    maxmin(gerr_v, w2_v, xsec_v,pion_v, "Pion Cont err");
 
     //    cout << "Max, Min p2p error: " << *max_element(perr_v.begin(),perr_v.end()) <<"\t"<<*min_element(perr_v.begin(),perr_v.end())<<endl;
   return;
