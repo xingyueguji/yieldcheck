@@ -33,21 +33,22 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   Double_t mp2 = mp*mp;
   Double_t dxp, dyp, delup, deldown, delCutHi, delCutLo, xpCut, ypCut, yCut;
   Double_t target, ebeam, hsec, thetac, tgtDenLen, tgtMass, offset,beamTheta;
-  Double_t charge=0;
+
 
   if(spec=="shms")
     {
-      //      dxp=60;//phi in MC xp_tar
-      //      dyp=65;
-      dxp=30.;//phi in MC xp_tar
-      dyp=30.;//phi in MC xp_tar
+      dxp=60;//phi in MC xp_tar
+      dyp=65;
+      //      dxp=20.;//phi in MC xp_tar  th in data
+      //      dyp=30.;
       delup=25;
       deldown=-15;
       //match data cuts
       delCutLo = -10.;
       delCutHi = +22.;
-      xpCut= 0.03;
-      ypCut= 0.03;
+      //      xpCut= 0.02;
+      xpCut= 0.1;
+      ypCut= 0.1;
       yCut= 10.;
     }
 
@@ -65,7 +66,7 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
     }
 
   ebeam=10.602;//*(1.0-0.001);
-  charge=1.;
+
 
   hsec=getMom(kin,spec);
   cout << "The central momentum is "<<hsec<<endl;
@@ -95,8 +96,12 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   Float_t xfoc, yfoc, dxdz, dydz, ztarini, ytarini, delini, xptarini, yptarini;
   Float_t zrec, ytarrec, delrec, yptarrec, xptarrec, xtarini, xstop, ystop, fail_id;
   TString fmc = "mc/casey/"+spec+"_mc_"+kin+".root";
-  TString fdata = "dataYieldOut/pass58/"+spec+"_dataYield_"+kin+".root";
-  TString fdum = "dataYieldOut/pass58/"+spec+"_dataYield_al21deg3p3_h.root";
+  fmc="/lustre19/expphy/cache/hallc/c-polhe3/analysis/murchhana/ROOTFiles/worksim/comparison/new_simulation_20M_tight_cut/shms_d2n_18_deg_target.root";
+  //  TString fmc = "mc/casey/"+spec+"_mc_c21deg3p3.root";
+  //  TString fmc = "mc/"+spec+"_mc_alu21deg3p3.root";
+  TString fdata = "dataYieldOut/pass57a/"+spec+"_dataYield_"+kin+".root";
+
+  
 
   TFile *fm=new TFile(fmc);
   fm->Print();
@@ -135,7 +140,8 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("acc30bins_tight_cut__%s_%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("dataYieldOut/acc1/acc60bins_%s_%s.root",spec.c_str(),kin.c_str());
+  //  TString fOut=Form("acc30bins_%s_21deg3p3.root",spec.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
 
   Float_t hse, hsev, sin2, xb, nu, wt, q2, w2,thetaini, dt, phasespcor, phasespcorCos; 
@@ -143,6 +149,30 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   TGraph2D *gr;
   TGraph2D *gr2;
   TGraph2D *gr3;
+  if(tgt=="c")
+    {
+      gr=getRadCorrW2("c",1,spec.c_str());  //born
+      gr->SetName("gr");
+      gr2=getRadCorrW2("c",2,spec.c_str());  //born/rad
+      gr2->SetName("gr2");
+      gr3=getRadCorrW2("c",3,spec.c_str());  //rad
+      gr3->SetName("gr3");
+      tgtDenLen=2.19*(.5244/2.19);
+      tgtMass=12.011;
+    }
+
+  if(tgt=="d")
+    {
+      gr=getRadCorrW2("d",1,spec.c_str());  
+      gr->SetName("gr");
+      gr2=getRadCorrW2("d",2,spec.c_str());  
+      gr2->SetName("gr2");
+      gr3=getRadCorrW2("d",3,spec.c_str());  
+      gr3->SetName("gr3");
+      tgtDenLen=.167*9.9682*.996;
+      tgtMass=2.014;
+    }
+
   if(tgt=="h")
     {
       gr=getRadCorrW2("h",1,spec.c_str());  
@@ -151,11 +181,18 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
       gr2->SetName("gr2");
       gr3=getRadCorrW2("h",3,spec.c_str());  
       gr3->SetName("gr3");
-      //      tgtDenLen=0.0723*9.9659*.996;
-      //      tgtMass=1.0079;
+      tgtDenLen=0.0723*9.9659*.996;
+      tgtMass=1.0079;
     }
 
-
+  ////   Calculate Luminosity
+  Float_t charge=0;
+  if(spec=="shms")charge=getCharge(tgt,angle,mom);
+  if(spec=="hms")charge=getHMSCharge(kin);
+  cout << "The Charge is: "<<charge<<endl;
+  Double_t lumdata=tgtDenLen*6.022137e-10/tgtMass/1.602177e-13; // targets/nb
+  double lumi=lumdata;//*charge;  will subtract QNY
+ 
 
   Int_t ngen=0;
   Int_t nacc=0;
@@ -164,10 +201,10 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   Float_t rci=0;
   Double_t totalWt=0;
   Double_t sigave=0;
-  Int_t nbin_delta=30;
+  Int_t nbin_delta=60;
   Int_t nbin_theta=30;
-  Double_t delta_low=-15.;
-  Double_t delta_high=25.;
+  Double_t delta_low=-30.;
+  Double_t delta_high=30.;
   Double_t theta_low=-65.;
   Double_t theta_high=65.;
 
@@ -198,7 +235,9 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
       //Calculate E' and apply offset
 
       Double_t delrec=hbc->GetYaxis()->GetBinCenter(j);
-      Double_t thetaini=hbc->GetXaxis()->GetBinCenter(i)/1000.+thetacrad;
+      Double_t thetaini=0;
+      if(spec=="shms")thetaini=hbc->GetXaxis()->GetBinCenter(i)/1000.+thetacrad;
+      if(spec=="hms")thetaini=-hbc->GetXaxis()->GetBinCenter(i)/1000.+thetacrad;
       hse=hsec*(1. + delrec/100.);
       //      hse=hse*(1+pOffset);
       //call cross sections with initial quantities
@@ -218,12 +257,15 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
       //      Double_t bc_corr=radc/rad*born/rad;
       Double_t bc_corr=radc/rad;
 
-      //      cout <<"i, j, delta, theta, bc_corr: "<< i<<"\t"<<j<<"\t"<<delrec <<"  " <<thetaini*180./TMath::Pi()<<"\t"<<bc_corr<<endl;
-      if(rad>0)hbc->SetBinContent(i,j,bc_corr);
-      if(rad>0)hbc->SetBinError(i,j,0);
+
+	hbc->SetBinContent(i,j,0);
+	hbc->SetBinError(i,j,0);
+	if(!TMath::IsNaN(bc_corr)&&!isinf(bc_corr)){
+	hbc->SetBinContent(i,j,bc_corr);
+      }
+      else cout <<"i, j, delta, theta, bc_corr: "<< i<<"\t"<<j<<"\t"<<delrec <<"  " <<thetaini*180./TMath::Pi()<<"\t"<<bc_corr<<endl;
     }
   }
-
   Int_t nEvents=trm->GetEntries();
   Double_t nEve=0;
   Int_t wtf=0;
@@ -235,7 +277,13 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
       if(abs(yptarini)<ypCut && abs(xptarini)<xpCut){     
 	nEve++;
       //      yptarini= yptarini*1000.;
-      thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini))-thetacrad;
+      if(spec=="shms"){
+	thetaini = acos(cos(thetacrad + yptarini)*cos(xptarini)-thetacrad);
+      }
+      if(spec=="hms"){
+	thetaini = acos(cos(thetacrad - yptarini)*cos(xptarini)-thetacrad);
+      }
+
       //      yptarini=thetaini*180.00/TMath::Pi();
       if(i%250000==0)cout<<i<<endl;
       thetaini=thetaini*1000;
@@ -262,12 +310,11 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
   //  Double_t lumdata=tgtDenLen*6.022137e-10/tgtMass*charge/1.602177e-13; // targets/nb
   //  charge=70028.476;
   cout << "There were "<<nEve<<" events that passed xp, yp, cut"<<endl;
-  charge=1;
-  double lumi=2676.31*charge;
+
 
   double factor=(dxp*dyp*4*nbin_delta/nEve/1000./1000.);
   cout << "The factor to scale heff is "<<factor<<endl;
-  double dep=0.4*3.3/nbin_delta;
+  Double_t dep=(delup-deldown)/100.*hsec/nbin_delta;
   heff->Scale(factor);
   //  hda->Scale(factor); 
   auto heffLumi=(TH2D*)heff->Clone();
@@ -332,20 +379,24 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
     cout <<density_corr<<endl;
     //    density_corr=1;
     fd->Close();
-    TFile *fd2=new TFile(fdum);
+
+
+    string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
+    TFile *fd2=new TFile(Form("dataYieldOut/pass57a/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
     fd2->Print();
     auto hdum=(TH2D*)fd2->Get("yield4acc")->Clone();
     hdum->SetName("hdum");
     hdum->SetDirectory(0);
 
     out->cd();
-
-    if(spec=="shms")charge=getCharge(tgt,angle,mom);
-    if(spec=="hms")charge=getHMSCharge(kin);
-    cout << "The Charge is: "<<charge<<endl;
+    cout << "Will be showing bin (nbin_theta/2,nbin_delta/2) as example"<<endl;
+    cout << "The delta bin center is "<< hdata->GetYaxis()->GetBinCenter(nbin_delta/2)<<endl;
+    cout << "The theta bin center is "<< hdata->GetXaxis()->GetBinCenter(nbin_theta/2.)<<endl;
+    cout << "#0 "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<<endl;
+    cout << "Dividing by charge"<<endl;
     hdata->Scale(1./charge);
-   for(int i=0;i<10;i++)cout << hdata->GetBinContent(15,15);
-   cout << "#1"<<hdata_raw->GetBinContent(15,15);
+    //   for(int i=0;i<10;i++)cout << hdata->GetBinContent(nbin_theta/2,nbin_theta/2.);
+    cout << "#1 "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<<endl;
  //=============================
  // Dummy normalized data yields
  //=============================
@@ -371,16 +422,29 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
        }
      }
    if(spec=="shms")charged=getCharge("al",angle,mom);
+
+   cout << "The dummy charge is: "<<charge<<endl;   
    hdum->Scale(1/charged);
 
-   hdata->Add(hdum,-1);
-   cout << "#1"<<hdata_raw->GetBinContent(15,15);
+   cout << "Avout to subrtact it: "<<endl;   
+   //hdata->Add(hdum,-1);
+   cout << "#2   "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<< endl;
+
+   cout << "Applying density Correction: "<<density_corr<<endl;   
    hdata->Scale(1/density_corr);
+   cout << "#2.1   "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<< endl;
+
+   cout << "Dividing data by Omega_eff*Luminosity: (data_b4) "<<endl;   
    hdata->Divide(heffLumi);
+   cout << "#2.2   "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<< endl;
+
+   TH2D* hdata_b4=(TH2D*)hdata->Clone();
+   hdata_b4->SetName("hdata_b4");
    //  The errors on hdata are correct so far 
    // includes dummy stat + yield stat + MC stat
    nx=hdata->GetNbinsX();
    ny=hdata->GetNbinsY();
+   hdata_b4->Write();
    //  
    for(Int_t i=1; i <= nx; i++){
      for(Int_t j=1; j <= ny; j++){
@@ -389,46 +453,74 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
        double rel_err=0;
        if(content!=0)rel_err=err/content;
        //       cout << hdata->GetBinContent(i,j)<<endl;
-       cout << i <<"\t"<<j<<"\t"<<err<<"\t"<<content<<"\t"<<rel_err<<endl;
+       //             cout << i <<"\t"<<j<<"\t"<<err<<"\t"<<content<<"\t"<<rel_err<<endl;
        herr->SetBinContent(i,j,rel_err);
        if(rel_err>.05)hdata->SetBinContent(i,j,0);
      }
    }
    //  Average Over theta and do bin centering
+   cout << "Doing Bin Centering" << endl;
    hdata->Multiply(hbc);
-
+   cout << "#3 "<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2)<<endl;
 
 
    cout << endl;
    //  j  =  y  =   delta
    //  i  =  x  =   theta
+     ///////////////////////////////////////////////////////////////
+     //////////////// Delta Loop ////////////////////////////////////
+     ///////////////////////////////////////////////////////////////
+     //
+     int startAve=0;
+     int endAve=0;
+     if(spec=="shms"){
+     int startAve=11;
+     int endAve=20;
+     }
+
+     if(spec=="hms"){
+     int startAve=11;
+     int endAve=20;
+     }
+
+
    for(Int_t j=1; j <= ny; j++){
      double wav=0;
      double sum_wt=0;
      double wav_err=0;
-
+     ///////////////////////////////////////////////////////////////
+     //////////////// Theta Loop ////////////////////////////////////
+     ///////////////////////////////////////////////////////////////
+     //     for(Int_t i=startAve; i <= endAve; i++){
      for(Int_t i=11; i <= 20; i++){
        double center= hdata->GetXaxis()->GetBinCenter(i);
        double content=hdata->GetBinContent(i,j);
        double error=  hdata->GetBinError(i,j);
-       cout <<"Theta: "<< center << "\t" << content <<" +/- "<<error;
        if(content!=0){       
-	 sum_wt+=1/pow(error,2); 
-	 wav+=content/pow(error,2); 
+	 sum_wt+=1/pow(error,2);   //denom
+	 wav+=content/pow(error,2);  //num
        }
      }
-     
-     if(sum_wt!=0){
-       wav+=wav/sum_wt;
-       wav_err+=1/sqrt(sum_wt);
+
+     ///////////////////////////////////////////////////////////////
+     /////////////// End Theta ///////////////////////////
+     ///////////////////////////////////////////////////////////////
+     //cout << "#4"<<hdata->GetBinContent(nbin_theta/2,nbin_delta/2);     
+     if(sum_wt>0.){
+       wav=wav/sum_wt;
+       wav_err=sqrt(1/(sum_wt));
        double center= hdata->GetYaxis()->GetBinCenter(j);
        cout << "The weighted average is "<<wav<<" +/- "<<wav_err << " for delta= "<<center<<endl;   
      }
+
      hrad_xs->SetBinContent(j,wav);
      hrad_xs->SetBinError(j,wav_err);
      double center=hrad_xs->GetBinCenter(j);
-
    }
+     ///////////////////////////////////////////////////////////////
+     /////////////// End Delta ///////////////////////////
+     ///////////////////////////////////////////////////////////////
+
 
 
 
@@ -466,10 +558,16 @@ void Acceptance(string tgt="h",string angle="21", string mom="3p3", string spec=
      double radQe=gRadQe->Interpolate(ep, thetac);
      double radDis=gRadDis->Interpolate(ep, thetac);
 
-     double born_xs=(radxs-radEl-radQe)*born/radDis;
+     //     double born_xs=(radxs-radEl-radQe)*born/radDis;
+     double born_xs=radxs*born/(radDis+radEl+radQe);
      double born_err=born_xs*errorxs;
      hborn_xs->SetBinContent(i,born_xs);
-     hborn_xs->SetBinError(i,born_err);
+     if(born_xs!=0)hborn_xs->SetBinError(i,born_err);
+     else hborn_xs->SetBinError(i,0);
+     
+     if(i==nbin_delta/2){
+       cout << "Doing radiative correction: sigma_rad: "<< radxs <<"sigma_born"<< born_xs<<endl;
+     }
    }
 
 

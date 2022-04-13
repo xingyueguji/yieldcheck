@@ -48,7 +48,7 @@ void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms"
   gROOT->ForceStyle();
 
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/pass68/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+  TFile *fm=new TFile(Form("mcWtOut/pass70/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
 
   if(!fm->IsOpen())return;
   TH1F *hmd=(TH1F*)fm->Get("delWt");

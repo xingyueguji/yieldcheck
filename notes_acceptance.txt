@@ -20,6 +20,8 @@ root [143] omega_gen2
 (double) 0.00052455312
 root [144] omega_eff2
 (double) 0.00037799424
+
+
 root [145] yield*nbins/(lumi*accp*de*dxp*dyp)
 (double) 1.8982034
 root [146] yield/(lumi*de*omega_gen*accp)

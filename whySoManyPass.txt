@@ -40,6 +40,7 @@ pass65: HMS stop_id check  stop_id=0  *best
 pass66: HMS stop_id check  stop_id=0 or 36
 pass67: like pass65 but v0.995 (really is v0.95)
 pass68: like pass69 but v0.990
+pass70: v0.996t2 with (100 bins smearing)
 
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
@@ -80,6 +81,9 @@ pass 53: Final Results beamTheta 0.45 (Macks D boiling for first half of run) ma
 pass 54: fix dummy subtraction (apply boiling after subtraction)
 pass 55: remove HMS delta correction, copied shms from pass54
 pass 56: No more Mack boiling after response from Silviu
+pass 57: Acceptance Method 100 mr 100 mr
+pass 58: Acceptance Method 30 mr 30 mr
+pass 59: Acceptance Method 30 mr (P.gtr.th 20 mr)
 
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
@@ -149,5 +153,7 @@ pass309: data:pass56  MC:pass65    revert to old boiling Rebinend
 pass310: data:pass56  MC:pass67    trying v0.995
 pass311: data:pass56  MC:pass68    trying v0.990
 
+pass312: data:pass56  MC:pass70    v996t2 fix
+pass313: data:pass56  MC:pass70    v996t2 fix
 
 

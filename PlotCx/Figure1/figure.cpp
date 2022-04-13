@@ -112,7 +112,7 @@ void  figure(){
   */
   g1->GetYaxis()->SetTitle("Uncertainity (%)");  
   g2->GetYaxis()->SetTitle("Uncertainity (%)");
-  g3->GetYaxis()->SetTitle("Q_{2} (GeV^{2})");
+  g3->GetYaxis()->SetTitle("Q^{2} (GeV^{2})");
   g1->GetXaxis()->SetTitle("Q^{2}");
   g2->GetXaxis()->SetTitle("X_{B}");
   g3->GetXaxis()->SetTitle("X_{B}");

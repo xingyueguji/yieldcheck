@@ -157,6 +157,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   hlte_d->Scale(1/3.);
   }
 //*******************************************************************************************
+  cout << "Got ratio files, about to loop..."<<endl;
   const Int_t nbins=hrdd->GetNbinsX();
   //go bin by bin and wt ratios
   for (Int_t i=1; i<=nbins; i++)
@@ -268,8 +269,8 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 		  if(target=="h")cxe.push_back(errh*modelh);
 		  if(target=="d")cxe.push_back(errd*modeld);
 		  if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
-		  //		  if(xaxis=="xb")eprime.push_back(xb);
-		  if(xaxis=="xb")eprime.push_back(deltah);
+		  if(xaxis=="xb")eprime.push_back(xb);
+		  //		  if(xaxis=="xb")eprime.push_back(deltah);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
 		}

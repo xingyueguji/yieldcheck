@@ -30,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"){
+void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="shms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -47,7 +47,7 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
   Double_t charge=0;
   ofstream oFile;
   ofstream outFile;
-  outFile.open(Form("pass68_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
+  outFile.open(Form("pass70_mcWt_%s.txt",spec.c_str()),ios::app | ios::out );
 
 
   if(spec=="shms")
@@ -115,11 +115,11 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
 
   if(tgt=="alu"||tgt=="ald")
     {
-      gr=getRadCorrW2(tgt.c_str(),1,spec.c_str(),"v0.990");  //born
+      gr=getRadCorrW2(tgt.c_str(),1,spec.c_str(),"v996t2");  //born
       gr->SetName("gr");
-      gr2=getRadCorrW2(tgt.c_str(),2,spec.c_str(),"v0.990");  //born/rad
+      gr2=getRadCorrW2(tgt.c_str(),2,spec.c_str(),"v996t2");  //born/rad
       gr2->SetName("gr2");
-      gr3=getRadCorrW2(tgt.c_str(),3,spec.c_str(),"v0.990");  //rad
+      gr3=getRadCorrW2(tgt.c_str(),3,spec.c_str(),"v996t2");  //rad
       gr3->SetName("gr3");
       tgtDenLen=.18155;
       tgtMass=26.98;
@@ -127,11 +127,11 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
 
   if(tgt=="c")
     {
-      gr=getRadCorrW2("c",1,spec.c_str(),"v0.990");  //born
+      gr=getRadCorrW2("c",1,spec.c_str(),"v996t2");  //born
       gr->SetName("gr");
-      gr2=getRadCorrW2("c",2,spec.c_str(),"v0.990");  //born/rad
+      gr2=getRadCorrW2("c",2,spec.c_str(),"v996t2");  //born/rad
       gr2->SetName("gr2");
-      gr3=getRadCorrW2("c",3,spec.c_str(),"v0.990");  //rad
+      gr3=getRadCorrW2("c",3,spec.c_str(),"v996t2");  //rad
       gr3->SetName("gr3");
       tgtDenLen=2.19*(.5244/2.19);
       tgtMass=12.011;
@@ -139,11 +139,11 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
 
   if(tgt=="d")
     {
-      gr=getRadCorrW2("d",1,spec.c_str(),"v0.990");  
+      gr=getRadCorrW2("d",1,spec.c_str(),"v996t2");  
       gr->SetName("gr");
-      gr2=getRadCorrW2("d",2,spec.c_str(),"v0.990");  
+      gr2=getRadCorrW2("d",2,spec.c_str(),"v996t2");  
       gr2->SetName("gr2");
-      gr3=getRadCorrW2("d",3,spec.c_str(),"v0.990");  
+      gr3=getRadCorrW2("d",3,spec.c_str(),"v996t2");  
       gr3->SetName("gr3");
       tgtDenLen=.167*9.9682*.996;
       tgtMass=2.014;
@@ -151,11 +151,11 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
 
   if(tgt=="h")
     {
-      gr=getRadCorrW2("h",1,spec.c_str(),"v0.990");  
+      gr=getRadCorrW2("h",1,spec.c_str(),"v996t2");  
       gr->SetName("gr");
-      gr2=getRadCorrW2("h",2,spec.c_str(),"v0.990");  
+      gr2=getRadCorrW2("h",2,spec.c_str(),"v996t2");  
       gr2->SetName("gr2");
-      gr3=getRadCorrW2("h",3,spec.c_str(),"v0.990");  
+      gr3=getRadCorrW2("h",3,spec.c_str(),"v996t2");  
       gr3->SetName("gr3");
       tgtDenLen=0.0723*9.9659*.996;
       tgtMass=1.0079;
@@ -227,7 +227,7 @@ void mcWt(string tgt="h",string angle="29", string mom="3p0", string spec="shms"
   trm->SetBranchAddress("ysieve", &ystop);
   trm->SetBranchAddress("stop_id", &fail_id);
 
-  TString fOut=Form("mcWtOut/pass68/%s_mcWt%s.root",spec.c_str(),kin.c_str());
+  TString fOut=Form("mcWtOut/pass70/%s_mcWt%s.root",spec.c_str(),kin.c_str());
   TFile *out=new TFile(fOut,"RECREATE");
   TTree *tree=new TTree("tree","Monte Carlo Weighted");
   cout << "opened two more files"<<endl;
