@@ -24,8 +24,8 @@ void maxmin(vector <double> w2, vector <double> xsec, vector <double> v, TString
 
 void compare(){
 
-  FILE *fp = fopen("../f2_data.txt","r");  
-  FILE *fp2 = fopen("f2_data_308all.txt","r");  
+  FILE *fp = fopen("f2_data_old.txt","r");  
+  FILE *fp2 = fopen("f2_data_312.txt","r");  
   //  FILE *fout = fopen("f2_data.txt");  
   Int_t ncols; 
   //      spec     ebeam        ep    thetac        xb        q2        w2      xsec      perr      stat      gerr   density       cer       kin       csb       acc       rad      live      pion
@@ -142,6 +142,7 @@ c6 122
   TGraph *g=new TGraph(c1,&xb_v[start],&xsec3_v[start]);
   start=start+c1;
   TGraph *g2=new TGraph(c2,&xb_v[start],&xsec3_v[start]);
+  //  TGraph *g2=new TGraph(c3,&xb_v[start],&xsec3_v[start]);
   start=start+c2;
   TGraph *g3=new TGraph(c3,&xb_v[start],&xsec3_v[start]);
   start=start+c3;
@@ -168,7 +169,7 @@ c6 122
     g->GetYaxis()->SetRangeUser(-15,15);
     TAxis* ax=g->GetXaxis();
     ax->SetLimits(0,1);
-
+    g->SetTitle("(Old-New)/Old (%)");
     g->Draw("ap");
 
     g2->Draw("sp");

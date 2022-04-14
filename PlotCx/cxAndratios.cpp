@@ -15,61 +15,61 @@ void cxAndratios(double angle=21){
   if(angle==21)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"21\",\"shms\",\"pass308\",.2,1.,-.1,4.,.9,1.1,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"21\",\"shms\",\"pass312\",.2,1.,-.1,4.,.9,1.1,\"xb\")");
       c1->cd(2);
-      gROOT->ProcessLine("plot_cx(\"d\",\"21\",\"shms\",\"pass308\",.2,1.,-.1,8.,.9,1.1,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"d\",\"21\",\"shms\",\"pass312\",.2,1.,-.1,8.,.9,1.1,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"shms\",\"pass308\",.2,1.,0.6,1.1,.9,1.1,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"shms\",\"pass312\",.2,1.,0.6,1.1,.9,1.1,\"xb\")");
     }
   if(angle==20)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"21\",\"hms\",\"pass308\",.2,1.,-.1,3.,.9,1.1,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"21\",\"hms\",\"pass312\",.2,1.,-.1,3.,.9,1.1,\"xb\")");
       c1->cd(2);
-	gROOT->ProcessLine("plot_cx(\"d\",\"21\",\"hms\",\"pass308\",.2,1.,-.1,6.,.9,1.1,\"xb\")");
+	gROOT->ProcessLine("plot_cx(\"d\",\"21\",\"hms\",\"pass312\",.2,1.,-.1,6.,.9,1.1,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"hms\",\"pass308\",.2,1.,0.5,1.1,.9,1.1,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"21\",\"hms\",\"pass312\",.2,1.,0.5,1.1,.9,1.1,\"xb\")");
     }
 
   if(angle==25)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"25\",\"shms\",\"pass308\",.2,1.,-.1,2.,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"25\",\"shms\",\"pass312\",.2,1.,-.1,2.,.85,1.15,\"xb\")");
       c1->cd(2);
-      gROOT->ProcessLine("plot_cx(\"d\",\"25\",\"shms\",\"pass308\",.2,1.,-.1,4.,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"d\",\"25\",\"shms\",\"pass312\",.2,1.,-.1,4.,.85,1.15,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"25\",\"shms\",\"pass308\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"25\",\"shms\",\"pass312\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
     }
 
   if(angle==29)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"29\",\"shms\",\"pass308\",.2,1.,-.1,1.2,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"29\",\"shms\",\"pass312\",.2,1.,-.1,1.2,.85,1.15,\"xb\")");
       c1->cd(2);
-      gROOT->ProcessLine("plot_cx(\"d\",\"29\",\"shms\",\"pass308\",.2,1.,-.1,2.4,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"d\",\"29\",\"shms\",\"pass312\",.2,1.,-.1,2.4,.85,1.15,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"29\",\"shms\",\"pass308\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"29\",\"shms\",\"pass312\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
     }
 
   if(angle==33)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"33\",\"shms\",\"pass308\",.2,1.,-.1,.8,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"33\",\"shms\",\"pass312\",.2,1.,-.1,.8,.85,1.15,\"xb\")");
       c1->cd(2);
-      gROOT->ProcessLine("plot_cx(\"d\",\"33\",\"shms\",\"pass308\",.2,1.,-.1,1.6,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"d\",\"33\",\"shms\",\"pass312\",.2,1.,-.1,1.6,.85,1.15,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"33\",\"shms\",\"pass308\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"33\",\"shms\",\"pass312\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
     }
 
   if(angle==39)
     {
       c1->cd(1);
-      gROOT->ProcessLine("plot_cx(\"h\",\"39\",\"shms\",\"pass308\",.2,1.,-.1,.5,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"h\",\"39\",\"shms\",\"pass312\",.2,1.,-.1,.5,.85,1.15,\"xb\")");
       c1->cd(2);
-      gROOT->ProcessLine("plot_cx(\"d\",\"39\",\"shms\",\"pass308\",.2,1.,-.1,1.,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"d\",\"39\",\"shms\",\"pass312\",.2,1.,-.1,1.,.85,1.15,\"xb\")");
       c1->cd(3);
-      gROOT->ProcessLine("plot_cx(\"r\",\"39\",\"shms\",\"pass308\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
+      gROOT->ProcessLine("plot_cx(\"r\",\"39\",\"shms\",\"pass312\",.2,1.,0.6,1.1,.85,1.15,\"xb\")");
     }
-  c1->SaveAs(Form("shms%2.0fdeg_308.pdf",angle));
+  c1->SaveAs(Form("shms%2.0fdeg_312.pdf",angle));
   return;
 }

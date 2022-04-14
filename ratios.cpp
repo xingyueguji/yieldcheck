@@ -20,13 +20,13 @@ void fixRange(TH1F *h){
   return;
 }
 
-void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms",   bool rebin=false){
+void ratios(string tgt="d",string angle="21", string mom="2p7",string spec="shms",   bool rebin=false){
   //  gStyle->SetOptStat(0);
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   bool scale_em=true;
-  rebin=false;
+  //  rebin=false;
 
   /*  I think I was going to 
   int xbins_l =12;
@@ -476,7 +476,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass311/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass313/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -499,7 +499,7 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass311/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass313/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdd_stat->Write("hdd_stt");

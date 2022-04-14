@@ -151,7 +151,7 @@ pass307: data:pass55  MC:pass65    stop_id=0 no delta corr Rebinned
 pass308: data:pass56  MC:pass65    revert to old boiling
 pass309: data:pass56  MC:pass65    revert to old boiling Rebinend
 pass310: data:pass56  MC:pass67    trying v0.995
-pass311: data:pass56  MC:pass68    trying v0.990
+pass311: data:pass56  MC:pass68    trying v0.990  *overwrote with 313"
 
 pass312: data:pass56  MC:pass70    v996t2 fix
 pass313: data:pass56  MC:pass70    v996t2 fix
