@@ -30,7 +30,7 @@ pass43: beamTheta=0.45 E' -0.1%
 pass44: Trying stop_id==33
 pass37: dummy
 pass50: final Results (beam theta=0)
-pass51: final Results (beam theta=0.45) 
+pass51: final Results (beam theta=0.45) *
 pass52: Rerunning.  Should be the same as 51 but without ytar smearing
 pass61: dummyStudy
 pass62: Arunis dummy file
@@ -84,7 +84,8 @@ pass 56: No more Mack boiling after response from Silviu
 pass 57: Acceptance Method 100 mr 100 mr
 pass 58: Acceptance Method 30 mr 30 mr
 pass 59: Acceptance Method 30 mr (P.gtr.th 20 mr)
-
+pass 60: looking at boiling in LD2 22 v 22.4
+pass 62: shms delta correction in data
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
 pass8: data:pass9 MC:pass7   ELOG428/431 
@@ -155,5 +156,11 @@ pass311: data:pass56  MC:pass68    trying v0.990  *overwrote with 313"
 
 pass312: data:pass56  MC:pass70    v996t2 fix
 pass313: data:pass56  MC:pass70    v996t2 fix
+
+pass314: data:pass56  MC:pass70    same as 312?  working on W2 binning
+pass315: data:pass56  MC:pass67    v995  working on W2 binning
+pass316: data:pass56  MC:pass68    v990  working on W2 binning
+pass317: data:pass62  MC:pass70    shms correction in data for abel    
+
 
 

@@ -172,7 +172,7 @@ if(target=="r"){
   mrthn->SetMarkerSize(0.5);
   mrthn->SetMarkerColor(kGreen+2);
   if(target=="r"&& angle=="21")mrthn->Draw("sp");
-  if(spec=="hms")gwhit->Draw("sp");
+  //  if(spec=="hms")gwhit->Draw("sp");
   /////////////////////////////////////////////////////////////////////
 
   TGraphErrors *grcx1=extractCS(spec,target,angle,pset[0],1,pass,xaxis);
@@ -434,7 +434,7 @@ if(target=="r"){
    leg->AddEntry(gm_k2,"AKP17","l");
    leg->AddEntry(mrthn,"Hall A, MARATHON","p");
    leg->AddEntry(gm_cj,"CJ15","l");
-   leg->AddEntry(gwhit,"SLAC, (Whitlow)","p");
+   //   leg->AddEntry(gwhit,"SLAC, (Whitlow)","p");
    leg->AddEntry(gm_jam,"JAM","l");
 
 

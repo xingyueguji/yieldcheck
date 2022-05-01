@@ -19,9 +19,11 @@
 #include "src/getRadCorrW2.cpp"
 using namespace std;
 
-void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double_t betaMax=1.5, 
+void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Double_t betaMax=1.5, 
 	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
+  bool positron=false;
   bool use_saturation_correction=true;
+  //  bool use_saturation_correction=false;
   bool use_delta_correction=false;
   Double_t target=readReport(run,"target");
   bool use_w2_cut = (target==1.01) || (target>25. && scaleDummy=="h") ;                                                               
@@ -39,12 +41,13 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass57a.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass62.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass57a.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass62.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
+  Double_t dipole=0;
   TString froot, report, fmc;
   TF1* fcer=getCerEffDelta(target);
   //  TH2F *hCerEff=getCerEff(0);
@@ -52,12 +55,17 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   TF1 *pionC=getPionContamination(run);
 
   Double_t charge=readReport(run,"BCM4C charge");
-  //  Double_t livetime=1.-readReport(run,"ps2 clt et");
   Double_t livetime=getLivetime(run,"tlt");
+
   Double_t trackEff=readReport(run,"tr eff");
   Double_t trigEff=readReport(run,"trig eff");
   Double_t psFact=readReport(run,"Ps2 fact");
   Double_t currentAvg=readReport(run,"BCM4C cut current");
+
+  if(psFact<0)positron=true;
+  if(positron)livetime=1.-readReport(run,"ps2 clt et");
+  if(positron)psFact=readReport(run,"Ps3 fact");
+
 
   ////////////////////////////////////////////////////
   Double_t sin2, nu, q2_calc, w2_calc, hse, hstheta, offset;
@@ -78,7 +86,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t beamTheta=0.00045; //shooting beam right .45mr
   //if(spec=="hms")beamTheta*=-1;   //idk if I need this b/c hms theta is neg.
   thetac+=beamTheta*180./TMath::Pi();
-
+  cout << "The central angle is "<<thetac<<endl;
   Double_t thetacrad=thetac*TMath::Pi()/180;
 
   ////////////////////////////////////////////////////
@@ -144,8 +152,9 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
     avgerrBoil=0;
     p2perrBoil=0;
   }
-
+  cout << "The boiling before the "<<wt_corr<<" density correction is" << boilCorr<<endl;
   boilCorr=boilCorr*wt_corr;
+  cout << "The boiling after density correction is" << boilCorr<<endl;
   //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
   Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff*psFact;
 
@@ -169,7 +178,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass57a/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass62/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -208,8 +217,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
   tree->Branch(Form("%s.kin.W2",arm.c_str()), &w2);
   tree->Branch(Form("%s.kin.Q2",arm.c_str()), &q2);
   tree->Branch("w2_calc", &w2_calc);
-  tree->Branch("wt",&wt);
-
+  tree->Branch("wt",&wt)
+;
   if(spec=="shms"){
     froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3e-shms-data/shms_replay_production_%d_-1.root",run);
     //    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3d-shms-data/shms_replay_production_%d_-1.root",run);
@@ -271,7 +280,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       TH1D *hxd=new TH1D("hxd","Data x tar",100,-1.,1.);
       TH1D *hyd=new TH1D("hyd","Data y tar",334,-10,10);
       TH1D *hw2d=new TH1D("hw2d","Data W2",375,-10,20);
-      TH1D *hw2d_calc=new TH1D("hw2d_calc","Data W2 Calc",375,-10,20);
+      TH1D *hw2d_calc=new TH1D("hw2d_calc","Data W2 Calc",375,-10,20);//375
+      TH1D *hw2d_calc2=new TH1D("hw2d_calc2","Data W2 Calc",750,-10,20);//375
       TH1D *hq2d=new TH1D("hq2d","Data Q2",500,-10,50);
       TH1D *hq2d_calc=new TH1D("hq2d_calc","Data Q2 Calc",500,-10,50);
       TH1D *hcerr=new TH1D("hcerr","Cer Eff",100,.9,1.0);      
@@ -303,6 +313,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       tr->SetBranchAddress(Form("%s.dc.y_fp",arm.c_str()), &yfp);
       tr->SetBranchAddress(Form("%s.dc.xp_fp",arm.c_str()), &xpfp);
       tr->SetBranchAddress(Form("%s.dc.yp_fp",arm.c_str()), &ypfp);
+      tr->SetBranchAddress(Form("%s.dc.InsideDipoleExit",arm.c_str()), &dipole);
       tr->SetBranchAddress(Form("%s.kin.W2",arm.c_str()), &w2);
       tr->SetBranchAddress(Form("%s.kin.Q2",arm.c_str()), &q2);
       tr->SetBranchAddress(Form("%s.kin.x_bj",arm.c_str()), &xb);
@@ -326,8 +337,15 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	  if(iEvent%100000==0)cout<<iEvent<<endl;
 	  tr->GetEntry(iEvent);
 	  cerEff=fcer->Eval(delta);// delta before correction?
+
 	  if(spec=="hms" && use_delta_correction)delta=delta-(p1*delta+p2*pow(delta,2)+p3*pow(delta,3)+p4*pow(delta,4)+p5*pow(delta,5));
-	  
+
+	  double p00 = 1.00156;
+	  double p11 = -0.002473; 
+	  double p22 = -1.54588e-05;
+	  double p33 = 6.63986e-06;
+	  double shms_acc_corr=p00+p11*delta+p22*pow(delta,2)+p33*pow(delta,3);
+	  //	  shms_acc_corr=1.;
 	  hse=hsec*(1. + delta/100.);
 
 	  if(spec=="shms"){
@@ -360,15 +378,24 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	  if(use_w2_cut)w2_cut = w2_calc > 1.2;
 	  if(ngc > ngcCut && delta > deltaMin && delta < deltaMax && etracknorm > minEdep){
 	    //	    if(abs(thd)<xpCut && abs(phd)<ypCut && abs(yd) < yCut && w2_cut && yd>0)
-	    if(abs(thd)<xpCut && abs(phd)<ypCut && abs(yd) < yCut && w2_cut)
+	    if(abs(thd)<xpCut && abs(phd)<ypCut && abs(yd) < yCut && w2_cut && dipole==1)
 	      {
 		if(curr>curCut){// && fid && coll){
 		  //Get event by event corrections
-		  if(spec=="shms")piC=pionC->Eval(mom);
+		  if(spec=="shms")piC=pionC->Eval(hse);
+		  if(piC>1000.){
+		    cout <<"Event # "<<iEvent<<"\t"; 
+		    cout << "Pion Cont "<<piC<<"\t";
+		    cout << "P.gtr.p "<<mom<<"\t";
+		    cout << "delta "<<delta<<"\t";
+		    cout << "phd "<<phd<<"\t";
+		    cout << "thd "<<thd<<"\t";
+		    cout <<endl;
+		  }
 		  else piC=0.0;
 		  hpion->Fill(piC);
 		  hcerr->Fill(cerEff);
-		  if(spec=="shms")calEff=getCalEff(mom);
+		  if(spec=="shms")calEff=getCalEff(hse);
 		  hcal->Fill(calEff);
 		  if(spec=="shms")calEff=1.0;
 		  if(spec=="hms")calEff=0.998;
@@ -397,7 +424,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hdumFact->Fill(yd,dumscale);
 		  
 		  //
-		  wt=(1.0-piC)/calEff/cerEff*scale*dumscale;
+		  wt=(1.0-piC)/calEff/cerEff/shms_acc_corr*scale*dumscale;
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  //		  yield4acc->Fill(1000*phd, delta);
 		  if(spec=="shms")yield4acc->Fill(1000*(hstheta-thetacrad), delta, wt);
@@ -418,6 +445,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  hw2d->Fill(w2,wt);
 		  hq2d->Fill(q2,wt);
 		  hw2d_calc->Fill(w2_calc,wt);
+		  hw2d_calc2->Fill(w2_calc,wt);
 		  hq2d_calc->Fill(q2_calc,wt);
 		  hxb->Fill(xb,wt);
 		  hyld->Fill(delta);
@@ -434,7 +462,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  //wt=(1.0-piC)/cerEff/(boilCorr)*scale;
 		  // errors should be fractional (%)
 
-		  if(spec=="hms")errPion=pionC->Eval(mom);
+		  if(spec=="hms")errPion=pionC->Eval(hse);
 
 		  terr_glob=0;
 		  terr_glob+=pow(errCer,2.);
@@ -465,8 +493,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 		  herr_trig->Fill(delta, errTrig*wt);
 		  hBoilCorr->Fill(delta,boilCorr*wt);
 
-		  if(iEvent%10000==0)cout<<"Hello, total pt2pt systematic is: "<<terr_pt2pt<<endl;
-		  if(iEvent%10000==0)cout<<"Hello, total global systematic is: "<<terr_glob<<endl;
+		  //		  if(iEvent%10000==0)cout<<"Hello, total pt2pt systematic is: "<<terr_pt2pt<<endl;
+		  //		  if(iEvent%10000==0)cout<<"Hello, total global systematic is: "<<terr_glob<<endl;
 		  herr_global->Fill(delta,terr_glob*wt); //after hadd multiple runs, divide by hdd 
 		  goode++;
 		  goode_corr+=wt;
@@ -496,7 +524,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	    double val=getCSBerr(abs(thetac),hsec,center,target,0,gr1);
 	    if (run<2200)val=val/.03;
 	    if(!TMath::IsNaN(val))herrCSB->Fill(center,val*weight);
-	    cout << center <<"\t"<< val<<"\t"<<weight<<endl;
+	    //	    cout << center <<"\t"<< val<<"\t"<<weight<<endl;
 	  }
       }
 
@@ -519,7 +547,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	      if(!TMath::IsNaN(val))herrKin->Fill(center,val*weight);
 	      val=getKineUncRatio(grh, grd, eprime, abs(thetac));
 	      if(!TMath::IsNaN(val))herrKinRatio->Fill(center,val*weight);
-	      cout << "eprime: "<<eprime<<"   theta:"<<thetac<<"   unc: "<<val << endl;
+	      //	      cout << "eprime: "<<eprime<<"   theta:"<<thetac<<"   unc: "<<val << endl;
 	    }
 	  
 	}
@@ -554,8 +582,6 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
 	    cout <<center<<"\t"<<content1<<"\t"<<content2<<" +/- "<<sqrt(stat_sq)<<"(stat) +/- ";
 	  cout <<sqrt(sysp2p_sq)<<"(syst_pt2pt)\t"<<sqrt(sysglob_sq)<<"(syst_global)\t"<<total3<<"(total)"<<endl; 
 	}
-      
-
       cout << "***************************************************************************************"<<endl;
       cout << "***************************************************************************************"<<endl;
       cout << "ROOTfile: "<<f->GetName()<<endl;
@@ -587,6 +613,16 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       cout << "***************************************************************************************"<<endl;
       cout << "***************************************************************************************"<<endl;
 
+      if(positron){
+	ofstream outpos;
+	outpos.open("positronQNY.txt",ios::app | ios::out );
+	//	outpos << run <<"\t";
+	outpos << currentAvg <<"\t";
+	outpos << goode_corr/boilCorr/charge*1000 << "\t";
+	outpos << sqrt(goode_corr)/boilCorr/charge*1000 << endl;
+	outpos.close();
+      }
+
 
       outFile << "***************************************************************************************"<<endl;
       outFile << "***************************************************************************************"<<endl;
@@ -595,6 +631,8 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       outFile << "File name                              "<<fname<<endl;
       outFile << "Delta Cut                              " <<deltaMin<<" to "<<deltaMax <<endl;
       outFile << "E/p Cut                                " <<minEdep <<endl;
+      outFile << "Central Theta                          " <<thetac <<endl;
+      outFile << "Central Momentum                       " <<hsec <<endl;
       outFile << "Cerenekov Cut                          " <<ngcCut <<endl;
       outFile << "Current Cut (BCM4C)                    " <<curCut <<endl;
       outFile << "Prescale Factor                        " <<psFact<<endl;
@@ -663,6 +701,7 @@ void dataYield(Int_t run=3022, Double_t ngcCut=2., Double_t betaMin =0.5, Double
       hw2d->Write();
       hq2d->Write();
       hw2d_calc->Write();
+      hw2d_calc2->Write();
       hq2d_calc->Write();
       hxb->Write();
       hcerr->Write();
