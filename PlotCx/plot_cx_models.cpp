@@ -312,12 +312,14 @@ if(target=="r"){
    grsys4->Draw("E3 same");
    // }
    if(spec=="hms") grsys5->Draw("E3 same");
+
  grcx1->Draw("sp");
  grcx2->Draw("sp");
  grcx3->Draw("sp");
  grcx4->Draw("sp");
  if(spec=="hms") grcx5->Draw("sp");
 
+ 
  grcx1a->Draw("sp");
  grcx2a->Draw("sp");
  grcx3a->Draw("sp");
@@ -434,6 +436,7 @@ if(target=="r"){
  // leg->AddEntry(grcx2,Form("E'=%2.2f GeV/c",psetf[1]),"p");
  // leg->AddEntry(grcx3,Form("E'=%2.2f GeV/c",psetf[2]),"p");
  // leg->AddEntry(grcx4,Form("E'=%2.2f GeV/c",psetf[3]),"p");
+ // gPad->SaveAs("temp.pdf");
  // if(spec=="hms") leg->AddEntry(grcx5,Form("E'=%2.2f GeV/c",psetf[4]),"p");
 
  // leg->AddEntry(jmu,"JMU","p");

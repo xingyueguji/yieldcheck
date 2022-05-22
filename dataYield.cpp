@@ -24,7 +24,8 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
   bool positron=false;
   bool use_saturation_correction=true;
   //  bool use_saturation_correction=false;
-  bool use_delta_correction=false;
+  //  bool use_delta_correction=false;
+  bool use_delta_correction=true;
   Double_t target=readReport(run,"target");
   bool use_w2_cut = (target==1.01) || (target>25. && scaleDummy=="h") ;                                                               
 
@@ -41,9 +42,9 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass62.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass64.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass62.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass64.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -109,11 +110,16 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
     p2perrBoil=abs(49.84-currentAvg)/100.*0.0072/boilCorr; 
   } 
   */
-
+  /*
   Double_t h_boil =0.0384;
   Double_t h_boil_err =0.0073;
   Double_t d_boil =0.0430;
   Double_t d_boil_err =0.0082;
+  */
+  Double_t h_boil =0.0255;
+  Double_t h_boil_err =0.0074;
+  Double_t d_boil =0.0309;
+  Double_t d_boil_err =0.0084;
   Double_t wt_corr = 1.000;
   if( (spec=="hms" && run >= 1879 && target==2.01) || (spec=="shms" && run >= 2808 && target==2.01) ){
     wt_corr=1/1.006;
@@ -178,7 +184,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass62/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass64/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -281,7 +287,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
       TH1D *hyd=new TH1D("hyd","Data y tar",334,-10,10);
       TH1D *hw2d=new TH1D("hw2d","Data W2",375,-10,20);
       TH1D *hw2d_calc=new TH1D("hw2d_calc","Data W2 Calc",375,-10,20);//375
-      TH1D *hw2d_calc2=new TH1D("hw2d_calc2","Data W2 Calc",750,-10,20);//375
+      TH1D *hw2d_calc2=new TH1D("hw2d_calc2","Data W2 Calc",720,-10,26);//375
       TH1D *hq2d=new TH1D("hq2d","Data Q2",500,-10,50);
       TH1D *hq2d_calc=new TH1D("hq2d_calc","Data Q2 Calc",500,-10,50);
       TH1D *hcerr=new TH1D("hcerr","Cer Eff",100,.9,1.0);      
@@ -347,14 +353,16 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 	  double shms_acc_corr=p00+p11*delta+p22*pow(delta,2)+p33*pow(delta,3);
 	  //	  shms_acc_corr=1.;
 	  hse=hsec*(1. + delta/100.);
-
+	  //	  if(iEvent%10000==0)cout<<phd<<"\t";
+	  //	  phd=phd+0.544/1000.;
 	  if(spec=="shms"){
 	  hstheta = acos(cos(thetacrad + phd)*cos(thd));
 	  }
-
+	  //	  if(iEvent%10000==0)cout<<phd<<endl;
 	  if(spec=="hms"){
 	    // the central angle from the report file is negative
 	    hstheta = acos(cos(thetacrad + phd)*cos(thd));
+	    shms_acc_corr=1.;
 	  }
 	  
 	  sin2 = sin(hstheta/2.)*sin(hstheta/2.);
@@ -372,7 +380,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 	  if(spec=="hms")cerEff=0.98;
 	  bool fid=fidCut(xfp, yfp, xpfp, ypfp);//shms only
 	  bool coll=collCut(thd, phd, delta, yd);//shms only
-
+	  if(spec=="hms")dipole=1;
 	  //   only apply w2 cut for hydrogen analysis
 	  bool w2_cut=true;
 	  if(use_w2_cut)w2_cut = w2_calc > 1.2;
@@ -383,6 +391,8 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		if(curr>curCut){// && fid && coll){
 		  //Get event by event corrections
 		  if(spec=="shms")piC=pionC->Eval(hse);
+		  else piC=0.0;
+
 		  if(piC>1000.){
 		    cout <<"Event # "<<iEvent<<"\t"; 
 		    cout << "Pion Cont "<<piC<<"\t";
@@ -392,7 +402,6 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		    cout << "thd "<<thd<<"\t";
 		    cout <<endl;
 		  }
-		  else piC=0.0;
 		  hpion->Fill(piC);
 		  hcerr->Fill(cerEff);
 		  if(spec=="shms")calEff=getCalEff(hse);
@@ -425,6 +434,14 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  
 		  //
 		  wt=(1.0-piC)/calEff/cerEff/shms_acc_corr*scale*dumscale;
+		  if(iEvent%100000==0){
+		    cout << 1.0 - piC <<"\t";
+		    cout << calEff <<"\t";
+		    cout << cerEff <<"\t";
+		    cout << shms_acc_corr <<"\t";
+		    cout << scale <<"\t";
+		    cout << dumscale <<endl;
+		  }
 		  //  Double_t scale = (Double_t)1/(livetime)/trackEff/trigEff/(boilCorr)*psFact;
 		  //		  yield4acc->Fill(1000*phd, delta);
 		  if(spec=="shms")yield4acc->Fill(1000*(hstheta-thetacrad), delta, wt);

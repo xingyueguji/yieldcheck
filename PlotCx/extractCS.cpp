@@ -6,16 +6,28 @@
 #include "src/getAngle.cpp"
 #include "src/getMom.cpp"
 #include "src/w2cut.cpp"
+#include "src/doIrebin.cpp"
 
 // returns cross section w stat error only in a TGraph for a given spectrometer/kinematic if cs==3  (w2==8)
 // returns error band in a TGraph for a given spectrometer/kinematic if cs==2 (w2==7)
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1 (w2==6)
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0  (w2==5)
 
-TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21",string mom="5p1", int cs=5, string pass="pass320", string xaxis="w2"){
+TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21",string mom="5p1", int cs=0, string pass="pass322", string xaxis="w2", double w2rebin=0){
 
-  //  cs=cs+5;//W2 binning
+  
+  cs=cs+5;//W2 binning
   cout << "*****************  extracting .... **************************"<<endl;
+  cout <<"spec="<<spec<<endl;
+  cout <<"target="<<target<<endl;
+  cout <<"angle="<<angle<<endl;
+  cout <<"mom= "<<mom<<endl;
+  cout <<"cs= "<<cs<<endl;
+  cout <<"pass="<<pass<<endl;
+  cout <<"xaxis"<<xaxis<<endl;
+  cout <<"w2rebin"<<w2rebin<<endl;
+  w2rebin=doIrebin(spec,angle,mom);
+
   ///////////////////////?/////////////////////////////////////////////////
   bool rebin=true;
   if(spec=="hms" && angle=="21" && (mom=="5p1" || mom=="5p7"))rebin=false;
@@ -25,7 +37,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   if(spec=="shms" && angle=="33" && (mom=="2p6" || mom=="3p2"))rebin=false;
   if(spec=="shms" && angle=="39" && (mom=="2p0" || mom=="2p5"))rebin=false;
 
-  rebin=false;
+    rebin=false;
   //  ofstream ofile3;
   //  ofile3.open("trash.txt",ios::app | ios::out );
   //  ofile3 << spec <<"\t"<< angle <<"\t"<< mom <<"\t"<< rebin<<endl;
@@ -39,7 +51,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 
   ////////////////////////////
   TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec,cs);
-  cout << "Get the kin error hostogram"<<endl;
+  //  cout << "Get the kin error hostogram"<<endl;
   if(rebin){
   hkinErr->Rebin(3);
   hkinErr->Scale(1/3.);
@@ -84,9 +96,13 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   if(target=="r")kin="h"+angle+"deg"+mom;
   else kin=target+angle+"deg"+mom;
   cout << "The Kinematic is " << kin <<endl;
+
+  //  TString fmc = "../mc/casey/"+spec+"_mc_"+kin+".root";
+  //  TFile *fm=new TFile(fmc);
+
   Double_t pc=getMom(kin,spec);//shms corrected; hms is not
   kin=target+angle+"deg"+mom;
-  //string skin=angle+"deg"+mom;
+  string skin=angle+"deg"+mom;
   Double_t pOffset=0.;
   Double_t ebeam=10.602;
   Double_t hsec=pc*(1+pOffset);
@@ -118,10 +134,19 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   hrdd=(TH1F*)frd->Get("hrd");                  // with pt2pt error
   if(cs==3)hrdd=(TH1F*)frd->Get("hrd_stat");    // stat error only  
   if(cs>=5)hrdd=(TH1F*)frd->Get("hsw2");    // W2
+  if(cs==8)hrdd=(TH1F*)frd->Get("hsw2_stat");    // W2
   //  if(cs==8)hrdd=(TH1F*)frd->Get("hsw2_stat");    // W2
-  if(cs>=5)hmdd=(TH1F*)frd->Get("hmw2");    // W2
-  if(rebin)hmdd->Rebin(3);
-  if(cs>=5)hrdd->Divide(hmdd);;    // W2
+  if(cs>=5){
+    hmdd=(TH1F*)frd->Get("hmw2");    // W2
+    if(rebin)hmdd->Rebin(3);
+    if(w2rebin!=0){
+      hmdd->Rebin(w2rebin);
+      hrdd->Rebin(w2rebin);
+      //      hkinErr->Rebin(w2rebin);
+      //      hkinErr->Scale(1./w2rebin);
+    }
+      hrdd->Divide(hmdd);    // W2
+  }
   TH1F *hlte_d=(TH1F*)frd->Get("herr_live");  
   TH1F *hboil_d=(TH1F*)frd->Get("herr_boil");  
   hrdd->SetDirectory(0);
@@ -135,17 +160,34 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   }
   frd->Close();
   
+
   // Hydrogen
   TFile *frh=new TFile(Form("ratiosOut/%s/%s_ratiosh%sdeg%s.root",pass.c_str(),spec.c_str(),angle.c_str(),mom.c_str()));
   TH1F *hrdh, *hmdh;
   hrdh=(TH1F*)frh->Get("hrd");           // with pt2pt error
   if(cs==3)hrdh=(TH1F*)frh->Get("hrd_stat");  // stat error only
   if(cs>=5)hrdh=(TH1F*)frh->Get("hsw2");    // W2
+  if(cs==8)hrdh=(TH1F*)frh->Get("hsw2_stat");    // W2
   //  if(cs==8)hrdh=(TH1F*)frh->Get("hsw2_stat");    // W2
-  if(cs>=5)hmdh=(TH1F*)frh->Get("hmw2");    // W2
-  if(rebin)hmdh->Rebin(3);
-  if(cs>=5)hrdh->Divide(hmdh);;    // W2
-  cout << "MC Bin 151 W2="<<hrdh->GetBinCenter(151)<<"  Content="<<hrdh->GetBinContent(151);
+  if(cs>=5){
+    //    cout <<"Hello1"<<endl;
+    hmdh=(TH1F*)frh->Get("hmw2");    // W2
+    //    cout <<"Hello2"<<endl;
+    if(rebin)hmdh->Rebin(3);
+    if(w2rebin!=0){
+      hmdh->Rebin(w2rebin);
+      hrdh->Rebin(w2rebin);
+      //      cout <<"Hello3"<<endl;
+      //      cout <<"Hello4"<<endl;
+    }
+    hrdh->Divide(hmdh);    // W2
+
+  }
+
+  //  hrdd->Draw();
+  //  hrdh->Draw("same");
+
+  //  cout << "MC Bin 151 W2="<<hrdh->GetBinCenter(151)<<"  Content="<<hrdh->GetBinContent(151);
   TH1F *hlte_h=(TH1F*)frh->Get("herr_live");  
   TH1F *hboil_h=(TH1F*)frh->Get("herr_boil");  
   hrdh->SetDirectory(0);
@@ -162,6 +204,15 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   bool first=true;
   int leftPts=0;
   int rightPts=0;
+  TGraphErrors *gmodDep;
+  double modErr;
+  //  if(cs==2 || cs==7 ){
+  TFile *fff=new TFile("modelDepError.root");
+  string gname=spec+"_"+target+angle+"deg";
+  cout << "gname: "<< gname<< endl;
+  gmodDep=(TGraphErrors*)fff->Get(gname.c_str())->Clone();
+
+  //  }
 
   //go bin by bin and wt ratios
   for (Int_t i=1; i<=nbins; i++)
@@ -207,7 +258,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 	  // I need to add the charge error and radiative dummy area (ELOG 522)
 	  //error is .15% for d/h and d. .3% for h 
 	  //Will get added to errd for d/h
-	  if(cs==1 || cs== 7){   
+	  if(cs==1 || cs== 6){   
 	    if(target=="r"){
 	      errh=sqrt(errh*errh+qh_err*qh_err);
 	    }
@@ -225,14 +276,17 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 	    cout <<"deltah, ep, w2, w2d, :"<<deltah<<"\t";
 	    cout<<ep << "\t" << w2 <<"\t"<< w2d <<endl;
 	  }
+
 	  bool goodW = false;
 
-	  //	  if(cs==5&&ratioh!=0)goodW = w2cut(spec,angle,mom,deltah,binWidth,fmc);//deltah=w2
+	  //	  if(cs==5&&ratioh!=0)goodW = w2cut(spec,angle,mom,w2,binWidth,fm);//deltah=w2
+	  //	  cout << "good 1:  "<<goodW <<endl;
 	  if(cs>=5&&ratioh!=0)goodW = w2cut(spec,angle,mom,w2);//deltah=w2
 	  if(!otherSide && !goodW && ratioh!=0)leftPts++;
 	  if(goodW && ratioh!=0 )otherSide=true;
 	  if(otherSide && !goodW && ratioh!=0 )rightPts++;
 	  //	  goodW=true;
+	  //	  cout << "good 2:  "<<goodW <<endl;
 	  modeld=grd->Interpolate(w2,thetac);  //<<"\t"<<
 	  modelh=grh->Interpolate(w2,thetac);  //<<"\t"<<
 	  if(ratioh!=0 && ratiod!=0 && modelh!=0 && modeld!=0)
@@ -251,7 +305,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  if(target=="h")cx.push_back(0.);
 		  if(target=="d")cx.push_back(0.);
 		  if(target=="r")cx.push_back(sys_y);
-		  
+		  //		  cout << "good 3:  "<<goodW <<endl;	  
 		  double lte, boil_err, val;
 		  int getBin=30;
 		  if(rebin)getBin=10;
@@ -271,9 +325,14 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  //		  cout << "D/H Live time error is " << lte << endl;
 		  //		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
 		  //		  cout << "LD2 Live time error is " << hlte_d->GetBinContent(getBin) << endl;
-		  
-		  val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, i, lte, charge_err, boil_err);  
-
+		  //		  cout << "Do I get here?"<<endl;
+		    modErr=gmodDep->Eval(w2)/100.;
+		    //		    cout << "ModErr: "<<modErr<<endl;
+		    int bin=i;
+		    if(cs>=5)bin=hkinErr->FindBin(w2);
+		    //		    cout << "In extractCS. bin, w2 "<<bin<<",  "<<w2<<endl;
+		    val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, bin, lte, charge_err, boil_err, modErr);  
+		    //		    cout <<"val from get Global Error : "<< val<<endl;
 		  if(target=="h")cxe.push_back(val*cxh);
 		  if(target=="d")cxe.push_back(val*cxd);
 		  if(target=="r")cxe.push_back(val*cxd/cxh/2);		  
@@ -285,6 +344,13 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 
 	      if(cs==1 || cs==3 || (cs==8 && goodW) || (cs==6&&goodW))//cross section
 		{
+		  //		  cout << "good 3:  "<<goodW <<endl;	  
+		  //		  if(cs==1 || cs == 6){
+		  //		    if(target=="h")errh=sqrt(errh*errh+modErr*modErr);
+		  //		    if(target=="d")errh=sqrt(errd*errd+modErr*modErr);
+		  //		    if(target=="r")errh=sqrt(errh*errh+modErr*modErr);
+		  //		  }
+
 		  if(target=="h")cx.push_back(cxh);
 		  if(target=="d")cx.push_back(cxd);
 		  if(target=="r")cx.push_back(cxd/cxh/2);
@@ -298,11 +364,12 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		}
 	      if(cs==0 || (cs==5&& goodW))//data/model
 		{
+		  //		  cout << "good 3:  "<<goodW <<endl;	  
 		  if(first)wmin=w2;first=false;
 		  wmax=w2;
 
 		  if(target=="h")cx.push_back(ratioh);
-		  if(i==151)cout<<"Pushing back 151: "<<ratioh<<endl;
+		  //		  if(i==151)cout<<"Pushing back 151: "<<ratioh<<endl;
 		  if(target=="d")cx.push_back(ratiod);
 		  if(target=="r")cx.push_back(ratiod/ratioh);
 		  if(target=="h")cxe.push_back(errh);
@@ -315,15 +382,15 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 	    }
 	}
     }
+  /*
+    ofstream ofile3;
+    ofile3.open("w2Cut.txt",ios::app | ios::out );
+    ofile3 << kin <<"\t"<< leftPts <<"\t"<< rightPts <<"\t"<<endl;
 
-  //  ofstream ofile3;
-  //  ofile3.open("w2Cut.txt",ios::app | ios::out );
-  //  ofile3 << kin <<"\t"<< leftPts <<"\t"<< rightPts <<"\t"<<endl;
+    ofile3<<"if(kin=="<<skin<<" && w2<"<<wmax<<" && w2>"<<wmin<<")good=true;"<<endl;
 
-  //  ofile3<<"if(kin=="<<skin<<" && w2<"<<wmax<<" && w2>"<<wmin<<")good=true;"<<endl;
-
-  //  ofile3.close();
-
+    ofile3.close();
+  */
   int pts=eprime.size();
   for(int i=0;i<pts;i++)
     {

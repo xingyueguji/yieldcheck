@@ -284,7 +284,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   TH1F *ypWt=new TH1F("ypWt","Monte Carlo Weighted yp_tar",100,-100.,100.);
   TH1F *yWt=new TH1F("yWt","Monte Carlo Weighted y_tar",334,-10,10);
   TH1F *w2Wt=new TH1F("w2Wt","Monte Carlo Weighted W2",375,-10,20);
-  TH1F *w2Wt2=new TH1F("w2Wt2","Monte Carlo Weighted W2",375,-10,20);
+  TH1F *w2Wt2=new TH1F("w2Wt2","Monte Carlo Weighted W2",720,-10,26);
   TH1F *xbWt=new TH1F("xbWt","Monte Carlo Weighted X_{B}",120,0,3.);
   //
   TH1F *centralBorn=new TH1F("avgBorn","#sigma_{born}(#delta,#theta_{central) ",32,-10.,22.);

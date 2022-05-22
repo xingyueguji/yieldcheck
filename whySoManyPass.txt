@@ -41,6 +41,7 @@ pass66: HMS stop_id check  stop_id=0 or 36
 pass67: like pass65 but v0.995 (really is v0.95)
 pass68: like pass69 but v0.990
 pass70: v0.996t2 with (100 bins smearing)
+pass71: added finer W2 binning
 
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
@@ -86,6 +87,8 @@ pass 58: Acceptance Method 30 mr 30 mr
 pass 59: Acceptance Method 30 mr (P.gtr.th 20 mr)
 pass 60: looking at boiling in LD2 22 v 22.4
 pass 62: shms delta correction in data
+pass 63: playing with hms yptar offset
+pass 64:  new boil
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
 pass8: data:pass9 MC:pass7   ELOG428/431 
@@ -161,6 +164,14 @@ pass314: data:pass56  MC:pass70    same as 312?  working on W2 binning
 pass315: data:pass56  MC:pass67    v995  working on W2 binning
 pass316: data:pass56  MC:pass68    v990  working on W2 binning
 pass317: data:pass62  MC:pass70    shms correction in data for abel    
+
+pass320: data:pass62  MC:pass70    
+pass321: data:pass62  MC:pass70    
+pass322: data:pass62  MC:pass71    finer W2 binning
+pass323: data:pass62  MC:pass71    
+
+pass324: data:pass64  MC:pass71    new boiling yet again
+pass325: data:pass64  MC:pass71    
 
 
 

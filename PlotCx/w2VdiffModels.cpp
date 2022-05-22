@@ -368,10 +368,22 @@ void w2VdiffModels(string ang="21"){
   c2->cd(3);
   gPad->SetLeftMargin(.06);
   g42->Draw("ap");
+
+  TFile *fout=new TFile("modelDepError.root","UPDATE");
+  string kin = spec+"_"+"h"+angle+"deg";
+  g40->SetName(kin.c_str());
+  kin = spec+"_"+"d"+angle+"deg";
+  g41->SetName(kin.c_str());
+  kin = spec+"_"+"r"+angle+"deg";
+  g42->SetName(kin.c_str());
+  g40->Write();
+  g41->Write();
+  g42->Write();
   TPaveText *tt2=new TPaveText(.8,.12,.99,.88,"NDC");  
   tt2->AddText("Delta Binning");
   tt2->AddText("#frac{#sigma_{v0.996t2}  - #sigma_{v0.990}}{(#sigma_{v0.996t2} + #sigma_{v0.990})/2}");
   tt2->Draw();
+  fout->Close();
   c2->SaveAs(Form("modelDependence/%s_percDiff_delta.pdf",ang.c_str()));
   return;
 }

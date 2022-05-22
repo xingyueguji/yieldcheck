@@ -30,16 +30,18 @@ void makeTable(){
   //  FILE *fout = fopen("f2_data.txt");  
   Int_t ncols; 
 
-  double spec, ang, xb, pion, density, cer, boil, kin, csb, acc, rad, tot, live, qerr, boilp2p;
-  vector <double> spec_v, ang_v, xb_v, pion_v, density_v, cer_v, boil_v, kin_v, csb_v, acc_v, rad_v, tot_v, live_v, qerr_v, stat_v, boilp2p_v;
+  double spec, ang, xb, pion,modErr, density, cer, boil, kin, csb, acc, rad, tot, live, qerr, boilp2p;
+  vector <double> spec_v, ang_v, xb_v, pion_v, density_v, cer_v, boil_v, kin_v, csb_v, acc_v, rad_v, tot_v, live_v, qerr_v, stat_v, boilp2p_v, modErr_v;
   char label[10];
   while (1) { 
 
     cout << "In while loop 1"<<endl;
-    ncols = fscanf(fp,"%lf %s %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",&spec,label,&xb,&pion,&density,&cer,&boil,&kin,&csb,&acc,&rad,&live,&qerr,&boilp2p, &tot);
+    ncols = fscanf(fp,"%lf %s %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",&spec,label,&xb,&pion,&density,&cer,&modErr,&kin,&csb,&acc,&rad,&live,&qerr,&boilp2p, &tot);
     if (ncols < 0) break;
     //    if(abs(angle-ang) < .5 && arm == spec ){
       //      cout << "found a point"<<endl;
+    //    cout <<modErr<<endl;
+    modErr=abs(modErr);
     if(label[0]=='r'){
     spec_v.push_back(spec);
     //    ang_v.push_back(ang);
@@ -47,9 +49,10 @@ void makeTable(){
     pion_v.push_back(pion);
     density_v.push_back(density);
     cer_v.push_back(cer);
-    boil_v.push_back(boil);
+    //    boil_v.push_back(boil);
     kin_v.push_back(kin);
     csb_v.push_back(csb);
+    modErr_v.push_back(modErr);
     acc_v.push_back(acc);
     rad_v.push_back(rad);
     live_v.push_back(live);
@@ -129,6 +132,7 @@ void makeTable(){
       outFile << setw(10) << " gerr";
       outFile << setw(10) << " density";
       outFile << setw(10) << " cer";
+      outFile << setw(10) << " model";
       //      outFile << setw(10) << " boil";
       outFile << setw(10) << " kin";
       outFile << setw(10) << " csb";
@@ -192,7 +196,7 @@ void makeTable(){
       outFile << setw(10) << gerr_v.at(i);
       outFile << setw(10) << density_v.at(i);
       outFile << setw(10) << cer_v.at(i);
-      //      outFile << setw(10) << boil_v.at(i);
+      outFile << setw(10) << modErr_v.at(i);
       outFile << setw(10) << kin_v.at(i);
       outFile << setw(10) << csb_v.at(i);
       outFile << setw(10) << acc_v.at(i);
@@ -212,7 +216,8 @@ void makeTable(){
     maxmin(gerr_v, w2_v, xsec_v,gerr_v, "global err");
     maxmin(gerr_v, w2_v, xsec_v,density_v, "density err");
     maxmin(gerr_v, w2_v, xsec_v,cer_v, "cerenkov err");
-    maxmin(gerr_v, w2_v, xsec_v,boil_v, "boiling err");
+    maxmin(gerr_v, w2_v, xsec_v,modErr_v, "model err");
+    //    maxmin(gerr_v, w2_v, xsec_v,boil_v, "boiling err");
     maxmin(gerr_v, w2_v, xsec_v,csb_v, "csb err");
     maxmin(gerr_v, w2_v, xsec_v,kin_v, "kinematic err");
     maxmin(gerr_v, w2_v, xsec_v,acc_v, "acceptance err");

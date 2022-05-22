@@ -11,7 +11,7 @@
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0
 
-TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass151", string xaxis="xb"){
+TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21",string mom="2p7", int cs=2, string pass="pass412", string xaxis="xb"){
   cout << "*****************  extracting .... **************************"<<endl;
   ///////////////////////?/////////////////////////////////////////////////
   bool rebin=true;
@@ -115,9 +115,12 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   //*******************************************************************************************
   // Deuterium
   TFile *frd=new TFile(Form("ratiosOut/%s/%s_ratiosd%sdeg%s.root",pass.c_str(),spec.c_str(),angle.c_str(),mom.c_str()));
-  TH1F *hrdd;
+  TH1F *hrdd, hmdd;
   hrdd=(TH1F*)frd->Get("hrd");                  // with pt2pt error
   if(cs==3)hrdd=(TH1F*)frd->Get("hrd_stat");    // stat error only  
+  if(cs==5)hrdd=(TH1F*)frd->Get("hsw2");    // W2
+  if(cs==5)hmdd=(TH1F*)frd->Get("hmw2");    // W2
+  if(cs==5)hrdd=Divide(hmw2);;    // W2
   TH1F *hsysd=(TH1F*)frd->Get("hsys");          
   TH1F *hsysdR=(TH1F*)frd->Get("hsysR");  
   TH1F *hlte_d=(TH1F*)frd->Get("herr_live");  
@@ -136,9 +139,13 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
   
   // Hydrogen
   TFile *frh=new TFile(Form("ratiosOut/%s/%s_ratiosh%sdeg%s.root",pass.c_str(),spec.c_str(),angle.c_str(),mom.c_str()));
-  TH1F *hrdh;
+  TH1F *hrdh, hmdh;
   hrdh=(TH1F*)frh->Get("hrd");           // with pt2pt error
   if(cs==3)hrdh=(TH1F*)frh->Get("hrd_stat");  // stat error only
+  if(cs==5)hrdh=(TH1F*)frh->Get("hsw2");    // W2
+  if(cs==5)hmdh=(TH1F*)frh->Get("hmw2");    // W2
+  if(cs==5)hrdh=Divide(hmw2);;    // W2
+
   TH1F *hsysh=(TH1F*)frh->Get("hsys");  
   TH1F *hsyshR=(TH1F*)frh->Get("hsysR");  
   TH1F *hlte_h=(TH1F*)frh->Get("herr_live");  
@@ -174,7 +181,7 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
       if( (deltad>-10&&deltad<22&&spec=="shms") || spec=="hms") //This is how I handle rebinned data
 	{
 	  //Debs delta correction for SHMS  
-	  if(spec=="shms")
+	  if(spec=="shms" && cs!=5)
 	    {
 	      double p0 = 1.00156;
 	      double p1 = -0.002473; 
@@ -197,7 +204,10 @@ TGraphErrors* extractCS(string spec="shms", string target="r", string angle="21"
 	    }
 	    errd=sqrt(errd*errd+qd_err*qd_err+0.0015*0.0015);
 	  }
-	  
+
+          if(cs==5){  // delta is really W2, need to get ep
+
+          } 	  
 	  ep=(1+deltah/100)*hsec;
 	  
 	  Double_t sin2 = sin(thetac/2/180*TMath::Pi())*sin(thetac/2/180*TMath::Pi());
