@@ -58,7 +58,7 @@ void  figure(){
       outFile << setw(10) << pion_v.at(i);
       outFile<<endl;
       */
-  double spec, ang, xb, pion, density, cer, boil, kin, csb, acc, rad, tot, live, qerr, boilp2p;
+  double spec, ang, xb, pion, density, cer, boil,model, kin, csb, acc, rad, tot, live, qerr, boilp2p;
   vector <double> spec_v, ang_v, xb_v, pion_v, density_v, cer_v, boil_v, kin_v, csb_v, acc_v, rad_v, tot_v, live_v, qerr_v, stat_v, boilp2p_v;
 
   double ebeam, ep, thetac, q2, w2, nu, eps, flux, xb2, xsec, perr, gerr, delta, rat, raterr, stat;
@@ -67,9 +67,9 @@ void  figure(){
 
   while (1) { 
     ncols = fscanf(f,"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf ",&spec, &ebeam, &ep, &thetac,&xb,&q2, &w2, &xsec, &perr, &stat);
-    ncols = fscanf(f,"%lf %lf %lf %lf %lf %lf %lf %lf %lf ",&gerr, &density, &cer, &kin, &csb, &acc, &rad, &live, &pion);    
+    ncols = fscanf(f,"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",&gerr, &density, &cer,&model,  &kin, &csb, &acc, &rad, &live, &pion);    
     if (ncols < 0) break;
-    if(xb>0.5 && q2 >7)
+    if(xb>0.5 && q2 >7&&xsec<1.1)
     {
       xb_v.push_back(xb);
       q2_v.push_back(q2);

@@ -13,7 +13,7 @@
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1 (w2==6)
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0  (w2==5)
 
-TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21",string mom="5p1", int cs=0, string pass="pass322", string xaxis="w2", double w2rebin=0){
+TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21",string mom="5p1", int cs=0, string pass="pass325", string xaxis="w2", double w2rebin=0){
 
   
   cs=cs+5;//W2 binning
@@ -37,7 +37,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   if(spec=="shms" && angle=="33" && (mom=="2p6" || mom=="3p2"))rebin=false;
   if(spec=="shms" && angle=="39" && (mom=="2p0" || mom=="2p5"))rebin=false;
 
-    rebin=false;
+  rebin=false;
   //  ofstream ofile3;
   //  ofile3.open("trash.txt",ios::app | ios::out );
   //  ofile3 << spec <<"\t"<< angle <<"\t"<< mom <<"\t"<< rebin<<endl;
@@ -50,13 +50,16 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   //  ofile.open("q2rangeMthn.txt",ios::app | ios::out );
 
   ////////////////////////////
-  TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec,cs);
+
+  TH1F *hkinErr;
+    /*
+=getKinErrorFromMc(target, angle, mom, spec,cs);
   //  cout << "Get the kin error hostogram"<<endl;
-  if(rebin){
+  if(rebin && cs<5){
   hkinErr->Rebin(3);
   hkinErr->Scale(1/3.);
   }
-
+    */
   double ang=21;
   double spec_flag=0.;
   if(spec=="shms")spec_flag=1.;
@@ -138,10 +141,13 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   //  if(cs==8)hrdd=(TH1F*)frd->Get("hsw2_stat");    // W2
   if(cs>=5){
     hmdd=(TH1F*)frd->Get("hmw2");    // W2
-    if(rebin)hmdd->Rebin(3);
+    if(rebin&&cs<5)hmdd->Rebin(3);
     if(w2rebin!=0){
+
       hmdd->Rebin(w2rebin);
       hrdd->Rebin(w2rebin);
+      cout << "In the MC here are "<<hmdd->GetNbinsX()<<endl;
+      cout << "In the data here are "<<hrdd->GetNbinsX()<<endl;
       //      hkinErr->Rebin(w2rebin);
       //      hkinErr->Scale(1./w2rebin);
     }
@@ -173,7 +179,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
     //    cout <<"Hello1"<<endl;
     hmdh=(TH1F*)frh->Get("hmw2");    // W2
     //    cout <<"Hello2"<<endl;
-    if(rebin)hmdh->Rebin(3);
+    if(rebin&&cs<5)hmdh->Rebin(3);
     if(w2rebin!=0){
       hmdh->Rebin(w2rebin);
       hrdh->Rebin(w2rebin);
@@ -299,7 +305,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		//	   	   if(spec=="shms")sys_y=.525;
 		//	   if(spec=="hms")sys_y=.56;
 	      }
-	      if((cs==2 || (cs==7&&goodW)) && cxd/cxh/2<1.15)//error band
+	      if((cs==2 || (cs==7&&goodW)))//error band
 		{
 		  //		  if(xb<0.4)ofile << kin << "\t" << ep << "\t" << q2 << endl;
 		  if(target=="h")cx.push_back(0.);
@@ -326,10 +332,10 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  //		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
 		  //		  cout << "LD2 Live time error is " << hlte_d->GetBinContent(getBin) << endl;
 		  //		  cout << "Do I get here?"<<endl;
-		    modErr=gmodDep->Eval(w2)/100.;
+		  modErr=abs(gmodDep->Eval(w2)/100.);
 		    //		    cout << "ModErr: "<<modErr<<endl;
 		    int bin=i;
-		    if(cs>=5)bin=hkinErr->FindBin(w2);
+		    //		    if(cs>=5)bin=hkinErr->FindBin(w2);
 		    //		    cout << "In extractCS. bin, w2 "<<bin<<",  "<<w2<<endl;
 		    val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, bin, lte, charge_err, boil_err, modErr);  
 		    //		    cout <<"val from get Global Error : "<< val<<endl;
@@ -364,7 +370,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		}
 	      if(cs==0 || (cs==5&& goodW))//data/model
 		{
-		  //		  cout << "good 3:  "<<goodW <<endl;	  
+		  cout << "good 3:  "<<goodW <<endl;	  
 		  if(first)wmin=w2;first=false;
 		  wmax=w2;
 
