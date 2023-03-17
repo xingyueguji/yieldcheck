@@ -1,15 +1,33 @@
 {
-TCanvas*c1=new TCanvas("c1","c1",400,800);
-c1->Divide(1,4);
+  gStyle->SetCanvasColor(0);
+  gStyle->SetFrameBorderMode(0);
+  gStyle->SetStatBorderSize(1);
+  gStyle->SetFrameFillColor(0);
+  gStyle->SetTitleFillColor(0);
+  //  gStyle->SetGridStyle(3);
+  //  gStyle->SetTitleX(.5);
+  //  gStyle->SetTitleW(.7);
+  //  gStyle->SetBorderSize(1);
+  //  gPad->SetTopMargin(.09);
+  //  gPad->SetLeftMargin(.12);
+  //  gPad->SetBottomMargin(.09);
+  //  gPad->SetRightMargin(.12);
+  TCanvas*c1=new TCanvas("c1","c1",400,800);
+  c1->Divide(1,4,.002,.002);
+  c1->SetGrayscale(0);
+  gStyle->SetPadBorderMode(0);
+  gStyle->SetCanvasColor(0);
+  gStyle->SetFrameBorderMode(0);
+  gROOT->ForceStyle();
 
 gStyle->SetTitleX(.1);
-gStyle->SetTitleW(.4);
-gStyle->SetTitleY(.97);
+ gStyle->SetTitleW(.4);
+ gStyle->SetTitleY(.97);
 gStyle->SetTitleH(.08);
  gStyle->SetTitleW(.3);
  gStyle->SetOptStat(0);
  gStyle->SetPalette(kRainBow);
-
+ /*
   heff->Draw("LEGO2");
   gPad->SetPhi(120);
   heff->GetXaxis()->SetRangeUser(-35,35);
@@ -28,7 +46,7 @@ gStyle->SetTitleH(.08);
   gPad->SetLeftMargin(.1);
   heff->Scale(1000.);
   heff->Draw("LEGO2");
-
+*/
 c1->cd(1);
 TFile *_file0 = TFile::Open("acc30bins_shms_21deg3p3.root");
 heff->SetTitle("10 cm Cryo Target");
@@ -51,7 +69,7 @@ heff->SetTitle("10 cm Cryo Target");
   gPad->SetLeftMargin(.1);
   heff->Scale(1000.);
   heff->Draw("LEGO2");
-c1->cd(2);
+c1->cd(3);
 TFile *_file1 = TFile::Open("acc30bins_shms_c21deg3p3.root");
 heff->SetTitle("Carbon foil z=0cm");
 //.x drawAcc.cpp;
@@ -73,7 +91,7 @@ heff->SetTitle("Carbon foil z=0cm");
   gPad->SetLeftMargin(.1);
   heff->Scale(1000.);
   heff->Draw("LEGO2");
-c1->cd(3);
+c1->cd(2);
 TFile *_file2 = TFile::Open("acc30bins_shms_ald21deg3p3.root");
 heff->SetTitle("Al Dummy z=5cm");
 //.x drawAcc.cpp;

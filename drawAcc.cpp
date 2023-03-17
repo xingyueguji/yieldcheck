@@ -1,6 +1,7 @@
 {
-
-  //  TFile *_file0 = TFile::Open("drawMe.root");
+  gStyle->SetCanvasColor(0);
+  gStyle->SetFrameBorderMode(0);
+  TFile *_file0 = TFile::Open("drawMe.root");
   heff->Draw("LEGO2");
   gPad->SetPhi(120);
   gStyle->SetPalette(kRainBow);
@@ -9,7 +10,7 @@
   heff->GetYaxis()->CenterTitle(1);
   heff->GetZaxis()->CenterTitle(1);
   heff->GetZaxis()->SetTitle("Effective Solid Angle (msr)");
-  //  gStyle->SetOptTitle(0);
+  gStyle->SetOptTitle(0);
   gStyle->SetOptStat(0);
 
   heff->GetXaxis()->SetTitleSize(.048);

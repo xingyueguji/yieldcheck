@@ -19,8 +19,8 @@
 #include "src/getRadCorrW2.cpp"
 using namespace std;
 
-void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Double_t betaMax=1.5, 
-	       Double_t deltaMin=-10., Double_t deltaMax=22., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
+void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Double_t betaMax=1.5, 
+	       Double_t deltaMin=-6., Double_t deltaMax=9., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
   bool positron=false;
   bool use_saturation_correction=true;
   //  bool use_saturation_correction=false;
@@ -42,9 +42,9 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
   if(run<2200)spec="hms";
 
   ofstream outFile;
-  outFile.open("dataYield_pass64.txt",ios::app | ios::out );
+  outFile.open("dataYield_pass70.txt",ios::app | ios::out );
   ofstream outErr;
-  outErr.open("p2perr_pass64.txt",ios::app | ios::out );
+  outErr.open("p2perr_pass70.txt",ios::app | ios::out );
 
   Double_t beta, delta, etracknorm, ngc, curr, phd, thd, xfp, yfp, xpfp, ypfp, xCer, yCer, xb;
   Double_t  q2, w2,cerEff, calEff, mom, xd, yd, goode=0, goode_corr=0, boilCorr, errBoil, wt=0, sime=0,terr_pt2pt=0, terr_glob=0, piC=0;
@@ -184,7 +184,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
   Double_t minBin=-30.;
   Double_t maxBin=30.;
 
-  TFile *oFile=new TFile("dataYieldOut/pass64/"+fname,"RECREATE");
+  TFile *oFile=new TFile("dataYieldOut/pass70/"+fname,"RECREATE");
   //  TFile *oFile=new TFile(fname,"RECREATE");
   TTree *tree=new TTree("tree","Data");
   TTree *tree2=new TTree("tree2","Run Eff.");
@@ -294,6 +294,9 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
       TH1D *hpion=new TH1D("hpion","Pion Contamination",200,0,.2);      
       TH1D *hcal=new TH1D("hcal","Cal Eff",100,.995,1.);      
       TH1D *hxb=new TH1D("hxb","xb Good Events",120,0,3);     
+
+      TH1D *hmom=new TH1D("hmom","hmom",70,1,3.2);     
+
       TH2D *hdumFact=new TH2D("hdumFact","Dummy Scale factor vs ytar",50,-10,10,50,.1,.3);
       // Focal Plane Plots
       TH2F *xVy=new TH2F("xVy","x_fp vs y_fp; y_fp (cm); x_fp (cm)",100,-40.,40.0,100,-40.,40.);
@@ -319,7 +322,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
       tr->SetBranchAddress(Form("%s.dc.y_fp",arm.c_str()), &yfp);
       tr->SetBranchAddress(Form("%s.dc.xp_fp",arm.c_str()), &xpfp);
       tr->SetBranchAddress(Form("%s.dc.yp_fp",arm.c_str()), &ypfp);
-      tr->SetBranchAddress(Form("%s.dc.InsideDipoleExit",arm.c_str()), &dipole);
+      if(spec=="shms")tr->SetBranchAddress(Form("%s.dc.InsideDipoleExit",arm.c_str()), &dipole);
       tr->SetBranchAddress(Form("%s.kin.W2",arm.c_str()), &w2);
       tr->SetBranchAddress(Form("%s.kin.Q2",arm.c_str()), &q2);
       tr->SetBranchAddress(Form("%s.kin.x_bj",arm.c_str()), &xb);
@@ -343,9 +346,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 	  if(iEvent%100000==0)cout<<iEvent<<endl;
 	  tr->GetEntry(iEvent);
 	  cerEff=fcer->Eval(delta);// delta before correction?
-
 	  if(spec=="hms" && use_delta_correction)delta=delta-(p1*delta+p2*pow(delta,2)+p3*pow(delta,3)+p4*pow(delta,4)+p5*pow(delta,5));
-
 	  double p00 = 1.00156;
 	  double p11 = -0.002473; 
 	  double p22 = -1.54588e-05;
@@ -364,12 +365,10 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 	    hstheta = acos(cos(thetacrad + phd)*cos(thd));
 	    shms_acc_corr=1.;
 	  }
-	  
 	  sin2 = sin(hstheta/2.)*sin(hstheta/2.);
 	  nu = ebeam - hse;
 	  q2_calc = 4.*hse*ebeam*sin2;
 	  w2_calc= mp2 + 2.*mp*nu-q2_calc;
-
 	  //	  xCer=xfp-89.1*xpfp;
 	  //	  yCer=yfp-89.1*ypfp;
 	  //	  cerEff=hCerEff->GetBinContent(hCerEff->FindBin(yCer,xCer));
@@ -392,7 +391,6 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  //Get event by event corrections
 		  if(spec=="shms")piC=pionC->Eval(hse);
 		  else piC=0.0;
-
 		  if(piC>1000.){
 		    cout <<"Event # "<<iEvent<<"\t"; 
 		    cout << "Pion Cont "<<piC<<"\t";
@@ -408,7 +406,6 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  hcal->Fill(calEff);
 		  if(spec=="shms")calEff=1.0;
 		  if(spec=="hms")calEff=0.998;
-		  
 		  //  Scale Dummy Yields for window thickeness  ELOG 336
 		  double dumscale=1;
 		  if(target>25.)
@@ -428,10 +425,10 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 			  if(abs(yd)<=0.5)dumscale = entr_fact + (exit_fact-entr_fact)*(yd + 0.5);
 			  
 			}
+
 		    }
 		  if(scaleDummy=="no")dumscale=1;
 		  hdumFact->Fill(yd,dumscale);
-		  
 		  //
 		  wt=(1.0-piC)/calEff/cerEff/shms_acc_corr*scale*dumscale;
 		  if(iEvent%100000==0){
@@ -446,6 +443,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  //		  yield4acc->Fill(1000*phd, delta);
 		  if(spec=="shms")yield4acc->Fill(1000*(hstheta-thetacrad), delta, wt);
 		  if(spec=="hms")yield4acc->Fill(1000*(hstheta+thetacrad), delta, wt);
+		  hmom->Fill(mom,psFact);
 		  hdd->Fill(delta,wt);
 		  hdd2->Fill(delta,wt);
 		  hdd3->Fill(delta,wt);
@@ -478,9 +476,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  yptarVytar->Fill(yd,phd,wt);
 		  //wt=(1.0-piC)/cerEff/(boilCorr)*scale;
 		  // errors should be fractional (%)
-
 		  if(spec=="hms")errPion=pionC->Eval(hse);
-
 		  terr_glob=0;
 		  terr_glob+=pow(errCer,2.);
 		  //		    terr+=pow(errCal,2);
@@ -516,6 +512,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
 		  goode++;
 		  goode_corr+=wt;
 		  tree->Fill();
+
 		}
 	      }
 	  }
@@ -685,6 +682,7 @@ void dataYield(Int_t run=3066, Double_t ngcCut=2.0, Double_t betaMin =0.5, Doubl
       hdumFact->Write();
       yield4acc->Write();
       hdd->Write();
+      hmom->Write();
       hdd2->Write();
       hdd3->Write();
       hdd4->Write();

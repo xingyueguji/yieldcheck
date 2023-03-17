@@ -64,7 +64,7 @@ void NIMratios(string tgt="h",string angle="21", string mom="3p3",string spec="s
   gROOT->ForceStyle();
 
   //*****MC Histograms*****
-  TFile *fm=new TFile(Form("mcWtOut/pass68/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
+  TFile *fm=new TFile(Form("mcWtOut/pass71/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
 
   if(!fm->IsOpen())return;
   TH1F *hmd=(TH1F*)fm->Get("delWt");
@@ -74,7 +74,7 @@ void NIMratios(string tgt="h",string angle="21", string mom="3p3",string spec="s
   TH1F *hmw2=(TH1F*)fm->Get("w2Wt");
 
  //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass56/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ TFile *fd=new TFile(Form("dataYieldOut/pass64/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
  if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
@@ -201,7 +201,7 @@ void NIMratios(string tgt="h",string angle="21", string mom="3p3",string spec="s
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass56/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass64/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
      hed=(TH1F*)fdum->Get("hdd");

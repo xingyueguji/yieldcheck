@@ -9,7 +9,7 @@ using namespace std;
 Double_t myFun(double x){
   double mp2=0.9382723*0.9382723;
   
-  Double_t res= (4.0 - mp2) / (1/x-1);
+  Double_t res= (3.0 - mp2) / (1/x-1);
   return res;
 }
 
@@ -155,7 +155,7 @@ void  figure(){
   TGraph *gwhit2=readIt(0);
   TGraph *gwhit3=readIt(3);    
 
-  TF1 *fun=new TF1("fun","(4.0 - pow(0.9382723,2))/(1/x-1)",0,1);
+  TF1 *fun=new TF1("fun","(3.0 - pow(0.9382723,2))/(1/x-1)",0,1);
   //  TF1 *fun=new TF1("fun","myFun(x)",0.1,1.0);
   
   TCanvas *c1=new TCanvas("c1","c1",600,900);

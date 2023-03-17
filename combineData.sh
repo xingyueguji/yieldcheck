@@ -1,6 +1,6 @@
 #!/Bin/bash
 
-cd dataYieldOut/pass62
+cd dataYieldOut/pass70
 
 hadd -f shms_dataYield_al21deg5p1_h.root shms_al21deg5p1_h*
 hadd -f shms_dataYield_al21deg4p0_h.root shms_al21deg4p0_h*

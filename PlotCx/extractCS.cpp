@@ -25,9 +25,9 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   cout <<"cs= "<<cs<<endl;
   cout <<"pass="<<pass<<endl;
   cout <<"xaxis"<<xaxis<<endl;
-  cout <<"w2rebin"<<w2rebin<<endl;
   w2rebin=doIrebin(spec,angle,mom);
-
+  cout <<"w2rebin"<<w2rebin<<endl;
+  //  w2rebin=0;
   ///////////////////////?/////////////////////////////////////////////////
   bool rebin=true;
   if(spec=="hms" && angle=="21" && (mom=="5p1" || mom=="5p7"))rebin=false;
@@ -342,7 +342,8 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  if(target=="h")cxe.push_back(val*cxh);
 		  if(target=="d")cxe.push_back(val*cxd);
 		  if(target=="r")cxe.push_back(val*cxd/cxh/2);		  
-	  
+
+		  if(xaxis=="q2")eprime.push_back(q2);	  
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
@@ -364,6 +365,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  if(target=="h")cxe.push_back(errh*modelh);
 		  if(target=="d")cxe.push_back(errd*modeld);
 		  if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
+		  if(xaxis=="q2")eprime.push_back(q2);	  
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
@@ -381,6 +383,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  if(target=="h")cxe.push_back(errh);
 		  if(target=="d")cxe.push_back(errd);
 		  if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*ratiod/ratioh);
+		  if(xaxis=="q2")eprime.push_back(q2);	  
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);

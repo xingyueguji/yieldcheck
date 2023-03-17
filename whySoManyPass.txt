@@ -42,7 +42,7 @@ pass67: like pass65 but v0.995 (really is v0.95)
 pass68: like pass69 but v0.990
 pass70: v0.996t2 with (100 bins smearing)
 pass71: added finer W2 binning
-
+pass72: v1.00 preRelease
 ************* Data ****************
 pass 8: no calorimeter, etracknorm
 pass 9: change to jmu boiling 6.9/7.3 H/D
@@ -88,7 +88,10 @@ pass 59: Acceptance Method 30 mr (P.gtr.th 20 mr)
 pass 60: looking at boiling in LD2 22 v 22.4
 pass 62: shms delta correction in data
 pass 63: playing with hms yptar offset
-pass 64:  new boil
+pass 64: new boil
+pass 65: Its been a while.  Redoing final analysis
+pass 66: Positrons
+
 ************* Ratios ****************
 pass7: data:pass8 MC:pass7
 pass8: data:pass9 MC:pass7   ELOG428/431 

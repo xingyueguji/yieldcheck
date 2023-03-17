@@ -3,11 +3,53 @@
 #include "src/getCharge.cpp"
 #include "src/getHMSCharge.cpp"
 //#include "src/fpCuts.cpp"
+void fixPad(){
+  gPad->SetBottomMargin(.1);
+  gPad->SetRightMargin(.15);
+  gPad->SetTopMargin(.005);
+  gPad->SetLeftMargin(.15);
 
-double fixRange(TH2F *h, double max=0.0){
+}
+
+double fixRange(TH2F *h, double max=0.0, double ymin=99, double ymax=99, double xmin=99, double xmax=99,int which=0){
   if(max==0)max= h->GetMaximum();
-  double min=1E-9;
+  //  double min=1E-9;
+  double min=max*.005;
+
   h->GetZaxis()->SetRangeUser(min, max);
+  if(ymin<98.9){
+    //    h->Draw();
+    //    gPad->Update();
+      h->GetYaxis()->SetRangeUser(ymin, ymax);
+    //    h->GetYaxis()->SetLimits(ymin, ymax);
+  h->GetXaxis()->SetRangeUser(xmin, xmax);
+
+  h->GetXaxis()->CenterTitle();
+  h->GetYaxis()->CenterTitle();
+  //  gPad->Update();
+  }
+  h->Draw("COLZ");
+  gPad->Update();
+  TPaletteAxis *palette = (TPaletteAxis*)h->GetListOfFunctions()->FindObject("palette");
+  palette->SetX1NDC(.85);
+  palette->SetX2NDC(.93);
+
+  TString ss="";
+  if(which!=0){
+    if(which==1)ss="Monte Carlo: X vs Y";
+    if(which==2)ss="Data: X vs Y";
+    if(which==3)ss="Monte Carlo: X' vs Y'";
+    if(which==4)ss="Data: X' vs Y'";
+    if(which==5)ss="Monte Carlo: X vs X'";
+    if(which==6)ss="Data: X vs X'";
+    if(which==7)ss="Monte Carlo: Y' vs Y";
+    if(which==8)ss="Data: Y' vs Y";
+    h->SetTitle(ss);
+
+
+
+  }
+
   return max;
 
 }
@@ -21,23 +63,23 @@ void format(TString s1, TString s2,TCanvas *c){
   TPaveText *tx1=new TPaveText(x1,y1,x2,y2,"NDC");
   tx1->SetBorderSize(1);
   c->cd(1);
-  gPad->SetLogz();
+  gPad->SetLogz(0);
   tx1->AddText("Monte Carlo");
   tx1->Draw();
   c->cd(2);
-  gPad->SetLogz();
+  gPad->SetLogz(0);
   TPaveText *tx2=new TPaveText(x1,y1,x2,y2,"NDC");
   tx2->SetBorderSize(1);
   tx2->AddText("Data - Dummy");
   tx2->Draw();
   c->cd(3);
-  gPad->SetLogz();
+  gPad->SetLogz(0);
   TPaveText *tx3=new TPaveText(x1,y1,x2,y2,"NDC");
   tx3->SetBorderSize(1);
   tx3->AddText("Data + Dummy");
   tx3->Draw();
   c->cd(4);
-  gPad->SetLogz();
+  gPad->SetLogz(0);
   TPaveText *tx4=new TPaveText(x1,y1,x2,y2,"NDC");
   tx4->SetBorderSize(1);
   tx4->AddText("Dummy");
@@ -50,7 +92,7 @@ void format(TString s1, TString s2,TCanvas *c){
   tx5->Draw();
 }
 
-void optics(string tgt="h",string angle="21", string mom="3p3",string spec="shms",   bool rebin=false){
+void opticsTightCut(string tgt="h",string angle="21", string mom="3p3",string spec="shms",   bool rebin=false){
 
 TCutG *c_h_xpVyp = new TCutG("C_H_XPVYP",13);
 c_h_xpVyp->SetVarX("xp_fp vs yp_fp");
@@ -119,82 +161,130 @@ c_h_ypVy->SetPoint(4,-17.4874,-0.0254926);
 c_h_ypVy->SetPoint(5,-5.74495,-0.00387931);
 c_h_ypVy->SetPoint(6,-22.2222,-0.00314039);
 c_h_ypVy->SetPoint(7,-22.2222,-0.00295567);
-   
-TCutG *c_s_xpVyp = new TCutG("C_S_XPVYP",13);
-c_s_xpVyp->SetVarX("xp_fp vs yp_fp");
-c_s_xpVyp->SetVarY("");
-c_s_xpVyp->SetTitle("Graph");
-c_s_xpVyp->SetFillStyle(1000);
-c_s_xpVyp->SetPoint(0,0.0426136,-0.0187808);
-c_s_xpVyp->SetPoint(1,0.00227273,0.0788177);
-c_s_xpVyp->SetPoint(2,-0.00785985,0.0788177);
-c_s_xpVyp->SetPoint(3,-0.009375,0.0597291);
-c_s_xpVyp->SetPoint(4,-0.0419508,-0.0184729);
-c_s_xpVyp->SetPoint(5,-0.0442235,-0.0434113);
-c_s_xpVyp->SetPoint(6,-0.0262311,-0.0769704);
-c_s_xpVyp->SetPoint(7,0.025947,-0.0763547);
-c_s_xpVyp->SetPoint(8,0.0449811,-0.0508005);
-c_s_xpVyp->SetPoint(9,0.0448864,-0.0224754);
-c_s_xpVyp->SetPoint(10,0.0427083,-0.0187808);
-c_s_xpVyp->SetPoint(11,0.0427083,-0.0187808);
-c_s_xpVyp->SetPoint(12,0.0426136,-0.0187808);
-   
-TCutG *c_s_xVxp = new TCutG("C_S_XVXP",7);
-c_s_xVxp->SetVarX("x_fp vs x_fp");
-c_s_xVxp->SetVarY("");
-c_s_xVxp->SetTitle("Graph");
-c_s_xVxp->SetFillStyle(1000);
-c_s_xVxp->SetPoint(0,0.000789141,-11.2069);
-c_s_xVxp->SetPoint(1,0.0825442,18.7192);
-c_s_xVxp->SetPoint(2,0.045928,37.8079);
-c_s_xVxp->SetPoint(3,-0.0336174,-0.738916);
-c_s_xVxp->SetPoint(4,-0.0789141,-29.3103);
-c_s_xVxp->SetPoint(5,0.00157828,-10.9606);
-c_s_xVxp->SetPoint(6,0.000789141,-11.2069);
-   
-TCutG *c_s_xVy = new TCutG("C_S_XVY",15);
-c_s_xVy->SetVarX("x_fp vs y_fp");
-c_s_xVy->SetVarY("");
-c_s_xVy->SetTitle("Graph");
-c_s_xVy->SetFillStyle(1000);
-c_s_xVy->SetPoint(0,-28.851,30.0493);
-c_s_xVy->SetPoint(1,-12.1212,36.9458);
-c_s_xVy->SetPoint(2,1.26263,36.9458);
-c_s_xVy->SetPoint(3,19.5076,27.5862);
-c_s_xVy->SetPoint(4,3.91414,6.7734);
-c_s_xVy->SetPoint(5,31.3763,-15.8867);
-c_s_xVy->SetPoint(6,28.6616,-23.6453);
-c_s_xVy->SetPoint(7,21.2753,-28.202);
-c_s_xVy->SetPoint(8,-19.1288,-28.202);
-c_s_xVy->SetPoint(9,-27.4621,-22.5369);
-c_s_xVy->SetPoint(10,-28.1566,-15.2709);
-c_s_xVy->SetPoint(11,-5.93434,6.28079);
-c_s_xVy->SetPoint(12,-28.346,26.4778);
-c_s_xVy->SetPoint(13,-28.7879,30.1724);
-c_s_xVy->SetPoint(14,-28.851,30.0493);
-   
-TCutG *c_s_ypVy = new TCutG("C_S_YPVY",9);
-c_s_ypVy->SetVarX("yp_fp vs y_fp");
-c_s_ypVy->SetVarY("");
-c_s_ypVy->SetTitle("Graph");
-c_s_ypVy->SetFillStyle(1000);
-c_s_ypVy->SetPoint(0,31.1869,0.0478448);
-c_s_ypVy->SetPoint(1,-30.4924,-0.00942118);
-c_s_ypVy->SetPoint(2,-6.56566,-0.00609606);
-c_s_ypVy->SetPoint(3,-31.1237,-0.0452586);
-c_s_ypVy->SetPoint(4,19.1919,-0.00184729);
-c_s_ypVy->SetPoint(5,4.79798,0.00184729);
-c_s_ypVy->SetPoint(6,33.2071,0.0482143);
-c_s_ypVy->SetPoint(7,30.7449,0.0478448);
-c_s_ypVy->SetPoint(8,31.1869,0.0478448);
+
+ TCutG *c_s_xVy = new TCutG("C_S_XVY",20);
+ c_s_xVy->SetVarX("x_fp vs y_fp");
+ c_s_xVy->SetVarY("");
+ c_s_xVy->SetTitle("Graph");
+ c_s_xVy->SetFillStyle(1000);
+
+ c_s_xVy->SetPoint(0,4.22535,35.4772);
+ c_s_xVy->SetPoint(1,4.22535,35.4772);
+ c_s_xVy->SetPoint(2,14.7887,32.6763);
+ c_s_xVy->SetPoint(3,16.9014,29.3568);
+ c_s_xVy->SetPoint(4,16.0347,23.2365);
+ c_s_xVy->SetPoint(5,2.92524,6.53527);
+ c_s_xVy->SetPoint(6,26.273,-14.3154);
+ c_s_xVy->SetPoint(7,26.273,-19.6058);
+ c_s_xVy->SetPoint(8,22.6977,-24.1701);
+ c_s_xVy->SetPoint(9,18.2015,-26.1411);
+ c_s_xVy->SetPoint(10,-13.9762,-26.1411);
+ c_s_xVy->SetPoint(11,-18.6349,-24.5851);
+ c_s_xVy->SetPoint(12,-23.2936,-18.8797);
+ c_s_xVy->SetPoint(13,-23.1311,-14.2116);
+ c_s_xVy->SetPoint(14,-4.65872,6.43154);
+ c_s_xVy->SetPoint(15,-4.76706,7.05394);
+ c_s_xVy->SetPoint(16,-23.4561,25);
+ c_s_xVy->SetPoint(17,-24.1603,30.4979);
+ c_s_xVy->SetPoint(18,-10.6717,35.3734);
+ c_s_xVy->SetPoint(19,4.22535,35.4772);
+
+ TCutG *c_s_ypVy = new TCutG("C_S_YPVY",19);
+ c_s_ypVy->SetVarX("yp_fp vs y_fp");
+ c_s_ypVy->SetVarY("");
+ c_s_ypVy->SetTitle("Graph");
+ c_s_ypVy->SetFillStyle(1000);
+ c_s_ypVy->SetPoint(0,-1.51679,0.016805);
+ c_s_ypVy->SetPoint(1,24.377,0.0404564);
+ c_s_ypVy->SetPoint(2,27.1939,0.0410788);
+ c_s_ypVy->SetPoint(3,26.273,0.038278);
+ c_s_ypVy->SetPoint(4,24.4854,0.0348548);
+ c_s_ypVy->SetPoint(5,4.98375,0.00342324);
+ c_s_ypVy->SetPoint(6,4.55038,0.00202282);
+ c_s_ypVy->SetPoint(7,5.09209,0.00124481);
+ c_s_ypVy->SetPoint(8,17.7681,0.00140041);
+ c_s_ypVy->SetPoint(9,17.3889,-0.00108921);
+ c_s_ypVy->SetPoint(10,5.47129,-0.0126037);
+ c_s_ypVy->SetPoint(11,-13.0553,-0.0295643);
+ c_s_ypVy->SetPoint(12,-23.9437,-0.039056);
+ c_s_ypVy->SetPoint(13,-23.9437,-0.0357884);
+ c_s_ypVy->SetPoint(14,-6.013,-0.00715768);
+ c_s_ypVy->SetPoint(15,-24.1062,-0.00731328);
+ c_s_ypVy->SetPoint(16,-24.1062,-0.00389004);
+ c_s_ypVy->SetPoint(17,-1.19177,0.0169606);
+ c_s_ypVy->SetPoint(18,-1.51679,0.016805);
+ c_s_ypVy->Draw("");
+
+ TCutG *c_s_xpVyp = new TCutG("C_S_XPVYP",19);
+ c_s_xpVyp->SetVarX("xp_fp vs yp_fp");
+ c_s_xpVyp->SetVarY("");
+ c_s_xpVyp->SetTitle("Graph");
+ c_s_xpVyp->SetFillStyle(1000);
+ c_s_xpVyp->SetPoint(0,-0.0030065,0.0809129);
+ c_s_xpVyp->SetPoint(1,0.000812568,0.0778008);
+ c_s_xpVyp->SetPoint(2,0.00471289,0.064056);
+ c_s_xpVyp->SetPoint(3,0.0309588,0.00129668);
+ c_s_xpVyp->SetPoint(4,0.0384345,-0.0145228);
+ c_s_xpVyp->SetPoint(5,0.0405471,-0.0238589);
+ c_s_xpVyp->SetPoint(6,0.0406284,-0.0394191);
+ c_s_xpVyp->SetPoint(7,0.0363218,-0.0565353);
+ c_s_xpVyp->SetPoint(8,0.0262459,-0.0700207);
+ c_s_xpVyp->SetPoint(9,-0.0241333,-0.0695021);
+ c_s_xpVyp->SetPoint(10,-0.0338841,-0.0536826);
+ c_s_xpVyp->SetPoint(11,-0.0372156,-0.0420124);
+ c_s_xpVyp->SetPoint(12,-0.0370531,-0.0184129);
+ c_s_xpVyp->SetPoint(13,-0.0150325,0.0409751);
+ c_s_xpVyp->SetPoint(14,-0.00739437,0.0684647);
+ c_s_xpVyp->SetPoint(15,-0.00706934,0.0780602);
+ c_s_xpVyp->SetPoint(16,-0.00268147,0.0814315);
+ c_s_xpVyp->SetPoint(17,-0.00276273,0.0811722);
+ c_s_xpVyp->SetPoint(18,-0.0030065,0.0809129);
+ c_s_xpVyp->Draw("");
+
+ TCutG *c_s_xVxp = new TCutG("C_S_XVXP",11);
+ c_s_xVxp->SetVarX("x_fp vs x_fp");
+ c_s_xVxp->SetVarY("");
+ c_s_xVxp->SetTitle("Graph");
+ c_s_xVxp->SetFillStyle(1000);
+ c_s_xVxp->SetPoint(0,0.0448267,36.722);
+ c_s_xVxp->SetPoint(1,0.0801733,18.6722);
+ c_s_xVxp->SetPoint(2,0.058234,8.92116);
+ c_s_xVxp->SetPoint(3,0.00744854,-8.40249);
+ c_s_xVxp->SetPoint(4,-0.0306067,-17.7386);
+ c_s_xVxp->SetPoint(5,-0.0742145,-28.112);
+ c_s_xVxp->SetPoint(6,-0.0742145,-26.0373);
+ c_s_xVxp->SetPoint(7,-0.0333153,-1.24481);
+ c_s_xVxp->SetPoint(8,0.00975081,19.8133);
+ c_s_xVxp->SetPoint(9,0.0449621,37.1369);
+ c_s_xVxp->SetPoint(10,0.0448267,36.722);
+ c_s_xVxp->Draw("");
+
+ c_h_xVy->SetLineColor(kRed);
+ c_h_xpVyp->SetLineColor(kRed);
+ c_h_xVxp->SetLineColor(kRed);
+ c_h_ypVy->SetLineColor(kRed);
+
+ c_s_xVy->SetLineColor(kRed);
+ c_s_xpVyp->SetLineColor(kRed);
+ c_s_xVxp->SetLineColor(kRed);
+ c_s_ypVy->SetLineColor(kRed);
+
 
   //  gStyle->SetOptStat(0);
   gStyle->SetOptStat(0);
-  gStyle->SetTitleX(.35);
-  gStyle->SetTitleY(.98);
+  gStyle->SetTitleX(.15);
+  gStyle->SetTitleY(1.);
   gStyle->SetTitleH(.06);
-  gStyle->SetTitleW(.3);
+  gStyle->SetTitleW(.7);
   gStyle->SetTitleBorderSize(1);
+  gStyle->SetTitleSize(.05,"XY");
+  gStyle->SetTitleOffset(0.8,"X");
+  gStyle->SetTitleOffset(1.4,"Y");
+  gStyle->SetCanvasColor(0);
+  gStyle->SetFrameBorderMode(0);
+  gStyle->SetFrameFillColor(0);
+  gStyle->SetTitleFillColor(0);
+
   string kin=tgt+angle+"deg"+mom; 
   TString kinInfo1=spec+"  target: "+tgt;
   TString kinInfo2=angle+"deg.  "+mom+ " GeV";
@@ -320,15 +410,15 @@ c_s_ypVy->SetPoint(8,31.1869,0.0478448);
  hs_xVxp->Scale(1./densityCorr);
  hs_ypVy->Scale(1./densityCorr);
  hs_yptarVytar->Scale(1./densityCorr);
- double m1=fixRange(hm_xVy);
- double m2= fixRange(hm_xpVyp);
- double m3= fixRange(hm_xVxp);
- double m4= fixRange(hm_ypVy);
+ double m1=fixRange(hm_xVy,0,-30,50,-30,30,1);
+ double m2= fixRange(hm_xpVyp,0,-.08,.1,-0.05,0.05,3);
+ double m3= fixRange(hm_xVxp,0,-30,45,-.1,.1,5);
+ double m4= fixRange(hm_ypVy,0,-0.04,0.05,-30,30,7);
  double m5= fixRange(hs_yptarVytar);
- fixRange(hs_xVy,m1);
- fixRange(hs_xpVyp,m2);
- fixRange(hs_xVxp,m3);
- fixRange(hs_ypVy,m4);
+ fixRange(hs_xVy,m1,-30,50,-30,30,2);
+ fixRange(hs_xpVyp,m2,-.08,.1,-0.05,0.05,4);
+ fixRange(hs_xVxp,m3,-30,45,-.1,.1,6);
+ fixRange(hs_ypVy,m4,-0.04,0.05,-30,30,8);
  fixRange(hs_yptarVytar,m5);
  fixRange(hd_xVy,m1);
  fixRange(hd_xpVyp,m2);
@@ -438,7 +528,57 @@ c_s_ypVy->SetPoint(8,31.1869,0.0478448);
  format(kinInfo1,kinInfo2,c5);
  c5->SaveAs(Form("OpticsOut/pass307/%s_optics_c5_%s.pdf",spec.c_str(),kin.c_str()));
  
+ TCanvas *c6=new TCanvas("c6","c6",400,1200);
+ c6->Divide(2,4,.002,.002);
 
+c6->cd(1);
+ fixPad();
+ hm_xVy->Draw("COLZ");
+ if(spec=="shms")c_s_xVy->Draw("same");
+ if(spec=="hms")c_h_xVy->Draw("same");
 
+ c6->cd(2);
+ fixPad();
+ hs_xVy->Draw("COLZ");
+ if(spec=="shms")c_s_xVy->Draw("same");
+ if(spec=="hms")c_h_xVy->Draw("same");
+
+ c6->cd(3);
+ fixPad();
+ hm_xpVyp->Draw("COLZ");
+ if(spec=="shms")c_s_xpVyp->Draw("same");
+ if(spec=="hms")c_h_xpVyp->Draw("same");
+
+ c6->cd(4);
+ fixPad();
+ hs_xpVyp->Draw("COLZ");
+ if(spec=="shms")c_s_xpVyp->Draw("same");
+ if(spec=="hms")c_h_xpVyp->Draw("same");
+
+ c6->cd(5);
+ fixPad();
+ hm_xVxp->Draw("COLZ");
+ if(spec=="shms")c_s_xVxp->Draw("same");
+ if(spec=="hms")c_h_xVxp->Draw("same");
+
+ c6->cd(6);
+ fixPad();
+ hs_xVxp->Draw("COLZ");
+ if(spec=="shms")c_s_xVxp->Draw("same");
+ if(spec=="hms")c_h_xVxp->Draw("same");
+
+ c6->cd(7);
+ fixPad();
+ hm_ypVy->Draw("COLZ");
+ if(spec=="shms")c_s_ypVy->Draw("same");
+ if(spec=="hms")c_h_ypVy->Draw("same");
+
+ c6->cd(8);
+ fixPad();
+ hs_ypVy->Draw("COLZ");
+ if(spec=="shms")c_s_ypVy->Draw("same");
+ if(spec=="hms")c_h_ypVy->Draw("same");
+
+ c6->SaveAs("NimFocalPlane.pdf");
  return;
 }

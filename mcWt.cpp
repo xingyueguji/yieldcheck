@@ -163,7 +163,8 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   ////****  Beam is not along z ******
   cout << "Correcting central angle for beam angle"<<endl;
   cout << "Before: "<<thetac<<endl;
-  beamTheta=0.00045;//-0.00025; //shooting beam right .45mr
+  //  beamTheta=0.00045+0.00025; //shooting beam right .45mr
+  beamTheta=0.00045; //shooting beam right .45mr
   if(spec=="hms")beamTheta*=-1;
   thetac+=beamTheta*180./TMath::Pi();
   cout << "After: "<<thetac<<endl;
@@ -311,7 +312,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   TProfile* hp=new TProfile("hp","Profile of xB Born",100,0,1); 
   TProfile* deltaBornProf=new TProfile("deltaBornProf","Profile of delta Born",32,-10,22); 
   Int_t nEvents=trm->GetEntries();
-  //  nEvents=1000000;
+  //  nEvents=10000;
   Int_t wtf=0;
   cout << "About to loop"<<endl;
 

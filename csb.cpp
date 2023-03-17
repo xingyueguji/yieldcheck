@@ -22,26 +22,14 @@ void fixRange(TH1F *h){
   return;
 }
 
-void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms",   bool rebin=true){
+void ratios(string tgt="h",string angle="21", string mom="5p7",string spec="hms",   bool rebin=false){
   //  gStyle->SetOptStat(0);
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
   Int_t DRAW=1;
   bool scale_em=true;
   bool simpleScale=false;
-  rebin=false;
-
-  /*  I think I was going to 
-  int xbins_l =12;
-  double start =-10.;
-  double xbins[xbins_l];
-  cout << "Will we rebin?"<<rebin;
-  cout << "i"  << "xbin[i]"<<endl;
-  for(int i=0; i<xbins_l; i++){
-  xbins[i]=start+i*3;
-  cout << i <<"\t"<< xbins[i] << endl;
-  }
-  */
+  //  rebin=false;
 
   // histos
   // hm* MC
@@ -49,7 +37,7 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
   // he* Dummy (empty)
   // hs* Data - dummy
 
-  //*****MC Histograms*****
+  //***** Histograms*****
   TFile *fm=new TFile(Form("mcWtOut/pass71/%s_mcWt%s.root",spec.c_str(),kin.c_str()));
 
   if(!fm->IsOpen())return;
@@ -58,10 +46,10 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
   TH1F *hmxp=(TH1F*)fm->Get("xpWt");
   TH1F *hmyp=(TH1F*)fm->Get("ypWt");
   TH1F *hmw2=(TH1F*)fm->Get("w2Wt2");
- //****Data Histograms***** 
- TFile *fd=new TFile(Form("dataYieldOut/pass70/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
- if(!fd->IsOpen())return;
 
+ //****Data Histograms***** 
+ TFile *fd=new TFile(Form("dataYieldOut/pass64/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
+ if(!fd->IsOpen())return;
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
  hdd_stat->SetName("hdd_stat");
@@ -71,7 +59,6 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
  TH1F *hdxp=(TH1F*)fd->Get("hxpd");
  TH1F *hdyp=(TH1F*)fd->Get("hypd");
  TH1F *hdw2=(TH1F*)fd->Get("hw2d_calc2");
-
  TH1F *hdw2_stat=(TH1F*)hdw2->Clone();
  hdw2_stat->SetName("hdw2_stat");
  // TH1F *hsys=(TH1F*)fd->Get("herrBand");
@@ -81,7 +68,6 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
  TH1F *herr_live=(TH1F*)fd->Get("herr_live");
  TH1F *herr_boil=(TH1F*)fd->Get("herr_boil");
  TH1F *hBoilCorr=(TH1F*)fd->Get("hBoilCorr");
-
  herr->Divide(hdd);
  hsys->Divide(hdd);
  hsysR->Divide(hdd);
@@ -99,7 +85,6 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
    hmd->Rebin(3);
    hdw2->Rebin(3);
    hdw2_stat->Rebin(3);
-   hmw2->Rebin(3);
    herr->Rebin(3);
    hsys->Rebin(3);
    hsysR->Rebin(3);
@@ -215,7 +200,7 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
      if(simpleScale)dummyFile="al"+angle+"deg"+mom+"_no"; 
-     TFile *fdum=new TFile(Form("dataYieldOut/pass70/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
+     TFile *fdum=new TFile(Form("dataYieldOut/pass64/%s_dataYield_%s.root",spec.c_str(),dummyFile.c_str()));;
 
 if(!fdum->IsOpen())return;
      //*****Dummy Histos *****
@@ -228,8 +213,6 @@ if(!fdum->IsOpen())return;
      heyp=(TH1F*)fdum->Get("hypd");
      hew2=(TH1F*)fdum->Get("hw2d_calc2");
      hew2_stat=(TH1F*)hew2->Clone();
-
-
      hed->SetName("hed");
      hed_stat->SetName("hed_stat");
      heerr->SetName("heerr");
@@ -535,7 +518,7 @@ if(!fdum->IsOpen())return;
      //     pt->AddText("no_offset ROOTfiles");
      //     pt->SetFillColor(20);
      c1->cd(4);pt->Draw("BR");
-     c1->SaveAs(Form("ratiosOut/pass326/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
+     c1->SaveAs(Form("ratiosOut/pass324a/%s_ratios%s.pdf",spec.c_str(),kin.c_str()));
      /*
      //    Figure for write up
      TCanvas *c2=new TCanvas("c2","c2",1200,600);
@@ -558,7 +541,7 @@ if(!fdum->IsOpen())return;
    }
 
 
- TFile *oFile=new TFile(Form("ratiosOut/pass326/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
+ TFile *oFile=new TFile(Form("ratiosOut/pass324a/%s_ratios%s.root",spec.c_str(),kin.c_str()),"RECREATE");
 
  hdd->Write("hdd");
  hdd_stat->Write("hdd_stat");
