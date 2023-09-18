@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "ostream": "cpp",
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "filesystem": "cpp",
+        "iostream": "cpp",
+        "complex": "cpp",
+        "ECalEvent.C": "cpp",
+        "newplot.C": "cpp"
+    }
+}

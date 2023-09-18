@@ -13,10 +13,10 @@
 // returns cross section in a TGraph for a given spectrometer/kinematic if cs==1 (w2==6)
 // returns ratio xsec/model in a TGraph for a given spectrometer/kinematic if cs==0  (w2==5)
 
-TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21",string mom="5p1", int cs=0, string pass="pass325", string xaxis="w2", double w2rebin=0){
+TGraphErrors* extractCS(string spec="hms", string target="d", string angle="21",string mom="5p7", int cs=8, string pass="pass326", string xaxis="w2", double w2rebin=0){
 
   
-  cs=cs+5;//W2 binning
+  //cs=cs+5;//W2 binning
   cout << "*****************  extracting .... **************************"<<endl;
   cout <<"spec="<<spec<<endl;
   cout <<"target="<<target<<endl;
@@ -50,12 +50,14 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   //  ofile.open("q2rangeMthn.txt",ios::app | ios::out );
 
   ////////////////////////////
-  TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec,cs);
+  TH1F *hkinErr;
+
+  /*TH1F *hkinErr=getKinErrorFromMc(target, angle, mom, spec,cs);
   //  cout << "Get the kin error hostogram"<<endl;
   if(rebin && cs<5){
   hkinErr->Rebin(3);
   hkinErr->Scale(1/3.);
-  }
+  }*/
 
   double ang=21;
   double spec_flag=0.;
@@ -165,7 +167,7 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   
 
   // Hydrogen
-  TFile *frh=new TFile(Form("ratiosOut/%s/%s_ratiosh%sdeg%s.root",pass.c_str(),spec.c_str(),angle.c_str(),mom.c_str()));
+  /*TFile *frh=new TFile(Form("ratiosOut/%s/%s_ratiosh%sdeg%s.root",pass.c_str(),spec.c_str(),angle.c_str(),mom.c_str()));
   TH1F *hrdh, *hmdh;
   hrdh=(TH1F*)frh->Get("hrd");           // with pt2pt error
   if(cs==3)hrdh=(TH1F*)frh->Get("hrd_stat");  // stat error only
@@ -185,19 +187,19 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
     }
     hrdh->Divide(hmdh);    // W2
 
-  }
+  }*/
 
-  //  hrdd->Draw();
+    hrdd->Draw();
   //  hrdh->Draw("same");
 
   //  cout << "MC Bin 151 W2="<<hrdh->GetBinCenter(151)<<"  Content="<<hrdh->GetBinContent(151);
-  TH1F *hlte_h=(TH1F*)frh->Get("herr_live");  
-  TH1F *hboil_h=(TH1F*)frh->Get("herr_boil");  
-  hrdh->SetDirectory(0);
+  //TH1F *hlte_h=(TH1F*)frh->Get("herr_live");  
+  //TH1F *hboil_h=(TH1F*)frh->Get("herr_boil");  
+  //hrdh->SetDirectory(0);
   //  hmdh->SetDirectory(0);
-  hlte_h->SetDirectory(0);
-  hboil_h->SetDirectory(0);
-  frh->Close();
+  //hlte_h->SetDirectory(0);
+  //hboil_h->SetDirectory(0);
+  //frh->Close();
 
   cout << "Got ratio files, about to loop..."<<endl;
   const Int_t nbins=hrdd->GetNbinsX();
@@ -210,10 +212,10 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   TGraphErrors *gmodDep;
   double modErr;
   //  if(cs==2 || cs==7 ){
-  TFile *fff=new TFile("modelDepError.root");
+  /*TFile *fff=new TFile("modelDepError.root");
   string gname=spec+"_"+target+angle+"deg";
   cout << "gname: "<< gname<< endl;
-  gmodDep=(TGraphErrors*)fff->Get(gname.c_str())->Clone();
+  gmodDep=(TGraphErrors*)fff->Get(gname.c_str())->Clone();*/
 
   //  }
 
@@ -229,18 +231,18 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
       ratiod=hrdd->GetBinContent(i);
       errd=hrdd->GetBinError(i); 
 
-      deltah=hrdh->GetBinCenter(i);
-      w2h=hrdd->GetBinCenter(i);
-      binWidth=hrdh->GetBinWidth(i);
-      ratioh=hrdh->GetBinContent(i);
-      errh=hrdh->GetBinError(i); 
+      //deltah=hrdh->GetBinCenter(i);
+      //w2h=hrdd->GetBinCenter(i);
+      //binWidth=hrdh->GetBinWidth(i);
+      //ratioh=hrdh->GetBinContent(i);
+      //errh=hrdh->GetBinError(i); 
 
-      ep=(1+deltah/100)*hsec;
+      ep=(1+deltad/100)*hsec;
       Float_t mp = .9382723;
       Double_t sin2 = sin(thetac/2/180*TMath::Pi())*sin(thetac/2/180*TMath::Pi());      
       if(cs>=5){
-	ep=(2*mp*ebeam+mp*mp-deltah)/(2*mp+4*ebeam*sin2);
-	deltah=(ep/hsec-1.)*100;
+	ep=(2*mp*ebeam+mp*mp-deltad)/(2*mp+4*ebeam*sin2);
+	//deltah=(ep/hsec-1.)*100;
 	deltad=(ep/hsec-1.)*100;
       }
       
@@ -262,12 +264,12 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 	  //error is .15% for d/h and d. .3% for h 
 	  //Will get added to errd for d/h
 	  if(cs==1 || cs== 6){   
-	    if(target=="r"){
+	    /*if(target=="r"){
 	      errh=sqrt(errh*errh+qh_err*qh_err);
 	    }
 	    else{
 	      errh=sqrt(errh*errh+qh_err*qh_err+0.0030*0.0030);
-	    }
+	    }*/
 	    errd=sqrt(errd*errd+qd_err*qd_err+0.0015*0.0015);
 	  }
 
@@ -282,6 +284,8 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 
 	  bool goodW = false;
 
+    int ratioh = 1;
+
 	  //	  if(cs==5&&ratioh!=0)goodW = w2cut(spec,angle,mom,w2,binWidth,fm);//deltah=w2
 	  //	  cout << "good 1:  "<<goodW <<endl;
 	  if(cs>=5&&ratioh!=0)goodW = w2cut(spec,angle,mom,w2);//deltah=w2
@@ -291,10 +295,12 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 	  //	  goodW=true;
 	  //	  cout << "good 2:  "<<goodW <<endl;
 	  modeld=grd->Interpolate(w2,thetac);  //<<"\t"<<
-	  modelh=grh->Interpolate(w2,thetac);  //<<"\t"<<
+	  //modelh=grh->Interpolate(w2,thetac);  //<<"\t"<<
+    int modelh = 1;
 	  if(ratioh!=0 && ratiod!=0 && modelh!=0 && modeld!=0)
 	    {
-	      float cxh=(ratioh*modelh);
+        cout << "1231231231321313" << endl;
+	      //float cxh=(ratioh*modelh);
 	      float cxd=(ratiod*modeld);
 	      double sys_y=0.58;
 	      if(angle=="21"){ 
@@ -312,18 +318,18 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  double lte, boil_err, val;
 		  int getBin=30;
 		  if(rebin)getBin=10;
-		  if(target=="h"){
+		  /*if(target=="h"){
 		    lte=abs(hlte_h->GetBinContent(getBin));
 		    boil_err=hboil_h->GetBinContent(getBin);
-		  }
+		  }*/
 		  if(target=="d"){
 		    lte=abs(hlte_d->GetBinContent(getBin));
 		    boil_err=hboil_d->GetBinContent(getBin);
 		  }
-		  if(target=="r"){
+		  /*if(target=="r"){
 		    lte=abs(hlte_d->GetBinContent(getBin)-hlte_h->GetBinContent(getBin));
 		    boil_err=sqrt(pow(hboil_d->GetBinContent(getBin),2)+pow(hboil_h->GetBinContent(getBin),2) );
-		  }		  
+		  }	*/	  
 
 		  //		  cout << "D/H Live time error is " << lte << endl;
 		  //		  cout << "LH2 Live time error is " << hlte_h->GetBinContent(getBin) << endl;
@@ -336,9 +342,9 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		    //		    cout << "In extractCS. bin, w2 "<<bin<<",  "<<w2<<endl;
 		    val=getGlobalError(grd, grh, ep, w2, thetac, hsec, deltah, spec, angle, target, mom, xb, g_rad, hkinErr, bin, lte, charge_err, boil_err, modErr);  
 		    //		    cout <<"val from get Global Error : "<< val<<endl;
-		  if(target=="h")cxe.push_back(val*cxh);
+		  //if(target=="h")cxe.push_back(val*cxh);
 		  if(target=="d")cxe.push_back(val*cxd);
-		  if(target=="r")cxe.push_back(val*cxd/cxh/2);		  
+		  //if(target=="r")cxe.push_back(val*cxd/cxh/2);		  
 	  
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
@@ -354,13 +360,13 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  //		    if(target=="r")errh=sqrt(errh*errh+modErr*modErr);
 		  //		  }
 
-		  if(target=="h")cx.push_back(cxh);
+		  //if(target=="h")cx.push_back(cxh);
 		  if(target=="d")cx.push_back(cxd);
-		  if(target=="r")cx.push_back(cxd/cxh/2);
+		  //if(target=="r")cx.push_back(cxd/cxh/2);
 
-		  if(target=="h")cxe.push_back(errh*modelh);
+		  //if(target=="h")cxe.push_back(errh*modelh);
 		  if(target=="d")cxe.push_back(errd*modeld);
-		  if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
+		  //if(target=="r")cxe.push_back(sqrt(pow(errd*modeld/cxd,2)+pow(errh*modelh/cxh,2))*cxd/cxh/2.);
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
@@ -371,13 +377,13 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
 		  if(first)wmin=w2;first=false;
 		  wmax=w2;
 
-		  if(target=="h")cx.push_back(ratioh);
+		  //if(target=="h")cx.push_back(ratioh);
 		  //		  if(i==151)cout<<"Pushing back 151: "<<ratioh<<endl;
 		  if(target=="d")cx.push_back(ratiod);
-		  if(target=="r")cx.push_back(ratiod/ratioh);
-		  if(target=="h")cxe.push_back(errh);
+		  //if(target=="r")cx.push_back(ratiod/ratioh);
+		  //if(target=="h")cxe.push_back(errh);
 		  if(target=="d")cxe.push_back(errd);
-		  if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*ratiod/ratioh);
+		  //if(target=="r")cxe.push_back(sqrt(pow(errd/ratiod,2)+pow(errh/ratioh,2))*ratiod/ratioh);
 		  if(xaxis=="xb")eprime.push_back(xb);
 		  if(xaxis=="w2")eprime.push_back(w2);
 		  if(xaxis=="ep")eprime.push_back(ep);
@@ -404,6 +410,10 @@ TGraphErrors* extractCS(string spec="shms", string target="h", string angle="21"
   //  ofile.close();
   //  ofile2.close();
   TGraphErrors *gcx=new TGraphErrors(pts,&eprime[0],&cx[0],0,&cxe[0]);
+  gcx->SetTitle(Form("xsection_%s_%s%s_%s",spec.c_str(),target.c_str(),angle.c_str(),mom.c_str()));
+  gcx->GetXaxis()->SetTitle("W2 (GeV^2)");
+  gcx->GetYaxis()->SetTitle("Cross section (nb/GeV/sr)");
+
   return gcx;
 }
 

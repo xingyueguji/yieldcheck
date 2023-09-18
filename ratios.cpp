@@ -22,7 +22,7 @@ void fixRange(TH1F *h){
   return;
 }
 
-void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms",   bool rebin=true){
+void ratios(string tgt="d",string angle="21", string mom="3p3",string spec="hms",   bool rebin=true){
   //  gStyle->SetOptStat(0);
   string kin=tgt+angle+"deg"+mom; 
   cout << "Kinematic is : "<<kin<<endl;
@@ -58,10 +58,11 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
   TH1F *hmxp=(TH1F*)fm->Get("xpWt");
   TH1F *hmyp=(TH1F*)fm->Get("ypWt");
   TH1F *hmw2=(TH1F*)fm->Get("w2Wt2");
+  TH2F *mcw2wt=(TH2F*)fm->Get("mcw2wt");
  //****Data Histograms***** 
  TFile *fd=new TFile(Form("dataYieldOut/pass70/%s_dataYield_%s.root",spec.c_str(),kin.c_str()));
  if(!fd->IsOpen())return;
-
+ TH2F *yieldofw2 = (TH2F*)fd->Get("yieldofw2");
  TH1F *hdd=(TH1F*)fd->Get("hdd");
  TH1F *hdd_stat=(TH1F*)hdd->Clone();
  hdd_stat->SetName("hdd_stat");
@@ -106,6 +107,9 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
    herr_live->Rebin(3);
    herr_boil->Rebin(3);
    hBoilCorr->Rebin(3);
+   mcw2wt->RebinY(3);
+   yieldofw2->RebinY(3);
+   cout << "REBINNED" << endl;
 
    herr->Scale(1/3.);
    hsys->Scale(1/3.);
@@ -160,6 +164,8 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
  hdyp->Scale(1./charge);
  hdw2->Scale(1./charge);
  hdw2_stat->Scale(1./charge);
+ yieldofw2->Scale(1./charge);
+ 
 
  // Clone data histos to subtract dummy
  TH1F *hsd=(TH1F*)hdd->Clone();
@@ -210,7 +216,7 @@ void ratios(string tgt="h",string angle="21", string mom="3p3",string spec="shms
      }
    if(spec=="shms")charged=getCharge("al",angle,mom);
 
-   TH1F *hed, *hey, *hexp, *heyp, *hew2, *heerr, *hed_stat, *hew2_stat; 
+   TH1F *hed, *hey, *hexp, *heyp, *hew2, *heerr, *hed_stat, *hew2_stat; TH2F *hew22d; 
  if(tgt!="c")
    {
      string dummyFile="al"+angle+"deg"+mom+"_"+tgt; 
@@ -228,6 +234,7 @@ if(!fdum->IsOpen())return;
      heyp=(TH1F*)fdum->Get("hypd");
      hew2=(TH1F*)fdum->Get("hw2d_calc2");
      hew2_stat=(TH1F*)hew2->Clone();
+     hew22d=(TH2F*)fdum->Get("yieldofw2");
 
 
      hed->SetName("hed");
@@ -238,6 +245,7 @@ if(!fdum->IsOpen())return;
      heyp->SetName("heyp");
      hew2->SetName("hew2");
      hew2_stat->SetName("hew2_stat");
+     hew22d->SetName("hew22d");
 
      if(rebin){
        hed->Rebin(3);
@@ -246,6 +254,7 @@ if(!fdum->IsOpen())return;
        heerr->Scale(1/3.);
        hew2->Rebin(3);
        hew2_stat->Rebin(3);
+       hew22d->RebinY(3);
      }
  //=============================
      // add point to point errors to statisical
@@ -281,6 +290,7 @@ if(!fdum->IsOpen())return;
      heyp->Scale(1./charged);
      hew2->Scale(1./charged);
      hew2_stat->Scale(1./charged);
+     hew22d->Scale(1./charged);
    }
       if(tgt!="c")cout << "Before scaling dummy hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
 
@@ -293,6 +303,7 @@ if(!fdum->IsOpen())return;
        hexp->Scale(1/3.789);
        heyp->Scale(1/3.789);
        hew2->Scale(1/3.789);
+       hew22d->Scale(1/3.789);
 
        //hed->Scale(.296);
        //       hey->Scale(.296);
@@ -304,8 +315,9 @@ if(!fdum->IsOpen())return;
        hed->Scale(1/4.063);
        hey->Scale(1/4.063);
        hexp->Scale(1/4.063);
-       heyp->Scale(1/4.063);
+       heyp->Scale(1/4.063);  
        hew2->Scale(1/4.063);
+       hew22d->Scale(1/4.063);
      }
    }
     
@@ -318,6 +330,27 @@ if(!fdum->IsOpen())return;
      hsyp->Add(heyp,-1);
      hsw2->Add(hew2,-1);
      hsw2_stat->Add(hew2,-1);
+     TH2F *yieldofw2S=(TH2F*)yieldofw2->Clone();
+     yieldofw2S->SetName("yieldofw2S");
+
+     for (int i=1; i<= yieldofw2S->GetNbinsX(); i++){
+      for (int j=0; j<= yieldofw2S->GetNbinsY(); j++){
+      double contenthist1 = yieldofw2S->GetBinContent(i,j);
+      if (contenthist1 != 0){
+        double contenthist2 = hew22d->GetBinContent(i,j);
+        double subresult = contenthist1 - contenthist2;
+        //cout << "subtraction result is " << subresult << endl;
+        if (subresult >= 0){
+          yieldofw2S->SetBinContent(i,j,subresult);
+        }
+        else{
+          yieldofw2S->SetBinContent(i,j,0);
+        }
+        
+      }
+    }
+  }
+
      if(tgt!="c")cout << "After dummy subtraction hdd="<<  hdd->GetBinContent(30) << "  and hed= " << hed->GetBinContent(30) <<"  and hsd= " << hsd->GetBinContent(30) <<endl;
 
 
@@ -336,6 +369,9 @@ if(!fdum->IsOpen())return;
  hsxp->Scale(1/densityCorr); 
  hsw2->Scale(1/densityCorr); 
  hsw2_stat->Scale(1/densityCorr); 
+ yieldofw2S->Scale(1/densityCorr);
+ TH2F *w2ratio= new TH2F ("w2ratio","",30,-65,65,720,-10,26);
+
 
  cout<<"After applying boiling correction"<<endl;
  cout <<"d data="<<hsd->Integral()<<endl;
@@ -351,6 +387,21 @@ if(!fdum->IsOpen())return;
   //  RATIO DATA/MC
   hrd->Divide(hmd);
   hrd_stat->Divide(hmd);
+
+  for (int i=1; i<= mcw2wt->GetNbinsX(); i++){
+    for (int j=1; j<= mcw2wt->GetNbinsY(); j++){
+      double contenthist2 = mcw2wt->GetBinContent(i,j);
+      if (contenthist2 != 0){
+        double contenthist1 = yieldofw2S->GetBinContent(i,j);
+        //cout << "the bin in yieldofw2S is " << contenthist1 << endl;
+        double ratioresult = contenthist1 / contenthist2;
+        //cout << "ratio is " << ratioresult << endl;
+        w2ratio->SetBinContent(i,j,ratioresult);
+      }
+    }
+  }
+  
+  
 
  //  Foramatting
  hrd->SetTitle("Ratio Data/MC");
@@ -426,7 +477,7 @@ if(!fdum->IsOpen())return;
      hew2->SetFillStyle(3003);
      hew2->SetFillColor(kMagenta);
    }
- hrd->GetYaxis()->SetRangeUser(0.9,1.1); 
+ hrd->GetYaxis()->SetRangeUser(0.1,2.1); 
  // hrd->GetYaxis()->SetRangeUser(0.8,1.20); 
  // hsw2->GetXaxis()->SetRangeUser(-5,15); 
  // hsw2->GetXaxis()->SetRangeUser(0,15); 
@@ -589,6 +640,13 @@ if(!fdum->IsOpen())return;
  hsyp->Write("hsyp");
  hsw2->Write("hsw2");
  hsw2->Write("hsw2_stat");
+
+ w2ratio->Write("w2ratio");
+ yieldofw2->Write("yieldofw2");
+ mcw2wt->Write("mcw2wt");
+ hew22d->Write("hew22d");
+ yieldofw2S->Write("yieldofw2S");
+ 
 
  hmd->Write("hmd");
  hmy->Write("hmy");

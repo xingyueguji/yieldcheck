@@ -30,7 +30,7 @@ using namespace std;
 //  Things to check
 // * mc generation range (dxp, dyp, delup, down)
 // * 
-void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"){
+void mcWt(string tgt="d",string angle="21", string mom="3p3", string spec="hms"){
 
   string kin=tgt+angle+"deg"+mom;
   string kin_al="h"+angle+"deg"+mom;
@@ -286,6 +286,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   TH1F *yWt=new TH1F("yWt","Monte Carlo Weighted y_tar",334,-10,10);
   TH1F *w2Wt=new TH1F("w2Wt","Monte Carlo Weighted W2",375,-10,20);
   TH1F *w2Wt2=new TH1F("w2Wt2","Monte Carlo Weighted W2",720,-10,26);
+  TH2F *mcw2wt = new TH2F("mcw2wt","Monte Carlo Weighted 2D W2",30,-65,65,720,-10,26);
   TH1F *xbWt=new TH1F("xbWt","Monte Carlo Weighted X_{B}",120,0,3.);
   //
   TH1F *centralBorn=new TH1F("avgBorn","#sigma_{born}(#delta,#theta_{central) ",32,-10.,22.);
@@ -366,7 +367,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
       born_corr=born*phasespcor;
 
       //Add CSB
-      csb_cx=0;
+      csb_cx=0; 
       if(spec=="shms")
 	{
 	  Double_t p0=-2.09 * thetaini*180./TMath::Pi() +12.47;
@@ -433,6 +434,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
 	   yWt->Fill(ytarrec,wt);
 	   w2Wt->Fill(w2,wt);
 	   w2Wt2->Fill(w2,wt);
+     mcw2wt->Fill(1000*(hstheta-thetacrad),w2,wt);
 	   xbWt->Fill(xb,wt);
 	   //focal plane variables
 	   mc_xVy->Fill(yfoc,xfoc,wt);
@@ -508,6 +510,7 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   yWt->Scale(fract/charge);
   w2Wt->Scale(fract/charge);
   w2Wt2->Scale(fract/charge);
+  mcw2wt->Scale(fract/charge);
   xbWt->Scale(fract/charge);
   mc_xVy->Scale(fract/charge);
   mc_xpVyp->Scale(fract/charge);
@@ -533,6 +536,8 @@ void mcWt(string tgt="h",string angle="21", string mom="3p3", string spec="shms"
   yWt->Write();
   w2Wt->Write();
   w2Wt2->Write();
+  mcw2wt->Sumw2();
+  mcw2wt->Write();
   xbWt->Write();
   deltaBornProf->Write();
   thetaBorn->Write();

@@ -10,7 +10,7 @@ TGraphErrors* extractCS(string mom="2p7"){
   if(mom=="5p1")pc=readReport(2484,"mom");
 //Weighted MC 
 //TFile *fr=new TFile(Form("ratiosOut/ratios%d_1.root",run));
-  TFile *fr=new TFile(Form("ratiosOut/ratiosd21deg%s_1.root",mom.c_str()));
+  TFile *fr=new TFile(Form("ratiosOut/pass326/hms_ratiosd21deg%s.root",mom.c_str()));
   TH1F *hrd=(TH1F*)fr->Get("hrd");  
   hrd->SetDirectory(0);
   fr->Close();
@@ -30,6 +30,7 @@ TGraphErrors* extractCS(string mom="2p7"){
     gr=getRadCorr("carbon",1);  
   */
   gr=getRadCorr("d",1);  
+  cout << "TEST" << endl;
 
 const Int_t nbins=hrd->GetNbinsX();
 
@@ -86,28 +87,28 @@ void plot_d21deg(){
   ////////////////////////////////////////
   ////////   Data   /////////////////////
   ////////////////////////////////////////
- TGraphErrors *gr2p7=extractCS("2p7");
+ //TGraphErrors *gr2p7=extractCS("2p7");
  TGraphErrors *gr3p3=extractCS("3p3");
  TGraphErrors *gr4p0=extractCS("4p0");
  TGraphErrors *gr5p1=extractCS("5p1");
 
 
- gr2p7->SetMarkerStyle(33);
+ //gr2p7->SetMarkerStyle(33);
  gr3p3->SetMarkerStyle(33);
  gr4p0->SetMarkerStyle(33);
  gr5p1->SetMarkerStyle(33);
- gr2p7->SetMarkerColor(kRed);
+ //gr2p7->SetMarkerColor(kRed);
  gr3p3->SetMarkerColor(kOrange);
  gr4p0->SetMarkerColor(kGreen+3);
  gr5p1->SetMarkerColor(kViolet);
-gr2p7->Draw("sp");
+//gr2p7->Draw("sp");
 gr3p3->Draw("sp");
 gr4p0->Draw("sp");
 gr5p1->Draw("sp");
 
  TLegend *leg=new TLegend(.6,.6,.9,.9);
  leg->AddEntry(gm,"f1f220","l");
- leg->AddEntry(gr2p7,"E'=2.7 GeV/c","p");
+ //leg->AddEntry(gr2p7,"E'=2.7 GeV/c","p");
  leg->AddEntry(gr3p3,"E'=3.3 GeV/c","p");
  leg->AddEntry(gr4p0,"E'=4.0 GeV/c","p");
  leg->AddEntry(gr5p1,"E'=5.1 GeV/c","p");

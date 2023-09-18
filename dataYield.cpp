@@ -19,14 +19,15 @@
 #include "src/getRadCorrW2.cpp"
 using namespace std;
 
-void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Double_t betaMax=1.5, 
-	       Double_t deltaMin=-6., Double_t deltaMax=9., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="h",TString fname="test.root"){
+void dataYield(Int_t run=1640, Double_t ngcCut=1.5, Double_t betaMin =0.5, Double_t betaMax=1.5, 
+	       Double_t deltaMin=-6., Double_t deltaMax=9., Double_t minEdep=0.7, Double_t curCut=5., TString scaleDummy="d",TString fname="hms_dataYield_d21deg3p3.root"){
   bool positron=false;
   bool use_saturation_correction=true;
   //  bool use_saturation_correction=false;
   //  bool use_delta_correction=false;
   bool use_delta_correction=true;
   Double_t target=readReport(run,"target");
+  cout << "Target is " << target << endl;
   bool use_w2_cut = (target==1.01) || (target>25. && scaleDummy=="h") ;                                                               
 
   // ELOG 336
@@ -245,7 +246,7 @@ void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Doubl
   //  }
   if(spec=="hms"){  
     //    froot = Form("/lustre19/expphy/volatile/hallc/xem2/abishek/ROOTfiles/realpass-3d-hms/hms_replay_production_%d_-1.root",run);
-    froot = Form("/lustre/expphy/cache/hallc/E12-10-002/abishek/realpass-3d-hms-data/hms_replay_production_%d_-1.root",run);
+    froot = Form("../hms_replay_production_%d_-1.root",run);
 // if(run>=1565 && run <= 1589)froot = Form("/volatile/hallc/xem2/abishek/ROOTfiles/no_offset/hms_replay_production_%d_-1.root",run);
 
   }
@@ -305,6 +306,8 @@ void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Doubl
       TH2F *ypVy=new TH2F("ypVy","yp_fp vs y_fp; y_fp (cm); yp_fp (rad)",100,-40.,40.0,100,-0.06,0.06);
       TH2F *yptarVytar=new TH2F("yptarVytar","yp_tar vs y_tar; y_tar (cm); yp_tar (rad)",100,-6,6,100,-0.05,0.05);
       TH2F *yield4acc=new TH2F("yield4acc","yield; theta; delta",30,-65,65,60,-30,30);
+      TH2F *yieldofw2 = new TH2F("yieldofw2","yield; theta; w2",30,-65,65,720,-10,26);
+      yieldofw2->Sumw2();
 
       heff->Sumw2();
       TFile *f=new TFile(froot);
@@ -443,6 +446,7 @@ void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Doubl
 		  //		  yield4acc->Fill(1000*phd, delta);
 		  if(spec=="shms")yield4acc->Fill(1000*(hstheta-thetacrad), delta, wt);
 		  if(spec=="hms")yield4acc->Fill(1000*(hstheta+thetacrad), delta, wt);
+      if(spec=="hms")yieldofw2->Fill(1000*(hstheta+thetacrad),w2_calc,wt);
 		  hmom->Fill(mom,psFact);
 		  hdd->Fill(delta,wt);
 		  hdd2->Fill(delta,wt);
@@ -517,7 +521,6 @@ void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Doubl
 	      }
 	  }
 	}
-
       TGraph2D* gr1;
       string tgt;
       if(abs(target - 1.) < .2)tgt="h";
@@ -681,6 +684,7 @@ void dataYield(Int_t run=1984, Double_t ngcCut=1.5, Double_t betaMin =0.5, Doubl
       tree2->Write();
       hdumFact->Write();
       yield4acc->Write();
+      yieldofw2->Write();
       hdd->Write();
       hmom->Write();
       hdd2->Write();
